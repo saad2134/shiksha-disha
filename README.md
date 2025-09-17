@@ -9,7 +9,6 @@
 
 
 
-
 ## 💡 Proposed Solution
 
 <h3 align="center">Skill Swap – AI-Powered Peer-2-Peer Learning</h3>
