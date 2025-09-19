@@ -3,7 +3,7 @@
 ### 🎯 Problem Statement
 
 - **Problem Statement ID:** SIH25140  
-- **Title:** Student Innovation  
+- **Title:** Student Innovation: Swadeshi for Atma nirbhar Bharat - Smart Education  
 - **Theme:** Smart Education  
 - **Category:** Software
 
@@ -130,7 +130,7 @@
 
 
 
-## 👥 Our Smart India Hackathon 2025 Team
+## 👥 Our Smart India Hackathon 2025 Team (DevBandits)
 
 <div align="center">
 
