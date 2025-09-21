@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Home | SkillSangam</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=dark_mode" />
+    <style type="text/tailwindcss">
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        :root {
+            --primary-blue: #2563eb;
+            --secondary-blue: #3b82f6;
+            --light-blue-bg: #eff6ff;
+            --white-text: #ffffff;
+            --primary-text: #1f2937;
+            --secondary-text: #6b7280;
+        }
+     .text-white-custom {
+            color: var(--white-text);
+        }
+        .text-primary-text {
+            color: var(--primary-text);
+        }
+        .text-secondary-text {
+            color: var(--secondary-text);
+        }
+        .border-primary {
+            border-color: var(--primary-blue);
+        }
+        .hover\:bg-secondary:hover {
+            background-color: var(--secondary-blue);
+        }
+        .hover\:text-primary-blue:hover {
+            color: var(--primary-blue);
+        }
+        .hover\:border-secondary-blue:hover {
+            border-color: var(--secondary-blue);
+        }
+        .ring-primary:focus {
+            --tw-ring-color: var(--primary-blue);
+        }       .bg-primary {
+            background-color: var(--primary-blue);
+        }
+        .bg-secondary {
+            background-color: var(--secondary-blue);
+        }
+        .bg-light-blue {
+            background-color: var(--light-blue-bg);
+        }
+        .text-primary-blue {
+            color: var(--primary-blue);
+        }
+        .text-secondary-blue {
+            color: var(--secondary-blue);
+        }
+    
+    </style>
+</head>
+
+<body class="bg-blue-50 text-primary-text">
+    <div class="container mx-auto px-4 py-6">
+        <header class="bg-white shadow-sm rounded-xl mb-6">
+            <div class="mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <span class="text-xl font-bold text-primary-blue">SkillSangam</span>
+                        </div>
+                    </div>
+                    <div class="flex-1 mx-8">
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                                <i class="material-icons text-secondary-text">search</i>
+                            </span>
+                            <input
+                                class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full text-sm leading-5 bg-white placeholder-gray-500 text-primary-text focus:outline-none focus:ring-2 focus:ring-offset-2 ring-primary"
+                                placeholder="Search bar" type="search" />
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="flex items-center space-x-2">
+                            <i class="material-icons text-orange-400">whatshot</i>
+                            <span class="font-semibold text-primary-text">15</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="material-symbols-outlined">
+                                dark_mode
+                            </span>
+                        </div>
+                        <div class="relative">
+                            <button
+                                class="p-2 bg-gray-100 rounded-full text-secondary-text hover:text-primary-text focus:outline-none focus:ring-2 focus:ring-offset-2 ring-primary">
+                                <i class="material-icons">chat_bubble</i>
+                            </button>
+                            <span
+                                class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">5</span>
+                        </div>
+
+                    </div>
+                </div>
+                <nav class="border-t border-gray-200">
+                    <div class="flex justify-center space-x-8 py-3">
+                        <a class="text-sm font-medium text-primary-blue border-b-2 border-primary px-1 py-1"
+                            href="../app/home.html">HOME</a>
+                        <a class="text-sm font-medium text-secondary-text hover:text-primary-text hover:border-b-2 hover:border-gray-300 px-1 py-1"
+                            href="../app/course.html">COURSES</a>
+                        <a class="text-sm font-medium text-secondary-text hover:text-primary-text hover:border-b-2 hover:border-gray-300 px-1 py-1"
+                            href="../app/chat_bot.html">CHATBOT</a>
+                        <a class="text-sm font-medium text-secondary-text hover:text-primary-text hover:border-b-2 hover:border-gray-300 px-1 py-1"
+                            href="#">FRIENDS</a>
+                        <a class="text-sm font-medium text-amber-500 hover:text-amber-600 hover:border-b-2 hover:border-amber-500 px-1 py-1 flex items-center"
+                            href="#">
+                            <i class="material-icons text-base mr-1">star</i>PREMIUM
+                        </a>
+                        <a class="text-sm font-medium text-secondary-text hover:text-primary-text hover:border-b-2 hover:border-gray-300 px-1 py-1"
+                            href="#">SETTINGS</a>
+                    </div>
+                </nav>
+            </div>
+        </header>
+        <main class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <aside class="lg:col-span-1 space-y-6">
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <h3 class="font-bold text-lg mb-4 text-primary-text">Profile</h3>
+                    <div class="flex items-center space-x-4">
+                        <img alt="User avatar" class="h-20 w-20 rounded-full object-cover"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0belfzxFnfuH8N3AQyygQIdxeEP0TBaSvInRxGTNk6VaUf8BKcrXa-nleOYhoW-Kt4gMFc-I8xG4SkpdHquM0xJSC9ImXlUPmwtlEVG16uELPs098Ad22xjOxcS8gBSvtAS6ySogDSQ187Xd3qigMu6_yBkeOKnEzIKhh_89Vs_CvzNr46HzBZe5c81mGvx5woFmVwe8l_bchNTAlREXOq2ua8ayqOh6lKBKy5HvmEhNK6_7nszxIKw_473vYACBtrwDYIPJYsA1b" />
+                        <div>
+                            <p class="text-xl font-bold text-primary-text">Ali</p>
+                            <p class="text-sm text-secondary-text">@ali_dev</p>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <h4 class="font-semibold text-primary-text mb-2">Profile Description</h4>
+                        <p class="text-sm text-secondary-text">Lifelong learner exploring AI and Web Development. Let's
+                            connect and build something amazing together!</p>
+                    </div>
+                    <div class="mt-6 space-y-4">
+                        <div class="flex items-center justify-between p-4 bg-light-blue rounded-lg">
+                            <div>
+                                <p class="text-sm text-secondary-text">Course Tracker</p>
+                                <p class="text-xl font-bold text-primary-blue">5/12</p>
+                            </div>
+                            <i class="material-icons text-primary-blue text-3xl">school</i>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg border border-gray-200">
+                            <h4 class="font-semibold text-primary-text mb-2">Streaks</h4>
+                            <div class="flex items-center space-x-2">
+                                <i class="material-icons text-orange-400">whatshot</i>
+                                <span class="font-bold text-lg text-primary-text">15 days</span>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg border border-gray-200">
+                            <h4 class="font-semibold text-primary-text mb-2">Achievement Badges</h4>
+                            <div class="flex space-x-2">
+                                <div class="bg-blue-500 p-2 rounded-full text-white"><i class="material-icons">star</i>
+                                </div>
+                                <div class="bg-gray-300 p-2 rounded-full text-white"><i class="material-icons">star</i>
+                                </div>
+                                <div class="bg-gray-300 p-2 rounded-full text-white"><i class="material-icons">star</i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <textarea
+                        class="w-full p-4 border border-gray-200 rounded-lg focus:ring-2 ring-primary focus:outline-none"
+                        placeholder="Share your progress or ask a question..." rows="4"></textarea>
+                    <div class="flex justify-end mt-4">
+                        <button
+                            class="bg-primary text-white-custom font-bold py-2 px-6 rounded-full hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 ring-primary">
+                            Post
+                        </button>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm space-y-6">
+                    <div class="flex space-x-4">
+                        <img alt="User avatar" class="h-12 w-12 rounded-full object-cover"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGIX6L6GR84XRjHWp-syf9pnK6_ehPrnvhVECA5EnxkvrWf3kWWXLJ7v4XqmRqfvc1T1wHebrQqdqlizDjQ__NGLi-Po8y0bBQ29uZD47xHiqvady3850eBQwDovVvmyRUhM5gqd18sBjvRB3OtveqPH1HN7ION858b4117emAVZLZp1TrzgcY8iIybGzKUU339X01qwjw6drsE9e3FhEs3K41pC1uLzOpeG4Oja9LcUX4w7eZ4RCwqGwzbzOfdDD7TupTWcZvTTcZ" />
+                        <div>
+                            <p class="font-semibold text-primary-text">Sarah K.</p>
+                            <p class="text-sm text-secondary-text">2 hours ago</p>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-primary-text">Just finished the 'Advanced Python' course! Highly recommend it.
+                            The section on decorators was a game-changer. What's everyone else learning?</p>
+                        <div class="mt-4 flex items-center space-x-4 text-secondary-text">
+                            <button class="flex items-center space-x-1 hover:text-red-500">
+                                <i class="material-icons text-base">favorite_border</i>
+                                <span>12</span>
+                            </button>
+                            <button class="flex items-center space-x-1 hover:text-primary-blue">
+                                <i class="material-icons text-base">comment</i>
+                                <span>3</span>
+                            </button>
+                            <button class="flex items-center space-x-1 hover:text-green-500">
+                                <i class="material-icons text-base">share</i>
+                                <span>Share</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm space-y-6">
+                    <div class="flex space-x-4">
+                        <img alt="User avatar" class="h-12 w-12 rounded-full object-cover"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgdNI4vIprtLZeH_FpKh3kqevga6LwxgZIgMgwVo4tp1pyhUb4t86EKEkMhFFHEhy8NY6fkSRd6mQ_Gh9Xh0xthKUUrDdnChRkGlhLt_safu5ytJZdGu3D4tm6Bepl8a64NHldT_WbDEQ2OGK36yrnh_gVvk3N7W2LNAymfkjA_5F7vmk9c2B7EBR4OeMO3J2AvcK8LytaS9MjgEzdc0DZ5v2mBAw31O92vBKYUSejUx1Mk7lTl8x9ljxdAJ7XZGZxEeWZU9EStPMU" />
+                        <div>
+                            <p class="font-semibold text-primary-text">Mike L.</p>
+                            <p class="text-sm text-secondary-text">Yesterday</p>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-primary-text">Looking for a study partner for the 'JavaScript for Beginners'
+                            course. I'm based in GMT+1. Anyone interested in skill exchange? I can help with UI/UX
+                            design.</p>
+                        <div class="mt-3 flex flex-wrap gap-2">
+                            <span
+                                class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">#javascript</span>
+                            <span
+                                class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">#skill-exchange</span>
+                        </div>
+                        <div class="mt-4 flex items-center space-x-4 text-secondary-text">
+                            <button class="flex items-center space-x-1 hover:text-red-500">
+                                <i class="material-icons text-base">favorite_border</i>
+                                <span>8</span>
+                            </button>
+                            <button class="flex items-center space-x-1 hover:text-primary-blue">
+                                <i class="material-icons text-base">comment</i>
+                                <span>5</span>
+                            </button>
+                            <button class="flex items-center space-x-1 hover:text-green-500">
+                                <i class="material-icons text-base">share</i>
+                                <span>Share</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <aside class="lg:col-span-1 space-y-6">
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-bold text-lg text-primary-text">Suggestions</h3>
+                        <button class="p-1 rounded-full text-gray-400 hover:bg-gray-100">
+                            <i class="material-icons">arrow_forward_ios</i>
+                        </button>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <img alt="User avatar" class="h-10 w-10 rounded-full object-cover"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoRyezMYRYma2n0EKmaosl31GpkL0Z8QUBtbqU8nwLyBzSUbKh4tGoztVrKB3KiRHOQPEbgpkqjzU4kY7iWlUj0IKT6BbAqHWAeboY6ImmQYtmpzLhI3oVsGkcgDEhgUBZ6MNrVTF_q8jWfozJ6CfJt123kLhS1i-OSdLi83RB4sPZKq_Dcl2JrGowj1uhOMpMxgD0Nf5aUGuSTU7xcN1Lfde0iKd0LSFqhXm8rawhMnyW3_O4DmY8AAOb1YxPY1dHECX8M7yBAv8G" />
+                                <div>
+                                    <p class="font-semibold text-sm text-primary-text">Jane Doe</p>
+                                    <p class="text-xs text-secondary-text">AI Enthusiast</p>
+                                </div>
+                            </div>
+                            <button
+                                class="text-primary-blue font-semibold text-sm py-1 px-3 rounded-full border-2 border-primary hover:bg-light-blue">Follow</button>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <img alt="User avatar" class="h-10 w-10 rounded-full object-cover"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-ipiMiknoawdsC2-EvQu_PjVTBkQPjNA-W4cwCiemkMTl_wx5R5ZfVp_iZ9l6hgw5gxmP9yN8TzR-5sBDwQc4VSNINXEP9Z6ZAp5zQJAPDk5IhOR5W-6alvNoNilG9L7KDstoXm21CywsWBmWkR-uAEJWFuXEWd0JvdVW2nymR4hBaiVNVmOgjZLFmQ0VHdlj7SkXaTdMejxCY6Xpsh1d9oRLcb3XMg8NnZdvU3qkDxxp9ZWm0sHERRAE3CKa8fRnxZMiKKBpk_ZO" />
+                                <div>
+                                    <p class="font-semibold text-sm text-primary-text">John Smith</p>
+                                    <p class="text-xs text-secondary-text">Data Scientist</p>
+                                </div>
+                            </div>
+                            <button
+                                class="text-primary-blue font-semibold text-sm py-1 px-3 rounded-full border-2 border-primary hover:bg-light-blue">Follow</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <h3 class="font-bold text-lg mb-4 text-primary-text">Trends</h3>
+                    <ul class="space-y-3">
+                        <li class="text-primary-text font-medium hover:text-primary-blue cursor-pointer">#WebDev</li>
+                        <li class="text-primary-text font-medium hover:text-primary-blue cursor-pointer">#Python</li>
+                        <li class="text-primary-text font-medium hover:text-primary-blue cursor-pointer">
+                            #MachineLearning</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <h3 class="font-bold text-lg mb-4 text-primary-text">Who to Follow</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <img alt="User avatar" class="h-10 w-10 rounded-full object-cover"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOYiU2oMUWT4Q2Xl0RdgSGfSEknnKnrkg3zkXgOR3bbF9dlV5P5d-hOrivuE_dhmVg8hMBZpA-SOeiZ5_N27SngDhPm1Hj6SOj5H0cNAM9NMdeiucW-_-Gqr6COdyyKQ5caOMW-jCCUhBdWw8nQl4cj1oQDR2rNEZ0bbieX5rgL10vs1tci8OTd3O0vG63rzryU_uJtrKnBm5jGC6Dq28cBbIBVjJBofdNMj5kuzaf2UgkCw42n-g8dioUSGG3TQQWFEAxKSdrpred" />
+                                <div>
+                                    <p class="font-semibold text-sm text-primary-text">CodeAcademy</p>
+                                </div>
+                            </div>
+                            <button
+                                class="bg-primary text-white-custom font-bold py-1 px-4 rounded-full text-sm hover:bg-secondary">Follow</button>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <img alt="User avatar" class="h-10 w-10 rounded-full object-cover"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxCmlp1TyD3aA-wlTm48n2LJGBxrILFXRmWyS6apPjK8mrdJyOxPCTL-PO3PD-17Dk3A4jxQ86GzlLSiDw8y8x1dY9z_CaPd42K4DlMUsFvlxD-UVga2j4BR33yoA75vkYK0RrQ-1iVFgmkvJpLmBrv6-oqJyuV5wtCf83yDK_etzYOFymS8VGhVeCygqFVGpoRIlUw3XbgMCpZHmuE6635Yb3PD5lT8ufrIRG6qZL2vCxMR_GHmWyUCRcwICjXFD9NQiRkIJZbPX8" />
+                                <div>
+                                    <p class="font-semibold text-sm text-primary-text">freeCodeCamp</p>
+                                </div>
+                            </div>
+                            <button
+                                class="bg-primary text-white-custom font-bold py-1 px-4 rounded-full text-sm hover:bg-secondary">Follow</button>
+                        </div>
+                    </div>
+                </div>
+                <footer class="text-xs text-secondary-text space-y-2">
+                    <div class="flex flex-wrap gap-x-4">
+                        <a class="hover:text-primary-text" href="#">About</a>
+                        <a class="hover:text-primary-text" href="#">Help Center</a>
+                        <a class="hover:text-primary-text" href="#">Terms of Service</a>
+                        <a class="hover:text-primary-text" href="#">Privacy Policy</a>
+                        <a class="hover:text-primary-text" href="#">Cookie Policy</a>
+                        <a class="hover:text-primary-text" href="#">Accessibility</a>
+                    </div>
+                    <div>
+                        <p>© 2024 SkillSwap</p>
+                    </div>
+                </footer>
+            </aside>
+        </main>
+    </div>
+
+</body>
+
+</html>
