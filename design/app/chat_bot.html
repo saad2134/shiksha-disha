@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>AI Copilot | SkillSangam</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=dark_mode" />
+  <style type="text/tailwindcss">
+    :root {
+      --primary-blue: #2563eb;
+      --secondary-blue: #3b82f6;
+      --light-blue-bg: #eff6ff;
+      --white-text: #ffffff;
+      --primary-text: #1f2937;
+      --secondary-text: #6b7280;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .text-white-custom {
+      color: var(--white-text);
+    }
+    .text-primary-text {
+      color: var(--primary-text);
+    }
+    .text-secondary-text {
+      color: var(--secondary-text);
+    }
+    .border-primary {
+      border-color: var(--primary-blue);
+    }
+    .hover\:bg-secondary:hover {
+      background-color: var(--secondary-blue);
+    }
+    .hover\:text-primary-blue:hover {
+      color: var(--primary-blue);
+    }
+    .hover\:border-secondary-blue:hover {
+      border-color: var(--secondary-blue);
+    }
+    .ring-primary:focus {
+      --tw-ring-color: var(--primary-blue);
+    }
+    .bg-primary {
+      background-color: var(--primary-blue);
+    }
+    .bg-secondary {
+      background-color: var(--secondary-blue);
+    }
+    .bg-light-blue {
+      background-color: var(--light-blue-bg);
+    }
+    .text-primary-blue {
+      color: var(--primary-blue);
+    }
+    .text-secondary-blue {
+      color: var(--secondary-blue);
+    }
+    
+    /* Custom styles for improved UI */
+    .header-sticky {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(8px);
+      background-color: rgba(255, 255, 255, 0.95);
+    }
+    
+    .chat-message {
+      transition: all 0.3s ease;
+    }
+    
+    .chat-message:hover {
+      transform: translateX(2px);
+    }
+    
+    .dark-mode {
+      --primary-text: #f3f4f6;
+      --secondary-text: #d1d5db;
+      --light-blue-bg: #1e293b;
+      background-color: #111827;
+      color: #f3f4f6;
+    }
+    
+    .dark-mode .bg-white {
+      background-color: #1f2937;
+    }
+    
+    .dark-mode .text-primary-text {
+      color: #f3f4f6;
+    }
+    
+    .dark-mode .text-secondary-text {
+      color: #d1d5db;
+    }
+    
+    .dark-mode .border-gray-200 {
+      border-color: #374151;
+    }
+    
+    .dark-mode .header-sticky {
+      background-color: rgba(31, 41, 55, 0.95);
+    }
+    
+    .dark-mode .bg-gray-50 {
+      background-color: #1e293b;
+    }
+    
+    .dark-mode .bg-gray-100 {
+      background-color: #374151;
+    }
+    
+    .dark-mode .text-gray-800 {
+      color: #f3f4f6;
+    }
+    
+    .dark-mode .text-gray-600 {
+      color: #d1d5db;
+    }
+    
+    .dark-mode .text-gray-700 {
+      color: #e5e7eb;
+    }
+    
+    .ai-avatar {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+    
+    .typing-indicator {
+      display: flex;
+      padding: 10px;
+    }
+    
+    .typing-dot {
+      width: 8px;
+      height: 8px;
+      margin: 0 3px;
+      background-color: var(--primary-blue);
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: typing-animation 1.4s infinite ease-in-out;
+    }
+    
+    .typing-dot:nth-child(1) {
+      animation-delay: 0s;
+    }
+    
+    .typing-dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+    
+    .typing-dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+    
+    @keyframes typing-animation {
+      0%, 60%, 100% {
+        transform: translateY(0);
+        opacity: 0.6;
+      }
+      30% {
+        transform: translateY(-5px);
+        opacity: 1;
+      }
+    }
+    
+    .suggestion-chip {
+      transition: all 0.3s ease;
+    }
+    
+    .suggestion-chip:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+
+<body class="bg-blue-50 text-primary-text transition-colors duration-300">
+  <div class="flex h-screen w-full flex-col">
+    <div class="container mx-auto px-4 py-6">
+      <!-- Improved Header -->
+      <header class="bg-white shadow-sm rounded-xl mb-6 header-sticky transition-all duration-300">
+        <div class="mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex items-center justify-between h-16">
+            <div class="flex items-center">
+              <div class="flex-shrink-0 flex items-center">
+                <span class="material-icons text-primary-blue mr-2">school</span>
+                <span class="text-xl font-bold text-primary-blue">SkillSangam</span>
+              </div>
+            </div>
+            <div class="flex-1 mx-4 md:mx-8">
+              <div class="relative max-w-xl mx-auto">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                  <i class="material-icons text-secondary-text">search</i>
+                </span>
+                <input
+                  class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full text-sm leading-5 bg-white placeholder-gray-500 text-primary-text focus:outline-none focus:ring-2 focus:ring-offset-2 ring-primary transition-all duration-300"
+                  placeholder="Search courses, topics, or questions..." type="search" />
+              </div>
+            </div>
+            <div class="flex items-center space-x-3">
+              <div class="flex items-center space-x-2 bg-amber-50 px-3 py-1 rounded-full">
+                <i class="material-icons text-orange-500 text-lg">whatshot</i>
+                <span class="font-semibold  text-orange-500">15</span>
+              </div>
+
+              <button id="theme-toggle"
+                class="p-2 rounded-full text-secondary-text hover:bg-gray-100 transition-colors duration-300">
+                <span class="material-symbols-outlined">dark_mode</span>
+              </button>
+
+              <div class="relative">
+                <button
+                  class="p-2 bg-gray-100 rounded-full text-secondary-text hover:text-primary-text focus:outline-none focus:ring-2 focus:ring-offset-2 ring-primary transition-colors duration-300">
+                  <i class="material-icons">chat_bubble</i>
+                </button>
+                <span
+                  class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">5</span>
+              </div>
+
+              <div class="hidden md:flex items-center ml-2 cursor-pointer">
+                <div
+                  class="h-8 w-8 rounded-full bg-primary-blue flex items-center justify-center text-white font-semibold text-sm">
+                  A</div>
+              </div>
+
+            </div>
+          </div>
+          <nav class="border-t border-gray-200 py-2">
+            <div class="flex justify-center space-x-4 md:space-x-2 py-1 overflow-x-auto">
+              <a class="text-sm font-medium text-secondary-text hover:text-primary-text hover:border-b-2 hover:border-gray-300 px-4 py-3 flex items-center whitespace-nowrap"
+                href="../app/home.html">
+                <span class="material-icons text-base mr-1">home</span>HOME
+              </a>
+              <a class="text-sm font-medium text-secondary-text hover:text-primary-text hover:border-b-2 hover:border-gray-300 px-4 py-3 flex items-center whitespace-nowrap"
+                href="../app/course.html">
+                <span class="material-icons text-base mr-1">local_library</span>COURSES
+              </a>
+              <a class="text-sm font-medium text-primary-blue border-b-2 border-primary px-4 py-3 flex items-center whitespace-nowrap"
+                href="../app/chat_bot.html">
+                <span class="material-icons text-base mr-1">smart_toy</span>AI COPILOT
+              </a>
+              <a class="text-sm font-medium text-secondary-text hover:text-primary-text hover:border-b-2 hover:border-gray-300 px-4 py-3 flex items-center whitespace-nowrap"
+                href="#">
+                <span class="material-icons text-base mr-1">group</span>FRIENDS
+              </a>
+              <a class="text-sm font-medium text-amber-600 hover:text-amber-700 hover:border-b-2 hover:border-amber-500 px-4 py-3 flex items-center whitespace-nowrap premium-tag rounded-md"
+                href="#">
+                <i class="material-icons text-base mr-1">star</i>PREMIUM
+              </a>
+              <a class="text-sm font-medium text-secondary-text hover:text-primary-text hover:border-b-2 hover:border-gray-300 px-4 py-3 flex items-center whitespace-nowrap"
+                href="#">
+                <span class="material-icons text-base mr-1">settings</span>SETTINGS
+              </a>
+            </div>
+          </nav>
+        </div>
+      </header>
+    
+
+    <div class="flex flex-1 overflow-hidden rounded-xl">
+      <aside
+        class="w-80 flex-shrink-0 border-r border-gray-200 bg-white p-4 hidden md:flex flex-col justify-between transition-all duration-300">
+        <div class="flex flex-col gap-4">
+          <div class="flex items-center gap-3 p-2 bg-light-blue rounded-lg">
+            <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12"
+              style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDUfXTgL6TZvTa2uh73QUkt0S59AFtaRUQZV4m-ox39HvPfmY064ZgUs4XkPau0xYSSm8hex7bSBHtErGgby0eFcPm8gBn3J-usEIYWKnxQ_kFCJ14-fZhUuNCnR8RdJ6rjnkehvRUK7hGrEKDqIVuaz0_ANcCPq3CjedLqs4nO5Sdd-9H9hczNcXv2tS-4tb1NIungYc7CBROzTIrIbDCyNRUaZOaH9SEp54YpDJE2LQCHB6J2HW-o80lOMwuJF-6E467Khb1-B_k");'>
+            </div>
+            <div>
+              <h2 class="text-base font-semibold text-primary-text">Sophia Chen</h2>
+              <p class="text-sm text-secondary-text">Student</p>
+            </div>
+          </div>
+          <div class="flex flex-col gap-1 mt-4">
+            <h3 class="px-3 text-xs font-semibold text-secondary-text uppercase tracking-wider flex items-center">
+              <span class="material-icons text-sm mr-2">history</span>
+              Chat History
+            </h3>
+            <a class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-primary-text hover:bg-gray-100 transition-colors duration-300"
+              href="#">
+              <span class="material-icons text-sm text-primary-blue">calculate</span>
+              Math Homework Help
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-primary-text hover:bg-gray-100 transition-colors duration-300"
+              href="#">
+              <span class="material-icons text-sm text-primary-blue">lightbulb</span>
+              Innovation Project Ideas
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-primary-text hover:bg-gray-100 transition-colors duration-300"
+              href="#">
+              <span class="material-icons text-sm text-primary-blue">article</span>
+              Essay Outline
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-primary-text hover:bg-gray-100 transition-colors duration-300"
+              href="#">
+              <span class="material-icons text-sm text-primary-blue">code</span>
+              Python Debugging
+            </a>
+          </div>
+
+          <div class="mt-6">
+            <h3 class="px-3 text-xs font-semibold text-secondary-text uppercase tracking-wider flex items-center">
+              <span class="material-icons text-sm mr-2">auto_awesome</span>
+              Quick Actions
+            </h3>
+            <div class="grid grid-cols-2 gap-2 mt-2">
+              <button
+                class="flex flex-col items-center justify-center p-3 bg-light-blue rounded-lg text-primary-blue hover:bg-blue-100 transition-colors duration-300">
+                <span class="material-icons text-sm mb-1">summarize</span>
+                <span class="text-xs font-medium">Summarize</span>
+              </button>
+              <button
+                class="flex flex-col items-center justify-center p-3 bg-light-blue rounded-lg text-primary-blue hover:bg-blue-100 transition-colors duration-300">
+                <span class="material-icons text-sm mb-1">translate</span>
+                <span class="text-xs font-medium">Translate</span>
+              </button>
+              <button
+                class="flex flex-col items-center justify-center p-3 bg-light-blue rounded-lg text-primary-blue hover:bg-blue-100 transition-colors duration-300">
+                <span class="material-icons text-sm mb-1">psychology</span>
+                <span class="text-xs font-medium">Explain</span>
+              </button>
+              <button
+                class="flex flex-col items-center justify-center p-3 bg-light-blue rounded-lg text-primary-blue hover:bg-blue-100 transition-colors duration-300">
+                <span class="material-icons text-sm mb-1">create</span>
+                <span class="text-xs font-medium">Rewrite</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="border-t border-gray-200 pt-4">
+          <a class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-primary-text hover:bg-gray-100 transition-colors duration-300"
+            href="#">
+            <span class="material-icons text-sm">logout</span>
+            Logout
+          </a>
+        </div>
+      </aside>
+
+      <main class="flex-1 flex flex-col bg-gray-50">
+        <div class="px-6 py-4 border-b border-gray-200 bg-white">
+          <h2 class="text-2xl font-bold text-primary-text flex items-center">
+            <span class="material-icons text-primary-blue mr-2">smart_toy</span>
+            AI Learning Assistant
+          </h2>
+          <p class="text-sm text-secondary-text">Ask me anything about your courses, assignments, or any other questions
+            you have.</p>
+        </div>
+
+        <!-- Suggested Questions -->
+        <div class="px-6 py-4 bg-white border-b border-gray-200">
+          <h3 class="text-sm font-semibold text-secondary-text mb-2">Try asking:</h3>
+          <div class="flex flex-wrap gap-2">
+            <button
+              class="suggestion-chip bg-light-blue text-primary-blue px-3 py-2 rounded-full text-sm font-medium hover:bg-blue-100 transition-colors duration-300">
+              Explain calculus concepts
+            </button>
+            <button
+              class="suggestion-chip bg-light-blue text-primary-blue px-3 py-2 rounded-full text-sm font-medium hover:bg-blue-100 transition-colors duration-300">
+              Help with coding problem
+            </button>
+            <button
+              class="suggestion-chip bg-light-blue text-primary-blue px-3 py-2 rounded-full text-sm font-medium hover:bg-blue-100 transition-colors duration-300">
+              Essay writing tips
+            </button>
+            <button
+              class="suggestion-chip bg-light-blue text-primary-blue px-3 py-2 rounded-full text-sm font-medium hover:bg-blue-100 transition-colors duration-300">
+              Study techniques
+            </button>
+          </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto p-6 space-y-6 pt-40">
+          <div class="flex items-start gap-4 chat-message">
+            <div class="ai-avatar rounded-full size-10 shrink-0 flex items-center justify-center">
+              <span class="material-icons">smart_toy</span>
+            </div>
+            <div class="flex flex-col gap-1 items-start">
+              <p class="text-xs font-medium text-secondary-text">EduAI</p>
+              <div
+                class="bg-white rounded-lg rounded-tl-none px-4 py-3 text-sm text-primary-text shadow-sm transition-all duration-300">
+                Hi there! I'm your AI learning assistant. How can I help you with your studies today?
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4 justify-end chat-message">
+            <div class="flex flex-col gap-1 items-end">
+              <p class="text-xs font-medium text-secondary-text">You</p>
+              <div
+                class="bg-primary text-white rounded-lg rounded-tr-none px-4 py-3 text-sm shadow-sm transition-all duration-300">
+                Can you help me with my math homework?
+              </div>
+            </div>
+            <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 shrink-0"
+              style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD_obpEOh543XwkYm0RRNQ4F88iCLKJXPjiYVSUEdnphWwL2FfVdDeM82IHZsSkccORRlLeaxONGKKWLi0ikxMnrA3-c85GhOOKXYpPieRPQTSjvZlhA0t4Km70MqNbmWT-mQs_kzep1_0duWvDKmZktBUp5wk8HuXhNEPSyjNKCgVfVSqrLocilZJLitcDhXPJk5ON_GFDZyOYc3n7MqR_SFqGaV8xNH0cHw6pp1caGkeI8LQfMpWCYlRfUCWzW6V4LUv6-pO_2Bk");'>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4 chat-message">
+            <div class="ai-avatar rounded-full size-10 shrink-0 flex items-center justify-center">
+              <span class="material-icons">smart_toy</span>
+            </div>
+            <div class="flex flex-col gap-1 items-start">
+              <p class="text-xs font-medium text-secondary-text">EduAI</p>
+              <div
+                class="bg-white rounded-lg rounded-tl-none px-4 py-3 text-sm text-primary-text shadow-sm transition-all duration-300">
+                Of course! What specific math problem are you working on? I can help explain concepts, solve equations,
+                or check your work.
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4 chat-message">
+            <div class="ai-avatar rounded-full size-10 shrink-0 flex items-center justify-center">
+              <span class="material-icons">smart_toy</span>
+            </div>
+            <div class="flex flex-col gap-1 items-start">
+              <p class="text-xs font-medium text-secondary-text">EduAI</p>
+              <div class="bg-white rounded-lg rounded-tl-none px-4 py-3 text-sm shadow-sm transition-all duration-300">
+                <div class="typing-indicator">
+                  <div class="typing-dot"></div>
+                  <div class="typing-dot"></div>
+                  <div class="typing-dot"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white border-t border-gray-200 p-4">
+          <div class="relative">
+            <input
+              class="w-full rounded-lg border-gray-300 bg-gray-100 py-3 pl-4 pr-12 text-sm focus:border-primary focus:ring-primary transition-all duration-300"
+              placeholder="Type your question or message..." type="text" />
+            <button
+              class="absolute inset-y-0 right-0 flex items-center justify-center px-4 text-gray-500 hover:text-primary-blue transition-colors duration-300">
+              <span class="material-icons">send</span>
+            </button>
+          </div>
+          <div class="flex items-center justify-between mt-2">
+            <div class="flex items-center space-x-2 text-xs text-secondary-text">
+              <span class="material-icons text-sm">info</span>
+              <span>EduAI can make mistakes. Consider checking important information.</span>
+            </div>
+            <button
+              class="text-xs text-primary-blue hover:text-secondary-blue transition-colors duration-300 flex items-center">
+              <span class="material-icons text-sm mr-1">restart_alt</span>
+              Reset chat
+            </button>
+          </div>
+        </div>
+      </main>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Theme toggle functionality
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = themeToggle.querySelector('span');
+
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+
+      if (document.body.classList.contains('dark-mode')) {
+        themeIcon.textContent = 'sunny';
+        localStorage.setItem('theme', 'dark');
+      } else {
+        themeIcon.textContent = 'dark_mode';
+        localStorage.setItem('theme', 'light');
+      }
+    });
+
+    // Check for saved theme preference
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+      themeIcon.textContent = 'sunny';
+    }
+
+    // Add message sending functionality
+    const messageInput = document.querySelector('input[type="text"]');
+    const sendButton = document.querySelector('button:has(.material-icons:not(.text-sm))');
+
+    messageInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        sendMessage();
+      }
+    });
+
+    sendButton.addEventListener('click', sendMessage);
+
+    function sendMessage() {
+      const message = messageInput.value.trim();
+      if (message) {
+        // In a real implementation, this would send the message to the server
+        // and display the response. For now, we'll just simulate it.
+        messageInput.value = '';
+
+        // Scroll to bottom to see new message
+        const chatContainer = document.querySelector('.overflow-y-auto');
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+      }
+    }
+
+    // Add click handlers to suggestion chips
+    document.querySelectorAll('.suggestion-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        messageInput.value = chip.textContent.trim();
+        messageInput.focus();
+      });
+    });
+  </script>
+</body>
+
+</html>

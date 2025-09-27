@@ -1,0 +1,173 @@
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect" />
+  <link as="style"
+    href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Plus+Jakarta+Sans%3Awght%40400%3B500%3B700%3B800"
+    onload="this.rel='stylesheet'" rel="stylesheet" />
+  <title>SkillSangam</title>
+  <link href="data:image/x-icon;base64," rel="icon" type="image/x-icon" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <style type="text/tailwindcss">
+    :root {
+        --primary-color: #007AFF;--secondary-color: #F0F4F8;--text-primary: #1D2939;--text-secondary: #667085;}
+    </style>
+  <style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+
+<body class="bg-[var(--secondary-color)]" style='font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;'>
+  <div class="relative flex size-full min-h-screen flex-col justify-between group/design-root overflow-x-hidden">
+    <div>
+      <header class="bg-white/80 backdrop-blur-md sticky top-0 z-10">
+        <div class="container mx-auto px-4">
+          <div class="flex items-center justify-between py-4">
+            <div class="flex items-center gap-2">
+              <svg class="h-8 w-8 text-[var(--primary-color)]" fill="none" stroke="currentColor" stroke-width="1.5"
+                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0011.667 0l3.181-3.183m-4.991-2.691L7.985 5.945M18.016 15.002L18 15.002"
+                  stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+              <span class="text-xl font-bold text-[var(--text-primary)]">SkillSangam</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <button
+                class="text-sm font-medium text-[var(--text-primary)] hover:text-[var(--primary-color)] transition-colors"><a
+                  href="app/home.html">Log In</a></button>
+              <button
+                class="flex min-w-[84px] cursor-pointer items-center justify-center rounded-full h-9 px-4 bg-[var(--primary-color)] text-white text-sm font-medium transition-transform hover:scale-105"><a href="/cms.html">Sign
+                Up</a></button>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="bg-white">
+        <div class="container mx-auto px-4 py-16 sm:py-24 text-center">
+          <h1 class="text-4xl sm:text-6xl font-extrabold text-[var(--text-primary)] leading-tight tracking-tighter">
+           SkillSangam , Grow Together</h1>
+          <p class="mt-4 max-w-2xl mx-auto text-lg text-[var(--text-secondary)]">Join a vibrant community of learners
+            and experts to exchange skills and knowledge. Your next passion is just a swap away.</p>
+          <div class="mt-8 flex flex-wrap gap-4 justify-center">
+            <button
+              class="flex min-w-[120px] cursor-pointer items-center justify-center rounded-full h-12 px-6 bg-[var(--primary-color)] text-white text-base font-semibold shadow-lg transition-transform hover:scale-105"><a href="/cms.html">Get
+              Started</a></button>
+            <button
+              class="flex min-w-[120px] cursor-pointer items-center justify-center rounded-full h-12 px-6 bg-white text-[var(--text-primary)] border border-gray-300 text-base font-semibold shadow-sm transition-transform hover:scale-105"><a href="/cms.html">Learn
+              More</a></button>
+          </div>
+        </div>
+      </div>
+      <div class="py-16 sm:py-24 bg-[var(--secondary-color)]">
+        <div class="container mx-auto px-4">
+          <h2 class="text-3xl font-bold text-[var(--text-primary)] text-center mb-12">How It Works</h2>
+          <div class="grid md:grid-cols-3 gap-10">
+            <div class="text-center p-6 bg-white rounded-xl shadow-md transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl">
+              <div
+                class="flex items-center justify-center h-16 w-16 rounded-full bg-[var(--primary-color)] text-white mx-auto mb-4">
+                <svg class="h-8 w-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round">
+                  </path>
+                </svg>
+              </div>
+              <h3 class="text-xl font-semibold text-[var(--text-primary)] mb-2">Find a Skill Partner</h3>
+              <p class="text-[var(--text-secondary)]">Browse profiles and find someone with skills you want to learn.
+              </p>
+            </div>
+            <div class="text-center p-6 bg-white rounded-xl shadow-md transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl">
+              <div
+                class="flex items-center justify-center h-16 w-16 rounded-full bg-[var(--primary-color)] text-white mx-auto mb-4">
+                <svg class="h-8 w-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.653-.125-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.653.125-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"
+                    stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </div>
+              <h3 class="text-xl font-semibold text-[var(--text-primary)] mb-2">Exchange Skills</h3>
+              <p class="text-[var(--text-secondary)]">Schedule sessions and exchange skills with your new partner.</p>
+            </div>
+            <div class="text-center p-6 bg-white rounded-xl shadow-md transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl">
+              <div
+                class="flex items-center justify-center h-16 w-16 rounded-full bg-[var(--primary-color)] text-white mx-auto mb-4">
+                <svg class="h-8 w-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                    stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </div>
+              <h3 class="text-xl font-semibold text-[var(--text-primary)] mb-2">Grow Together</h3>
+              <p class="text-[var(--text-secondary)]">Learn new skills, share your expertise, and expand your horizons.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="py-16 sm:py-24 bg-white">
+        <div class="container mx-auto px-4">
+          <h2 class="text-3xl font-bold text-[var(--text-primary)] text-center mb-12">Popular Skills</h2>
+          <div class="flex flex-wrap justify-center gap-3">
+            <div class="flex h-10 items-center justify-center gap-x-2 rounded-full bg-[var(--secondary-color)] px-5 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl">
+              <p class="text-[var(--text-primary)] text-sm font-medium">Coding</p>
+            </div>
+            <div class="flex h-10 items-center justify-center gap-x-2 rounded-full bg-[var(--secondary-color)] px-5 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl">
+              <p class="text-[var(--text-primary)] text-sm font-medium">Design</p>
+            </div>
+            <div class="flex h-10 items-center justify-center gap-x-2 rounded-full bg-[var(--secondary-color)] px-5 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl">
+              <p class="text-[var(--text-primary)] text-sm font-medium">Writing</p>
+            </div>
+            <div class="flex h-10 items-center justify-center gap-x-2 rounded-full bg-[var(--secondary-color)] px-5 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl">
+              <p class="text-[var(--text-primary)] text-sm font-medium">Marketing</p>
+            </div>
+            <div class="flex h-10 items-center justify-center gap-x-2 rounded-full bg-[var(--secondary-color)] px-5 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl">
+              <p class="text-[var(--text-primary)] text-sm font-medium">Photography</p>
+            </div>
+            <div class="flex h-10 items-center justify-center gap-x-2 rounded-full bg-[var(--secondary-color)] px-5 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl">
+              <p class="text-[var(--text-primary)] text-sm font-medium">Cooking</p>
+            </div>
+            <div class="flex h-10 items-center justify-center gap-x-2 rounded-full bg-[var(--secondary-color)] px-5 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl">
+              <p class="text-[var(--text-primary)] text-sm font-medium">Languages</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-[var(--primary-color)]">
+        <div class="container mx-auto px-4 py-16 sm:py-20 text-center">
+          <h2 class="text-3xl sm:text-4xl font-bold text-white leading-tight">Ready to Start Swapping?</h2>
+          <p class="mt-4 max-w-2xl mx-auto text-lg text-blue-100">Join our community today and begin your skill-sharing
+            journey. It's free to get started!</p>
+          <div class="mt-8">
+            <button
+              class="flex min-w-[160px] cursor-pointer items-center justify-center rounded-full h-12 px-8 bg-white text-[var(--primary-color)] text-base font-bold shadow-lg transition-transform hover:scale-105 mx-auto">
+              <span class="truncate">Create Your Free Account</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="bg-white">
+      <div class="container mx-auto px-4 py-8">
+        <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left">
+          <p class="text-sm text-[var(--text-secondary)]">© 2025 SkillSangam. All rights reserved.</p>
+          <div class="flex gap-6 mt-4 md:mt-0">
+            <a class="text-sm text-[var(--text-secondary)] hover:text-[var(--primary-color)] transition-colors"
+              href="/cms.html">About</a>
+            <a class="text-sm text-[var(--text-secondary)] hover:text-[var(--primary-color)] transition-colors"
+              href="#">Terms</a>
+            <a class="text-sm text-[var(--text-secondary)] hover:text-[var(--primary-color)] transition-colors"
+              href="#">Privacy</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+</body>
+
+</html>

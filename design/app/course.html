@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Courses | SkillSangam</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=dark_mode" />
+    <style type="text/tailwindcss">
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        :root {
+            --primary-blue: #2563eb;
+            --secondary-blue: #3b82f6;
+            --light-blue-bg: #eff6ff;
+            --white-text: #ffffff;
+            --primary-text: #1f2937;
+            --secondary-text: #6b7280;
+        }
+     .text-white-custom {
+            color: var(--white-text);
+        }
+        .text-primary-text {
+            color: var(--primary-text);
+        }
+        .text-secondary-text {
+            color: var(--secondary-text);
+        }
+        .border-primary {
+            border-color: var(--primary-blue);
+        }
+        .hover\:bg-secondary:hover {
+            background-color: var(--secondary-blue);
+        }
+        .hover\:text-primary-blue:hover {
+            color: var(--primary-blue);
+        }
+        .hover\:border-secondary-blue:hover {
+            border-color: var(--secondary-blue);
+        }
+        .ring-primary:focus {
+            --tw-ring-color: var(--primary-blue);
+        }       .bg-primary {
+            background-color: var(--primary-blue);
+        }
+        .bg-secondary {
+            background-color: var(--secondary-blue);
+        }
+        .bg-light-blue {
+            background-color: var(--light-blue-bg);
+        }
+        .text-primary-blue {
+            color: var(--primary-blue);
+        }
+        .text-secondary-blue {
+            color: var(--secondary-blue);
+        }
+    
+        /* Custom styles for improved UI */
+        .header-sticky {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(8px);
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+        
+        .post-interaction button {
+            transition: all 0.2s ease;
+        }
+        
+        .post-interaction button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .profile-card {
+            transition: transform 0.3s ease;
+        }
+        
+        .profile-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .suggestion-card {
+            transition: all 0.3s ease;
+        }
+        
+        .suggestion-card:hover {
+            transform: translateX(5px);
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .premium-tag {
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+        }
+        
+        .dark-mode {
+            --primary-text: #f3f4f6;
+            --secondary-text: #d1d5db;
+            --light-blue-bg: #1e293b;
+            background-color: #111827;
+            color: #f3f4f6;
+        }
+        
+        .dark-mode .bg-white {
+            background-color: #1f2937;
+        }
+        
+        .dark-mode .text-primary-text {
+            color: #f3f4f6;
+        }
+        
+        .dark-mode .text-secondary-text {
+            color: #d1d5db;
+        }
+        
+        .dark-mode .border-gray-200 {
+            border-color: #374151;
+        }
+        
+        .dark-mode .header-sticky {
+            background-color: rgba(31, 41, 55, 0.95);
+        }
+        
+        .dark-mode .bg-blue-50 {
+            background-color: #1e293b;
+        }
+        
+        .dark-mode .bg-gray-100 {
+            background-color: #374151;
+        }
+        
+        .dark-mode .text-gray-800 {
+            color: #f3f4f6;
+        }
+        
+        .dark-mode .text-gray-600 {
+            color: #d1d5db;
+        }
+        
+        .dark-mode .text-gray-700 {
+            color: #e5e7eb;
+        }
+        
+        .course-card {
+            transition: all 0.3s ease;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .active-link {
+            border-bottom: 2px solid #3b82f6;
+            color: #3b82f6;
+        }
+    </style>
+
+</head>
+
+<body class="bg-blue-50 text-primary-text transition-colors duration-300">
+    <div class="container mx-auto px-4 py-6">
+        <!-- Improved Header -->
+        <header class="bg-white shadow-sm rounded-xl mb-6 header-sticky transition-all duration-300">
+            <div class="mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 flex items-center">
+                            <span class="material-icons text-primary-blue mr-2">school</span>
+                            <span class="text-xl font-bold text-primary-blue">SkillSangam</span>
+                        </div>
+                    </div>
+                    <div class="flex-1 mx-4 md:mx-8">
+                        <div class="relative max-w-xl mx-auto">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                                <i class="material-icons text-secondary-text">search</i>
+                            </span>
+                            <input
+                                class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full text-sm leading-5 bg-white placeholder-gray-500 text-primary-text focus:outline-none focus:ring-2 focus:ring-offset-2 ring-primary transition-all duration-300"
+                                placeholder="Search courses, topics, or questions..." type="search" />
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <div class="flex items-center space-x-2 bg-amber-50 px-3 py-1 rounded-full">
+                            <i class="material-icons text-orange-500 text-lg">whatshot</i>
+                            <span class="font-semibold  text-orange-500">15</span>
+                        </div>
+
+                        <button id="theme-toggle"
+                            class="p-2 rounded-full text-secondary-text hover:bg-gray-100 transition-colors duration-300">
+                            <span class="material-symbols-outlined">dark_mode</span>
+                        </button>
+
+                        <div class="relative">
+                            <button
+                                class="p-2 bg-gray-100 rounded-full text-secondary-text hover:text-primary-text focus:outline-none focus:ring-2 focus:ring-offset-2 ring-primary transition-colors duration-300">
+                                <i class="material-icons">chat_bubble</i>
+                            </button>
+                            <span
+                                class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">5</span>
+                        </div>
+
+                        <div class="hidden md:flex items-center ml-2 cursor-pointer">
+                            <div
+                                class="h-8 w-8 rounded-full bg-primary-blue flex items-center justify-center text-white font-semibold text-sm">
+                                A</div>
+                        </div>
+
+                    </div>
+                </div>
+                <nav class="border-t border-gray-200 py-2">
+                    <div class="flex justify-center space-x-4 md:space-x-2 py-1 overflow-x-auto">
+                        <a class="text-sm font-medium text-secondary-text hover:text-primary-text hover:border-b-2 hover:border-gray-300 px-4 py-3 flex items-center whitespace-nowrap"
+                            href="../app/home.html">
+                            <span class="material-icons text-base mr-1">home</span>HOME
+                        </a>
+                        <a class="text-sm font-medium text-primary-blue border-b-2 border-primary px-4 py-3 flex items-center whitespace-nowrap"
+                            href="../app/course.html">
+                            <span class="material-icons text-base mr-1">local_library</span>COURSES
+                        </a>
+                        <a class="text-sm font-medium text-secondary-text hover:text-primary-text hover:border-b-2 hover:border-gray-300 px-4 py-3 flex items-center whitespace-nowrap"
+                            href="../app/chat_bot.html">
+                            <span class="material-icons text-base mr-1">smart_toy</span>AI COPILOT
+                        </a>
+                        <a class="text-sm font-medium text-secondary-text hover:text-primary-text hover:border-b-2 hover:border-gray-300 px-4 py-3 flex items-center whitespace-nowrap"
+                            href="#">
+                            <span class="material-icons text-base mr-1">group</span>FRIENDS
+                        </a>
+                        <a class="text-sm font-medium text-amber-600 hover:text-amber-700 hover:border-b-2 hover:border-amber-500 px-4 py-3 flex items-center whitespace-nowrap premium-tag rounded-md"
+                            href="#">
+                            <i class="material-icons text-base mr-1">star</i>PREMIUM
+                        </a>
+                        <a class="text-sm font-medium text-secondary-text hover:text-primary-text hover:border-b-2 hover:border-gray-300 px-4 py-3 flex items-center whitespace-nowrap"
+                            href="#">
+                            <span class="material-icons text-base mr-1">settings</span>SETTINGS
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </header>
+    </div>
+
+    <main class="container mx-auto px-1 sm:px-2 lg:px-4 pb-20">
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            <aside class="md:col-span-1 lg:col-span-1">
+                <div class="bg-white p-6 rounded-xl shadow-md transition-all duration-300 hover:shadow-lg">
+                    <h2 class="text-xl font-bold mb-4 flex items-center">
+                        <span class="material-icons mr-2 text-primary-blue">filter_list</span>
+                        Filters
+                    </h2>
+                    <div class="mb-6">
+                        <h3 class="font-semibold mb-2 flex items-center">
+                            <span class="material-icons text-sm mr-2 text-primary-blue">category</span>
+                            Category
+                        </h3>
+                        <div class="space-y-2 text-gray-700">
+                            <label
+                                class="flex items-center hover:bg-blue-50 p-1 rounded transition-colors duration-300">
+                                <input class="form-checkbox rounded text-blue-500" type="checkbox" />
+                                <span class="ml-2">Web Development</span>
+                            </label>
+                            <label
+                                class="flex items-center hover:bg-blue-50 p-1 rounded transition-colors duration-300">
+                                <input class="form-checkbox rounded text-blue-500" type="checkbox" />
+                                <span class="ml-2">Data Science</span>
+                            </label>
+                            <label
+                                class="flex items-center hover:bg-blue-50 p-1 rounded transition-colors duration-300">
+                                <input checked="" class="form-checkbox rounded text-blue-500" type="checkbox" />
+                                <span class="ml-2">AI &amp; Machine Learning</span>
+                            </label>
+                            <label
+                                class="flex items-center hover:bg-blue-50 p-1 rounded transition-colors duration-300">
+                                <input class="form-checkbox rounded text-blue-500" type="checkbox" />
+                                <span class="ml-2">UI/UX Design</span>
+                            </label>
+                            <label
+                                class="flex items-center hover:bg-blue-50 p-1 rounded transition-colors duration-300">
+                                <input class="form-checkbox rounded text-blue-500" type="checkbox" />
+                                <span class="ml-2">Cybersecurity</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <h3 class="font-semibold mb-2 flex items-center">
+                            <span class="material-icons text-sm mr-2 text-primary-blue">bar_chart</span>
+                            Level
+                        </h3>
+                        <div class="space-y-2 text-gray-700">
+                            <label
+                                class="flex items-center hover:bg-blue-50 p-1 rounded transition-colors duration-300">
+                                <input class="form-radio text-blue-500" name="level" type="radio" />
+                                <span class="ml-2">Beginner</span>
+                            </label>
+                            <label
+                                class="flex items-center hover:bg-blue-50 p-1 rounded transition-colors duration-300">
+                                <input checked="" class="form-radio text-blue-500" name="level" type="radio" />
+                                <span class="ml-2">Intermediate</span>
+                            </label>
+                            <label
+                                class="flex items-center hover:bg-blue-50 p-1 rounded transition-colors duration-300">
+                                <input class="form-radio text-blue-500" name="level" type="radio" />
+                                <span class="ml-2">Advanced</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold mb-2 flex items-center">
+                            <span class="material-icons text-sm mr-2 text-primary-blue">star</span>
+                            Rating
+                        </h3>
+                        <div class="flex items-center space-x-1 text-yellow-400">
+                            <span
+                                class="material-icons cursor-pointer hover:scale-110 transition-transform duration-300">star</span>
+                            <span
+                                class="material-icons cursor-pointer hover:scale-110 transition-transform duration-300">star</span>
+                            <span
+                                class="material-icons cursor-pointer hover:scale-110 transition-transform duration-300">star</span>
+                            <span
+                                class="material-icons cursor-pointer hover:scale-110 transition-transform duration-300">star</span>
+                            <span
+                                class="material-icons cursor-pointer text-gray-300 hover:scale-110 transition-transform duration-300">star_border</span>
+                        </div>
+                    </div>
+                    <button
+                        class="w-full mt-6 bg-primary text-white py-2 rounded-lg font-semibold hover:bg-secondary transition-colors duration-300">
+                        Apply Filters
+                    </button>
+                    <button
+                        class="w-full mt-2 text-primary-blue py-2 rounded-lg font-semibold hover:bg-blue-50 transition-colors duration-300">
+                        Clear All
+                    </button>
+                </div>
+
+                <!-- Progress Section -->
+                <div class="bg-white p-6 rounded-xl shadow-md mt-6 transition-all duration-300 hover:shadow-lg">
+                    <h2 class="text-xl font-bold mb-4 flex items-center">
+                        <span class="material-icons mr-2 text-primary-blue">trending_up</span>
+                        Your Progress
+                    </h2>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium">Courses Completed</p>
+                                <p class="text-2xl font-bold text-primary-blue">3/12</p>
+                            </div>
+                            <div class="bg-blue-100 p-3 rounded-full">
+                                <span class="material-icons text-primary-blue">check_circle</span>
+                            </div>
+                        </div>
+                        <div class="bg-gray-100 h-2 rounded-full overflow-hidden">
+                            <div class="bg-primary-blue h-full rounded-full" style="width: 25%"></div>
+                        </div>
+                        <div class="pt-4">
+                            <p class="text-sm font-medium mb-2">Current Streak</p>
+                            <div class="flex items-center">
+                                <span class="material-icons text-orange-500 mr-1">whatshot</span>
+                                <span class="font-bold">5 days</span>
+                                <span class="ml-auto text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded-full">+2
+                                    days</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+            <div class="md:col-span-2 lg:col-span-3">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">Available Courses</h2>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm text-secondary-text">Sort by:</span>
+                        <select
+                            class="bg-white border border-gray-300 rounded-lg py-1 px-8 text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                            <option>Most Popular</option>
+                            <option>Newest</option>
+                            <option>Highest Rated</option>
+                            <option>Difficulty</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="course-card bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300">
+                        <div class="relative">
+                            <img alt="Web Development course thumbnail" class="h-40 w-full object-cover"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWn-qPrnQpNQS8xlrIhTk8eF7kOA-YdFP8OGWuE4mHmtKrFTtTvysyTjdkggOHLwEKMNM8YX8pn2MS6HN5MUFssacdqgecAY6BJNrUx1GVlBzEXcasOPSk9q6wQXwBCsdoEyRq-UCk_dRyvWt6FWz74sfRKuksYx3C7JiouE3jBOxl30q8doCmtWONiw3GyUJasVjwKzh5GIOBpqbVf3UEBIFKJ9vJtAyc2dcGneGM-sVoUDe2GjpuRHzZPKHhPcsddCjtAWlvi8Y" />
+                            <div
+                                class="absolute top-2 right-2 bg-primary-blue text-white text-xs font-bold px-2 py-1 rounded-full">
+                                Popular
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <span class="text-sm text-blue-500 font-semibold">Web Development</span>
+                            <h3 class="font-bold text-lg mt-1 mb-2">Full-Stack Web Development Bootcamp</h3>
+                            <p class="text-gray-600 text-sm mb-4">Learn to build complete web applications from
+                                scratch with the MERN stack.</p>
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="flex items-center">
+                                    <span class="material-icons text-yellow-400 text-sm">star</span>
+                                    <span class="text-xs text-gray-600 ml-1">4.8 (124 reviews)</span>
+                                </div>
+                                <span class="text-sm font-medium text-gray-500">12 Modules</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-primary-blue">$79.99</span>
+                                <button
+                                    class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-secondary transition-colors duration-300 transform hover:scale-105">Enroll</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-card bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300">
+                        <div class="relative">
+                            <img alt="UI/UX Design course thumbnail" class="h-40 w-full object-cover"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKmKtJ-8ZWOa-MGKNLj27zXg5Ge6Z0PGHS1U7etLV9MC00ILyrpSnlYQ7QADPSTejHxoD1z5TEVKP2kCo9EAdrcp1RB8p3BRWzucId_40LmPS6gGqzJYFDLDzSSv8rQWsKYgith6LnG3Y6ygIUxuI1GdiPhwp5e6pGLDayNKKjj2CtUUgmAO53V_tbZXsP65wkKhYlf8QjxLe89kGYGM4YVzFIk645-zD_fmzdBtYHeBGwgCxqrJAVISf3FSwd8nmX4xiL9IZxHVI" />
+                            <div
+                                class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                                New
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <span class="text-sm text-purple-500 font-semibold">UI/UX Design</span>
+                            <h3 class="font-bold text-lg mt-1 mb-2">Advanced UI/UX Design Principles</h3>
+                            <p class="text-gray-600 text-sm mb-4">Master Figma and create beautiful, user-friendly
+                                interfaces for web and mobile.</p>
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="flex items-center">
+                                    <span class="material-icons text-yellow-400 text-sm">star</span>
+                                    <span class="text-xs text-gray-600 ml-1">4.7 (89 reviews)</span>
+                                </div>
+                                <span class="text-sm font-medium text-gray-500">8 Modules</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-primary-blue">$64.99</span>
+                                <button
+                                    class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-secondary transition-colors duration-300 transform hover:scale-105">Enroll</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-card bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300">
+                        <img alt="Python course thumbnail" class="h-40 w-full object-cover"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1KDapVf8CyT1E7u_pw5X88ZW6hWEyctYMbQfxnQPOGBhFNV9Q81M2oRdXt2I9rQIuLr5usjkPL-3OR2CrQ_1RVknZBShpNnD3cnbQWBo6_dn3lUd9hmZImnqsAaDE2lBbTjqfdXwVl054GvBaEQVws77566xfhexcAlZ83TVOOQ1dbblm1htxk-UbyfnpM_UEszUWgs8E5mFPc3Pk1iN8ZVMa4ut9NypbahIlFGOA8E_5NrU-uDwGN_AI8CmsW0wfY7-4L1tmh1w" />
+                        <div class="p-6">
+                            <span class="text-sm text-green-500 font-semibold">Data Science</span>
+                            <h3 class="font-bold text-lg mt-1 mb-2">Python for Data Science</h3>
+                            <p class="text-gray-600 text-sm mb-4">Unlock the power of data with Python, Pandas, and
+                                Matplotlib. A practical approach.</p>
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="flex items-center">
+                                    <span class="material-icons text-yellow-400 text-sm">star</span>
+                                    <span class="text-xs text-gray-600 ml-1">4.9 (156 reviews)</span>
+                                </div>
+                                <span class="text-sm font-medium text-gray-500">15 Modules</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-primary-blue">$89.99</span>
+                                <button
+                                    class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-secondary transition-colors duration-300 transform hover:scale-105">Enroll</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-card bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300">
+                        <div class="relative">
+                            <img alt="Machine Learning course thumbnail" class="h-40 w-full object-cover"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqlE2gdjk4KI_BnpcQiZxHSgz4Eku-UBf7RrtC8Bf0Wzm6bP69umI8PqxvQj5T3efmbL5wYmTAQm5OhaVYNrVCS2vAyf61SK_GhR1mSL6AyPYoTYbcTuRr0AzdpUtyenHBT3u3cB-_WC-O-PqOHVaC_MKtvJgB6yAnLgqjg5vbNC3CVMMuHpWu_xaAILV3ryS223ygTETRyzHoh5lmu16WVBKlmPhUFjmfMZb1NuKmY3Y7JCjIjNwnyzyGVt578G5nao3CFNPjtpM" />
+                            <div
+                                class="absolute top-2 right-2 bg-amber-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                                Enrolled
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <span class="text-sm text-red-500 font-semibold">AI &amp; Machine Learning</span>
+                            <h3 class="font-bold text-lg mt-1 mb-2">Intro to Machine Learning</h3>
+                            <p class="text-gray-600 text-sm mb-4">Learn the fundamentals of ML, from linear
+                                regression to neural networks.</p>
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="flex items-center">
+                                    <span class="material-icons text-yellow-400 text-sm">star</span>
+                                    <span class="text-xs text-gray-600 ml-1">4.6 (203 reviews)</span>
+                                </div>
+                                <span class="text-sm font-medium text-gray-500">10 Modules</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center text-green-600">
+                                    <span class="material-icons text-sm">check_circle</span>
+                                    <span class="text-sm font-medium ml-1">Enrolled</span>
+                                </div>
+                                <button
+                                    class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-200 transition-colors duration-300 cursor-not-allowed">Continue</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-card bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300">
+                        <img alt="JavaScript course thumbnail" class="h-40 w-full object-cover"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQmMJ8TFFyu-JfD9_3-Ci0ocdLvWvaLZnOJrQCKu5ZMsF4li0jI6uHWazZMeil5TPo4XyhRto6MHz_WRm6fz39mnoaE60A5fb1ZVVUA_wNkfoCj3fZjBtV9E7rSLfnloNgyUuMn51rIDg0AekBLKITRbyjLZTSJ1OSTkIPF0rwmMsMphEf5u0cBpZEPkZcYqlDf0oJeylAn8b_hV2RkqdcfP5YlA07DckLAP5JYnOxPJzH0HI130BG0ipqxhcVMKa82RQnwimPcVY" />
+                        <div class="p-6">
+                            <span class="text-sm text-yellow-500 font-semibold">Web Development</span>
+                            <h3 class="font-bold text-lg mt-1 mb-2">JavaScript for Beginners</h3>
+                            <p class="text-gray-600 text-sm mb-4">A comprehensive guide to JavaScript, from
+                                variables to asynchronous programming.</p>
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="flex items-center">
+                                    <span class="material-icons text-yellow-400 text-sm">star</span>
+                                    <span class="text-xs text-gray-600 ml-1">4.5 (98 reviews)</span>
+                                </div>
+                                <span class="text-sm font-medium text-gray-500">9 Modules</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-primary-blue">$59.99</span>
+                                <button
+                                    class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-secondary transition-colors duration-300 transform hover:scale-105">Enroll</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-card bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300">
+                        <img alt="Cybersecurity course thumbnail" class="h-40 w-full object-cover"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBJ-muJyzq_VoJm7jZ6OyB1sKcRfhUJ8T-Gcy_yCr7MSlHU0dXwiMW_hmCTHt2KRO9A3JNuzssmcPHFaZcvaxF2J5ED3OB5ZEpM5rkzxWTbBCuA0HvhCUE-rCQXwHhKC3z3uv-7bwoH2APnkqenOL1urW3WErGtyLQLapxapEKc2w4uK8UwSg5tXeDmgjRVUFY0kpn_4n2mOoUHnWaE4QWVZBAY4Ag43lvc_suSWVbGxoJb20KKObp98Wog0NSU92tmrGwK6Y5JiI" />
+                        <div class="p-6">
+                            <span class="text-sm text-indigo-500 font-semibold">Cybersecurity</span>
+                            <h3 class="font-bold text-lg mt-1 mb-2">Cybersecurity Essentials</h3>
+                            <p class="text-gray-600 text-sm mb-4">Protect yourself and others online by learning the
+                                core principles of cybersecurity.</p>
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="flex items-center">
+                                    <span class="material-icons text-yellow-400 text-sm">star</span>
+                                    <span class="text-xs text-gray-600 ml-1">4.8 (112 reviews)</span>
+                                </div>
+                                <span class="text-sm font-medium text-gray-500">7 Modules</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-primary-blue">$74.99</span>
+                                <button
+                                    class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-secondary transition-colors duration-300 transform hover:scale-105">Enroll</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div class="flex justify-center mt-8">
+                    <div class="flex items-center space-x-2">
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full bg-white border border-gray-300 text-gray-600 hover:bg-gray-100 transition-colors duration-300">
+                            <span class="material-icons">chevron_left</span>
+                        </button>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full bg-blue-500 text-white font-semibold">1</button>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full bg-white border border-gray-300 text-gray-600 hover:bg-gray-100 transition-colors duration-300">2</button>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full bg-white border border-gray-300 text-gray-600 hover:bg-gray-100 transition-colors duration-300">3</button>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full bg-white border border-gray-300 text-gray-600 hover:bg-gray-100 transition-colors duration-300">
+                            <span class="material-icons">chevron_right</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    </div>
+
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = themeToggle.querySelector('span');
+
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+
+            if (document.body.classList.contains('dark-mode')) {
+                themeIcon.textContent = 'sunny';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIcon.textContent = 'dark_mode';
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // Check for saved theme preference
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            themeIcon.textContent = 'sunny';
+        }
+
+        // Add subtle animations to elements when they come into view
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.course-card').forEach(el => {
+            el.style.opacity = 0;
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+
+</html>

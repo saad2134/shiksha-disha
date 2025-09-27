@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Home | SkillSangam</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=dark_mode" />
+    <style type="text/tailwindcss">
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        :root {
+            --primary-blue: #2563eb;
+            --secondary-blue: #3b82f6;
+            --light-blue-bg: #eff6ff;
+            --white-text: #ffffff;
+            --primary-text: #1f2937;
+            --secondary-text: #6b7280;
+        }
+     .text-white-custom {
+            color: var(--white-text);
+        }
+        .text-primary-text {
+            color: var(--primary-text);
+        }
+        .text-secondary-text {
+            color: var(--secondary-text);
+        }
+        .border-primary {
+            border-color: var(--primary-blue);
+        }
+        .hover\:bg-secondary:hover {
+            background-color: var(--secondary-blue);
+        }
+        .hover\:text-primary-blue:hover {
+            color: var(--primary-blue);
+        }
+        .hover\:border-secondary-blue:hover {
+            border-color: var(--secondary-blue);
+        }
+        .ring-primary:focus {
+            --tw-ring-color: var(--primary-blue);
+        }       .bg-primary {
+            background-color: var(--primary-blue);
+        }
+        .bg-secondary {
+            background-color: var(--secondary-blue);
+        }
+        .bg-light-blue {
+            background-color: var(--light-blue-bg);
+        }
+        .text-primary-blue {
+            color: var(--primary-blue);
+        }
+        .text-secondary-blue {
+            color: var(--secondary-blue);
+        }
+    
+        /* Custom styles for improved UI */
+        .header-sticky {
+            position: sticky;
+            top: 4;
+            z-index: 50;
+            backdrop-filter: blur(8px);
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+        
+        .post-interaction button {
+            transition: all 0.2s ease;
+        }
+        
+        .post-interaction button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .profile-card {
+            transition: transform 0.3s ease;
+        }
+        
+        .profile-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .suggestion-card {
+            transition: all 0.3s ease;
+        }
+        
+        .suggestion-card:hover {
+            transform: translateX(5px);
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .premium-tag {
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+        }
+        
+        .dark-mode {
+            --primary-text: #f3f4f6;
+            --secondary-text: #d1d5db;
+            --light-blue-bg: #1e293b;
+            background-color: #111827;
+            color: #f3f4f6;
+        }
+        
+        .dark-mode .bg-white {
+            background-color: #1f2937;
+        }
+        
+        .dark-mode .text-primary-text {
+            color: #f3f4f6;
+        }
+        
+        .dark-mode .text-secondary-text {
+            color: #d1d5db;
+        }
+        
+        .dark-mode .border-gray-200 {
+            border-color: #374151;
+        }
+        
+        .dark-mode .header-sticky {
+            background-color: rgba(31, 41, 55, 0.95);
+        }
+    </style>
+
+</head>
+
+<body class="bg-blue-50 text-primary-text transition-colors duration-300">
+    <div class="container mx-auto px-4 py-6">
+        <!-- Improved Header -->
+        <header class="bg-white shadow-sm rounded-xl mb-6 header-sticky transition-all duration-300">
+            <div class="mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 flex items-center">
+                            <span class="material-icons text-primary-blue mr-2">school</span>
+                            <span class="text-xl font-bold text-primary-blue">SkillSangam</span>
+                        </div>
+                    </div>
+                    <div class="flex-1 mx-4 md:mx-8">
+                        <div class="relative max-w-xl mx-auto">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                                <i class="material-icons text-secondary-text">search</i>
+                            </span>
+                            <input
+                                class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full text-sm leading-5 bg-white placeholder-gray-500 text-primary-text focus:outline-none focus:ring-2 focus:ring-offset-2 ring-primary transition-all duration-300"
+                                placeholder="Search courses, topics, or questions..." type="search" />
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <div class="flex items-center space-x-2 bg-amber-50 px-3 py-1 rounded-full">
+                            <i class="material-icons text-orange-500 text-lg">whatshot</i>
+                            <span class="font-semibold text-orange-500">15</span>
+                        </div>
+                        
+                        <button id="theme-toggle" class="p-2 rounded-full text-secondary-text hover:bg-gray-100 transition-colors duration-300">
+                            <span class="material-symbols-outlined">dark_mode</span>
+                        </button>
+                        
+                        <div class="relative">
+                            <button
+                                class="p-2 bg-gray-100 rounded-full text-secondary-text hover:text-primary-text focus:outline-none focus:ring-2 focus:ring-offset-2 ring-primary transition-colors duration-300">
+                                <i class="material-icons">chat_bubble</i>
+                            </button>
+                            <span
+                                class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">5</span>
+                        </div>
+                        
+                        <div class="hidden md:flex items-center ml-2 cursor-pointer">
+                            <div class="h-8 w-8 rounded-full bg-primary-blue flex items-center justify-center text-white font-semibold text-sm">A</div>
+                        </div>
+
+                    </div>
+                </div>
+                <nav class="border-t border-gray-200 py-2">
+                    <div class="flex justify-center space-x-4 md:space-x-2 py-1 overflow-x-auto">
+                        <a class="text-sm font-medium text-primary-blue border-b-2 border-primary px-4 py-3 flex items-center whitespace-nowrap"
+                            href="../app/home.html">
+                            <span class="material-icons text-base mr-1">home</span>HOME
+                        </a>
+                        <a class="text-sm font-medium text-secondary-text hover:text-primary-text hover:border-b-2 hover:border-gray-300 px-4 py-3 flex items-center whitespace-nowrap"
+                            href="../app/course.html">
+                            <span class="material-icons text-base mr-1">local_library</span>COURSES
+                        </a>
+                        <a class="text-sm font-medium text-secondary-text hover:text-primary-text hover:border-b-2 hover:border-gray-300 px-4 py-3 flex items-center whitespace-nowrap"
+                            href="../app/chat_bot.html">
+                            <span class="material-icons text-base mr-1">smart_toy</span>AI COPILOT
+                        </a>
+                        <a class="text-sm font-medium text-secondary-text hover:text-primary-text hover:border-b-2 hover:border-gray-300 px-4 py-3 flex items-center whitespace-nowrap"
+                            href="#">
+                            <span class="material-icons text-base mr-1">group</span>FRIENDS
+                        </a>
+                        <a class="text-sm font-medium text-amber-600 hover:text-amber-700 hover:border-b-2 hover:border-amber-500 px-4 py-3 flex items-center whitespace-nowrap premium-tag rounded-md"
+                            href="#">
+                            <i class="material-icons text-base mr-1">star</i>PREMIUM
+                        </a>
+                        <a class="text-sm font-medium text-secondary-text hover:text-primary-text hover:border-b-2 hover:border-gray-300 px-4 py-3 flex items-center whitespace-nowrap"
+                            href="#">
+                            <span class="material-icons text-base mr-1">settings</span>SETTINGS
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </header>
+        
+        <main class="grid grid-cols-1 lg:grid-cols-4 gap-6 pb-20">
+            <!-- Left Sidebar - Profile -->
+            <aside class="lg:col-span-1 space-y-6">
+                <div class="bg-white p-6 rounded-xl shadow-sm profile-card transition-all duration-300">
+                    <h3 class="font-bold text-lg mb-4 text-primary-text flex items-center">
+                        <span class="material-icons mr-2 text-primary-blue">person</span>
+                        Profile
+                    </h3>
+                    <div class="flex items-center space-x-4">
+                        <div class="relative">
+                            <img alt="User avatar" class="h-20 w-20 rounded-full object-cover border-2 border-white shadow-md"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0belfzxFnfuH8N3AQyygQIdxeEP0TBaSvInRxGTNk6VaUf8BKcrXa-nleOYhoW-Kt4gMFc-I8xG4SkpdHquM0xJSC9ImXlUPmwtlEVG16uELPs098Ad22xjOxcS8gBSvtAS6ySogDSQ187Xd3qigMu6_yBkeOKnEzIKhh_89Vs_CvzNr46HzBZe5c81mGvx5woFmVwe8l_bchNTAlREXOq2ua8ayqOh6lKBKy5HvmEhNK6_7nszxIKw_473vYACBtrwDYIPJYsA1b" />
+                            <span class="absolute bottom-0 right-0 h-5 w-5 bg-green-500 rounded-full border-2 border-white"></span>
+                        </div>
+                        <div>
+                            <p class="text-xl font-bold text-primary-text">Ali</p>
+                            <p class="text-sm text-secondary-text">@ali_dev</p>
+                            <div class="flex items-center mt-1">
+                                <span class="material-icons text-amber-400 text-base mr-1">star</span>
+                                <span class="text-xs text-secondary-text">Level 5 Learner</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <h4 class="font-semibold text-primary-text mb-2 flex items-center">
+                            <span class="material-icons text-sm mr-2 text-primary-blue">description</span>
+                            Profile Description
+                        </h4>
+                        <p class="text-sm text-secondary-text">Lifelong learner exploring AI and Web Development. Let's
+                            connect and build something amazing together!</p>
+                    </div>
+                    <div class="mt-6 space-y-4">
+                        <div class="flex items-center justify-between p-4 bg-light-blue rounded-lg transition-all duration-300 hover:shadow-md">
+                            <div>
+                                <p class="text-sm text-secondary-text">Course Progress</p>
+                                <p class="text-xl font-bold text-primary-blue">5/12</p>
+                            </div>
+                            <div class="relative w-12 h-12">
+                                <svg class="w-12 h-12 transform -rotate-90" viewBox="0 0 36 36">
+                                    <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" 
+                                          fill="none" stroke="#eee" stroke-width="3"/>
+                                    <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" 
+                                          fill="none" stroke="#3b82f6" stroke-width="3" stroke-dasharray="42, 100"/>
+                                </svg>
+                                <i class="material-icons text-primary-blue text-2xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">school</i>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg border border-gray-200 transition-all duration-300 hover:shadow-md">
+                            <h4 class="font-semibold text-primary-text mb-2 flex items-center">
+                                <span class="material-icons text-orange-400 text-base mr-2">whatshot</span>
+                                Learning Streak
+                            </h4>
+                            <div class="flex items-center space-x-2">
+                                <span class="font-bold text-lg text-primary-text">15 days</span>
+                                <span class="text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded-full">+3 days</span>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg border border-gray-200 transition-all duration-300 hover:shadow-md">
+                            <h4 class="font-semibold text-primary-text mb-2 flex items-center">
+                                <span class="material-icons text-amber-500 text-base mr-2">military_tech</span>
+                                Achievement Badges
+                            </h4>
+                            <div class="flex space-x-2">
+                                <div class="bg-blue-500 p-2 rounded-full text-white shadow-sm relative group">
+                                    <i class="material-icons text-sm">emoji_events</i>
+                                    <span class="absolute -top-1 -right-1 bg-red-500 text-xs rounded-full h-4 w-4 flex items-center justify-center">1</span>
+                                    <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block w-32 bg-gray-800 text-white text-xs rounded py-1 px-2">
+                                        Fast Learner
+                                    </div>
+                                </div>
+                                <div class="bg-gray-300 p-2 rounded-full text-white shadow-sm relative group">
+                                    <i class="material-icons text-sm">star</i>
+                                    <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block w-32 bg-gray-800 text-white text-xs rounded py-1 px-2">
+                                        Complete 5 more courses to unlock
+                                    </div>
+                                </div>
+                                <div class="bg-gray-300 p-2 rounded-full text-white shadow-sm relative group">
+                                    <i class="material-icons text-sm">forum</i>
+                                    <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block w-32 bg-gray-800 text-white text-xs rounded py-1 px-2">
+                                        Help 3 more students to unlock
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Stats -->
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <h3 class="font-bold text-lg mb-4 text-primary-text flex items-center">
+                        <span class="material-icons mr-2 text-primary-blue">insights</span>
+                        Weekly Stats
+                    </h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-blue-50 p-3 rounded-lg">
+                            <p class="text-xs text-secondary-text">Hours Learned</p>
+                            <p class="text-xl font-bold text-primary-blue">12.5h</p>
+                        </div>
+                        <div class="bg-green-50 p-3 rounded-lg">
+                            <p class="text-xs text-secondary-text">Courses Completed</p>
+                            <p class="text-xl font-bold text-green-600">2</p>
+                        </div>
+                        <div class="bg-amber-50 p-3 rounded-lg">
+                            <p class="text-xs text-secondary-text">Points Earned</p>
+                            <p class="text-xl font-bold text-amber-600">350</p>
+                        </div>
+                        <div class="bg-purple-50 p-3 rounded-lg">
+                            <p class="text-xs text-secondary-text">Friends Added</p>
+                            <p class="text-xl font-bold text-purple-600">5</p>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+            
+            <!-- Main Content -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Create Post -->
+                <div class="bg-white p-6 rounded-xl shadow-sm transition-all duration-300 hover:shadow-md">
+                    <div class="flex items-center space-x-4 mb-4">
+                        <img alt="User avatar" class="h-12 w-12 rounded-full object-cover border-2 border-white shadow-sm"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0belfzxFnfuH8N3AQyygQIdxeEP0TBaSvInRxGTNk6VaUf8BKcrXa-nleOYhoW-Kt4gMFc-I8xG4SkpdHquM0xJSC9ImXlUPmwtlEVG16uELPs098Ad22xjOxcS8gBSvtAS6ySogDSQ187Xd3qigMu6_yBkeOKnEzIKhh_89Vs_CvzNr46HzBZe5c81mGvx5woFmVwe8l_bchNTAlREXOq2ua8ayqOh6lKBKy5HvmEhNK6_7nszxIKw_473vYACBtrwDYIPJYsA1b" />
+                        <div>
+                            <p class="font-semibold text-primary-text">Ali</p>
+                            <p class="text-xs text-secondary-text">What's on your mind?</p>
+                        </div>
+                    </div>
+                    <textarea
+                        class="w-full p-4 border border-gray-200 rounded-lg focus:ring-2 ring-primary focus:outline-none transition-all duration-300"
+                        placeholder="Share your progress or ask a question..." rows="3"></textarea>
+                    <div class="flex justify-between items-center mt-4">
+                        <div class="flex space-x-2">
+                            <button class="p-2 text-secondary-text hover:text-primary-blue rounded-full hover:bg-blue-50 transition-colors duration-300">
+                                <span class="material-icons">image</span>
+                            </button>
+                            <button class="p-2 text-secondary-text hover:text-primary-blue rounded-full hover:bg-blue-50 transition-colors duration-300">
+                                <span class="material-icons">videocam</span>
+                            </button>
+                            <button class="p-2 text-secondary-text hover:text-primary-blue rounded-full hover:bg-blue-50 transition-colors duration-300">
+                                <span class="material-icons">insert_link</span>
+                            </button>
+                        </div>
+                        <button
+                            class="bg-primary text-white-custom font-bold py-2 px-6 rounded-full hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 ring-primary transition-all duration-300 transform hover:scale-105">
+                            Post
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Post 1 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm transition-all duration-300 hover:shadow-md">
+                    <div class="flex justify-between items-start">
+                        <div class="flex space-x-4">
+                            <img alt="User avatar" class="h-12 w-12 rounded-full object-cover border-2 border-white shadow-sm"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGIX6L6GR84XRjHWp-syf9pnK6_ehPrnvhVECA5EnxkvrWf3kWWXLJ7v4XqmRqfvc1T1wHebrQqdqlizDjQ__NGLi-Po8y0bBQ29uZD47xHiqvady3850eBQwDovVvmyRUhM5gqd18sBjvRB3OtveqPH1HN7ION858b4117emAVZLZp1TrzgcY8iIybGzKUU339X01qwjw6drsE9e3FhEs3K41pC1uLzOpeG4Oja9LcUX4w7eZ4RCwqGwzbzOfdDD7TupTWcZvTTcZ" />
+                            <div>
+                                <p class="font-semibold text-primary-text">Sarah K.</p>
+                                <p class="text-sm text-secondary-text">2 hours ago · <span class="text-primary-blue">#Python</span></p>
+                            </div>
+                        </div>
+                        <button class="p-1 rounded-full text-secondary-text hover:bg-gray-100 transition-colors duration-300">
+                            <span class="material-icons">more_horiz</span>
+                        </button>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-primary-text">Just finished the 'Advanced Python' course! Highly recommend it.
+                            The section on decorators was a game-changer. What's everyone else learning?</p>
+                    </div>
+                    <div class="mt-4 bg-blue-50 p-4 rounded-lg">
+                        <div class="flex items-center">
+                            <div class="bg-white p-2 rounded-full shadow-sm mr-3">
+                                <span class="material-icons text-primary-blue">school</span>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-sm text-primary-text">Advanced Python Course</p>
+                                <p class="text-xs text-secondary-text">Completed · 92% score</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex items-center space-x-4 text-secondary-text post-interaction">
+                        <button class="flex items-center space-x-1 hover:text-red-500 transition-colors duration-300">
+                            <i class="material-icons text-base">favorite_border</i>
+                            <span>12</span>
+                        </button>
+                        <button class="flex items-center space-x-1 hover:text-primary-blue transition-colors duration-300">
+                            <i class="material-icons text-base">comment</i>
+                            <span>3</span>
+                        </button>
+                        <button class="flex items-center space-x-1 hover:text-green-500 transition-colors duration-300">
+                            <i class="material-icons text-base">share</i>
+                            <span>Share</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Post 2 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm transition-all duration-300 hover:shadow-md">
+                    <div class="flex justify-between items-start">
+                        <div class="flex space-x-4">
+                            <img alt="User avatar" class="h-12 w-12 rounded-full object-cover border-2 border-white shadow-sm"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgdNI4vIprtLZeH_FpKh3kqevga6LwxgZIgMgwVo4tp1pyhUb4t86EKEkMhFFHEhy8NY6fkSRd6mQ_Gh9Xh0xthKUUrDdnChRkGlhLt_safu5ytJZdGu3D4tm6Bepl8a64NHldT_WbDEQ2OGK36yrnh_gVvk3N7W2LNAymfkjA_5F7vmk9c2B7EBR4OeMO3J2AvcK8LytaS9MjgEzdc0DZ5v2mBAw31O92vBKYUSejUx1Mk7lTl8x9ljxdAJ7XZGZxEeWZU9EStPMU" />
+                            <div>
+                                <p class="font-semibold text-primary-text">Mike L.</p>
+                                <p class="text-sm text-secondary-text">Yesterday · <span class="text-primary-blue">#JavaScript</span></p>
+                            </div>
+                        </div>
+                        <button class="p-1 rounded-full text-secondary-text hover:bg-gray-100 transition-colors duration-300">
+                            <span class="material-icons">more_horiz</span>
+                        </button>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-primary-text">Looking for a study partner for the 'JavaScript for Beginners'
+                            course. I'm based in GMT+1. Anyone interested in skill exchange? I can help with UI/UX
+                            design.</p>
+                        <div class="mt-3 flex flex-wrap gap-2">
+                            <span
+                                class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">#javascript</span>
+                            <span
+                                class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">#skill-exchange</span>
+                            <span
+                                class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">#studygroup</span>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex items-center space-x-4 text-secondary-text post-interaction">
+                        <button class="flex items-center space-x-1 hover:text-red-500 transition-colors duration-300">
+                            <i class="material-icons text-base">favorite_border</i>
+                            <span>8</span>
+                        </button>
+                        <button class="flex items-center space-x-1 hover:text-primary-blue transition-colors duration-300">
+                            <i class="material-icons text-base">comment</i>
+                            <span>5</span>
+                        </button>
+                        <button class="flex items-center space-x-1 hover:text-green-500 transition-colors duration-300">
+                            <i class="material-icons text-base">share</i>
+                            <span>Share</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Sidebar -->
+            <aside class="lg:col-span-1 space-y-6">
+                <!-- Suggestions -->
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-bold text-lg text-primary-text flex items-center">
+                            <span class="material-icons mr-2 text-primary-blue">group</span>
+                            Suggestions
+                        </h3>
+                        <button class="p-1 rounded-full text-gray-400 hover:bg-gray-100 transition-colors duration-300">
+                            <i class="material-icons">arrow_forward_ios</i>
+                        </button>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between suggestion-card p-2 rounded-lg hover:bg-blue-50 transition-colors duration-300">
+                            <div class="flex items-center space-x-3">
+                                <img alt="User avatar" class="h-10 w-10 rounded-full object-cover border-2 border-white shadow-sm"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoRyezMYRYma2n0EKmaosl31GpkL0Z8QUBtbqU8nwLyBzSUbKh4tGoztVrKB3KiRHOQPEbgpkqjzU4kY7iWlUj0IKT6BbAqHWAeboY6ImmQYtmpzLhI3oVsGkcgDEhgUBZ6MNrVTF_q8jWfozJ6CfJt123kLhS1i-OSdLi83RB4sPZKq_Dcl2JrGowj1uhOMpMxgD0Nf5aUGuSTU7xcN1Lfde0iKd0LSFqhXm8rawhMnyW3_O4DmY8AAOb1YxPY1dHECX8M7yBAv8G" />
+                                <div>
+                                    <p class="font-semibold text-sm text-primary-text">Jane Doe</p>
+                                    <p class="text-xs text-secondary-text">12 mutual interests</p>
+                                </div>
+                            </div>
+                            <button
+                                class="text-primary-blue font-semibold text-sm py-1 px-3 rounded-full border-2 border-primary hover:bg-light-blue transition-colors duration-300">Follow</button>
+                        </div>
+                        <div class="flex items-center justify-between suggestion-card p-2 rounded-lg hover:bg-blue-50 transition-colors duration-300">
+                            <div class="flex items-center space-x-3">
+                                <img alt="User avatar" class="h-10 w-10 rounded-full object-cover border-2 border-white shadow-sm"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-ipiMiknoawdsC2-EvQu_PjVTBkQPjNA-W4cwCiemkMTl_wx5R5ZfVp_iZ9l6hgw5gxmP9yN8TzR-5sBDwQc4VSNINXEP9Z6ZAp5zQJAPDk5IhOR5W-6alvNoNilG9L7KDstoXm21CywsWBmWkR-uAEJWFuXEWd0JvdVW2nymR4hBaiVNVmOgjZLFmQ0VHdlj7SkXaTdMejxCY6Xpsh1d9oRLcb3XMg8NnZdvU3qkDxxp9ZWm0sHERRAE3CKa8fRnxZMiKKBpk_ZO" />
+                                <div>
+                                    <p class="font-semibold text-sm text-primary-text">John Smith</p>
+                                    <p class="text-xs text-secondary-text">8 mutual interests</p>
+                                </div>
+                            </div>
+                            <button
+                                class="text-primary-blue font-semibold text-sm py-1 px-3 rounded-full border-2 border-primary hover:bg-light-blue transition-colors duration-300">Follow</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Trends -->
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <h3 class="font-bold text-lg mb-4 text-primary-text flex items-center">
+                        <span class="material-icons mr-2 text-primary-blue">trending_up</span>
+                        Trending Topics
+                    </h3>
+                    <ul class="space-y-3">
+                        <li class="text-primary-text font-medium hover:text-primary-blue cursor-pointer transition-colors duration-300 flex items-center justify-between p-2 rounded-lg hover:bg-blue-50">
+                            <span>#WebDev</span>
+                            <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">245 posts</span>
+                        </li>
+                        <li class="text-primary-text font-medium hover:text-primary-blue cursor-pointer transition-colors duration-300 flex items-center justify-between p-2 rounded-lg hover:bg-blue-50">
+                            <span>#Python</span>
+                            <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">189 posts</span>
+                        </li>
+                        <li class="text-primary-text font-medium hover:text-primary-blue cursor-pointer transition-colors duration-300 flex items-center justify-between p-2 rounded-lg hover:bg-blue-50">
+                            <span>#MachineLearning</span>
+                            <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">156 posts</span>
+                        </li>
+                        <li class="text-primary-text font-medium hover:text-primary-blue cursor-pointer transition-colors duration-300 flex items-center justify-between p-2 rounded-lg hover:bg-blue-50">
+                            <span>#JavaScript</span>
+                            <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">132 posts</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Who to Follow -->
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <h3 class="font-bold text-lg mb-4 text-primary-text flex items-center">
+                        <span class="material-icons mr-2 text-primary-blue">diversity_3</span>
+                        Learning Communities
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-2 rounded-lg hover:bg-blue-50 transition-colors duration-300">
+                            <div class="flex items-center space-x-3">
+                                <img alt="CodeAcademy" class="h-10 w-10 rounded-full object-cover border-2 border-white shadow-sm"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOYiU2oMUWT4Q2Xl0RdgSGfSEknnKnrkg3zkXgOR3bbF9dlV5P5d-hOrivuE_dhmVg8hMBZpA-SOeiZ5_N27SngDhPm1Hj6SOj5H0cNAM9NMdeiucW-_-Gqr6COdyyKQ5caOMW-jCCUhBdWw8nQl4cj1oQDR2rNEZ0bbieX5rgL10vs1tci8OTd3O0vG63rzryU_uJtrKnBm5jGC6Dq28cBbIBVjJBofdNMj5kuzaf2UgkCw42n-g8dioUSGG3TQQWFEAxKSdrpred" />
+                                <div>
+                                    <p class="font-semibold text-sm text-primary-text">CodeAcademy</p>
+                                    <p class="text-xs text-secondary-text">125k members</p>
+                                </div>
+                            </div>
+                            <button
+                                class="bg-primary text-white-custom font-bold py-1 px-4 rounded-full text-sm hover:bg-secondary transition-colors duration-300">Join</button>
+                        </div>
+                        <div class="flex items-center justify-between p-2 rounded-lg hover:bg-blue-50 transition-colors duration-300">
+                            <div class="flex items-center space-x-3">
+                                <img alt="freeCodeCamp" class="h-10 w-10 rounded-full object-cover border-2 border-white shadow-sm"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxCmlp1TyD3aA-wlTm48n2LJGBxrILFXRmWyS6apPjK8mrdJyOxPCTL-PO3PD-17Dk3A4jxQ86GzlLSiDw8y8x1dY9z_CaPd42K4DlMUsFvlxD-UVga2j4BR33yoA75vkYK0RrQ-1iVFgmkvJpLmBrv6-oqJyuV5wtCf83yDK_etzYOFymS8VGhVeCygqFVGpoRIlUw3XbgMCpZHmuE6635Yb3PD5lT8ufrIRG6qZL2vCxMR_GHmWyUCRcwICjXFD9NQiRkIJZbPX8" />
+                                <div>
+                                    <p class="font-semibold text-sm text-primary-text">freeCodeCamp</p>
+                                    <p class="text-xs text-secondary-text">98k members</p>
+                                </div>
+                            </div>
+                            <button
+                                class="bg-primary text-white-custom font-bold py-1 px-4 rounded-full text-sm hover:bg-secondary transition-colors duration-300">Join</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Footer -->
+                <footer class="text-xs text-secondary-text space-y-2 pt-4">
+                    <div class="flex flex-wrap gap-3">
+                        <a class="hover:text-primary-text transition-colors duration-300" href="#">About</a>
+                        <a class="hover:text-primary-text transition-colors duration-300" href="#">Help Center</a>
+                        <a class="hover:text-primary-text transition-colors duration-300" href="#">Terms of Service</a>
+                        <a class="hover:text-primary-text transition-colors duration-300" href="#">Privacy Policy</a>
+                        <a class="hover:text-primary-text transition-colors duration-300" href="#">Cookie Policy</a>
+                        <a class="hover:text-primary-text transition-colors duration-300" href="#">Accessibility</a>
+                    </div>
+                    <div>
+                        <p>© 2025 SkillSangam</p>
+                    </div>
+                </footer>
+            </aside>
+        </main>
+    </div>
+
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = themeToggle.querySelector('span');
+        
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            
+            if (document.body.classList.contains('dark-mode')) {
+                themeIcon.textContent = 'sunny';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIcon.textContent = 'dark_mode';
+                localStorage.setItem('theme', 'light');
+            }
+        });
+        
+        // Check for saved theme preference
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            themeIcon.textContent = 'sunny';
+        }
+        
+        // Add subtle animations to elements when they come into view
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Observe elements for animation
+        document.querySelectorAll('.profile-card, .suggestion-card').forEach(el => {
+            el.style.opacity = 0;
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+
+</html>
