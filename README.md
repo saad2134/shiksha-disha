@@ -2,8 +2,8 @@
 
 ### 🎯 Problem Statement
 
-- **Problem Statement ID:** SIH25140  
-- **Title:** Student Innovation: Swadeshi for Atma nirbhar Bharat - Smart Education  
+- **Problem Statement ID:** SIH25199  
+- **Title:** AI-Powered Personalized Learning Path Generator 
 - **Theme:** Smart Education  
 - **Category:** Software
 
@@ -11,7 +11,7 @@
 
 ## 💡 Proposed Solution
 
-<h3 align="center">Skill Sangam – AI-Powered Peer-2-Peer Learning</h3>
+<h3 align="center">ShikshaDisha – AI-Powered Peer-2-Peer Learning</h3>
 
 > <p align="center">🚨 <strong>"An AI-powered peer-to-peer learning economy that verifies, incentivizes, and gamifies skill exchange, aligned with India’s skill development mission."</strong></p>
 
