@@ -37,7 +37,7 @@
 
 ### 🛠️ Tech Stack
 
-- **Frontend:** React Native, Flutter (Mobile-first approach)
+- **Frontend:** React, Next.js, Typescript, TailwindCSS, shadcn/ui
 - **Backend:** Node.js/Python with AI microservices
 - **Database:** MongoDB/PostgreSQL
 - **AI/ML:** TensorFlow, PyTorch for predictive analytics
@@ -108,14 +108,29 @@
 
 
 ## 🚀 Getting Started
-* Soon. 
+1. Clone & Download the Repo
+
+2. Install NodeJS on your system.
+
+3. Open the project in your preferred IDE.
+
+4. Run in Terminal to Install all dependancies:
+   ```bash
+   npm i
+   ```
+
+4. Get all api keys in env.template as set them in your env:
+
+5. Run in Terminal to Start Development Server:
+   ```bash
+   npm run dev
+   ```
 
 ## 📁 Project Architecture
 * Soon.
 
 ## 📱 Screenshots
-* Soon.
-
+<table> <tr> <td><strong>Landing Page</strong><br><br> <img width="1920" height="1031" alt="image" src="https://github.com/user-attachments/assets/0c859575-1ad2-4d52-964f-4c4da41104f3" /> </td> </tr> </table>
 
 
 
@@ -169,12 +184,13 @@
 
 ## ✨ Icon
 
-- Soon.
+<img style="width:500px;" alt="ShikshaDishaFavicon" src="https://github.com/user-attachments/assets/0d6be6ca-2e51-46e9-bf24-a3bfcfdd1242" />
 
 
 ## 🔰 Banner
 
-- Soon.
+<img width="1280" height="640" alt="New Project" src="https://github.com/user-attachments/assets/89519619-ffed-4fe1-b6e2-6fda5730f3d3" />
+
 
 ## 📄 License
 
@@ -196,5 +212,6 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ## 🏷 Tags  
 
-`#WebApp` `#SocialNetwork` `#PeerToPeer` `#Gamification` `#Certification` `#HybridModel` `#SmartEducation` `#SkillShare` `#SkillsAssessment` `#DigitalLearning` `#GamifiedLearning` `#TokenEconomy` `#AIMatching` `#SmartIndiaHackathon` `#StudentInnovation` `#PeerToPeerLearning` `#SkillExchange` `#SIH2025` `#SmartIndiaHackathon2025` `#SIH25140` `#SkillSangam`
+`#WebApp` `#SmartEducation` `#AIinEducation` `#PersonalizedLearning` `#SkillPathways` `#CareerGuidance` `#NSQFIntegration` `#VocationalEducation` `#AIPathGenerator` `#DigitalLearning` `#AdaptiveLearning` `#GamifiedLearning` `#TokenEconomy` `#AIMatching` `#SkillNavigator` `#FutureSkills` `#EdTechIndia` `#SkillForecasting` `#CareerIntelligence` `#MultilingualAI` `#SkillSangam` `#SIH2025` `#SmartIndiaHackathon2025` `#SIH25199`
+
 
