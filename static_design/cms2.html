@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Coming Soon | SkillSangam</title>
+  <meta name="description" content="We're building something awesome. Coming soon." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0f1724; /* deep navy */
+      --card:#0b1220;
+      --accent:#7c5cff;
+      --muted:#9aa4b2;
+      --glass: rgba(255,255,255,0.04);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(124,92,255,0.10), transparent),
+                  radial-gradient(900px 400px at 90% 90%, rgba(0,206,201,0.04), transparent),
+                  var(--bg);
+      color:#e6eef8;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:48px 20px;
+    }
+    .wrap{
+      width:100%;
+      max-width:980px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:16px;
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+      padding:36px;
+      display:grid;
+      grid-template-columns: 1fr 380px;
+      gap:28px;
+      align-items:center;
+      backdrop-filter: blur(6px) saturate(1.05);
+    }
+    @media (max-width:880px){
+      .wrap{grid-template-columns:1fr; padding:28px}
+    }
+
+    .left h1{
+      margin:0 0 10px 0;
+      font-size:34px;
+      letter-spacing:-0.02em;
+    }
+    .left p.lead{
+      margin:0 0 18px 0;
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.5;
+    }
+
+    .stats{
+      display:flex;gap:12px;margin-top:14px;flex-wrap:wrap
+    }
+    .pill{
+      background:var(--glass);
+      padding:10px 12px;border-radius:10px;font-size:13px;color:var(--muted);
+      display:inline-flex;gap:8px;align-items:center
+    }
+
+    .countdown{
+      display:flex;gap:12px;margin-top:22px;
+    }
+    .countdown .seg{
+      background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.08));
+      padding:14px 18px;border-radius:10px;text-align:center;min-width:76px
+    }
+    .seg .num{font-size:20px;font-weight:700}
+    .seg .lbl{font-size:11px;color:var(--muted);margin-top:6px}
+
+    .right{
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+      border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:14px
+    }
+    .subscribe label{font-size:13px;color:var(--muted);display:block;margin-bottom:6px}
+    .row{display:flex;gap:10px}
+    .input{
+      flex:1;padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);
+      background:transparent;color:inherit;font-size:14px;outline:none
+    }
+    .btn{
+      padding:12px 14px;border-radius:10px;border:0;background:linear-gradient(90deg,var(--accent),#50e3c2);color:#071127;font-weight:700;cursor:pointer
+    }
+    .btn:active{transform:translateY(1px)}
+
+    .socials{display:flex;gap:10px;margin-top:6px}
+    .soc{width:40px;height:40px;border-radius:8px;background:var(--glass);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--muted);text-decoration:none}
+
+    footer{margin-top:18px;color:var(--muted);font-size:13px}
+
+    /* subtle animated rocket */
+    .art{display:flex;align-items:center;justify-content:center;height:100%}
+    .rocket{width:100%;max-width:360px}
+
+    /* small helper */
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  </style>
+</head>
+<body>
+  <main class="wrap" role="main" aria-labelledby="main-heading">
+    <section class="left">
+      <h1 id="main-heading">Working Pages — Coming Soon 🚀</h1>
+      <p class="lead">We're putting together a set of working pages and features to help you ship faster. While we polish the experience, drop your email and we'll let you know when the pages go live — plus early access to templates and docs.</p>
+
+      <div class="stats" aria-hidden>
+        <div class="pill">⏱️ Built-in templates</div>
+        <div class="pill">🧩 Reusable components</div>
+        <div class="pill">⚡ Fast setup</div>
+      </div>
+
+      <div class="countdown" aria-live="polite">
+        <div class="seg" aria-label="days">
+          <div class="num" id="days">--</div>
+          <div class="lbl">Days</div>
+        </div>
+        <div class="seg" aria-label="hours">
+          <div class="num" id="hours">--</div>
+          <div class="lbl">Hours</div>
+        </div>
+        <div class="seg" aria-label="minutes">
+          <div class="num" id="minutes">--</div>
+          <div class="lbl">Minutes</div>
+        </div>
+        <div class="seg" aria-label="seconds">
+          <div class="num" id="seconds">--</div>
+          <div class="lbl">Seconds</div>
+        </div>
+      </div>
+
+      <footer>
+        <div>Need access for a demo or collaboration? <strong>Reply to this page</strong> with your email and we'll reach out.</div>
+      </footer>
+    </section>
+
+    <aside class="right" aria-label="Join list and artwork">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="flex:1">
+          <strong style="font-size:15px">Get early access</strong>
+          <div style="font-size:13px;color:var(--muted);margin-top:6px">Subscribe and we'll send a launch email + free starter templates.</div>
+        </div>
+        <div style="font-size:12px;color:var(--muted)">v1.0</div>
+      </div>
+
+      <form id="subscribe" class="subscribe" onsubmit="return false;" aria-label="Subscribe form">
+        <label for="email">Email address</label>
+        <div class="row">
+          <input id="email" class="input" type="email" placeholder="you@domain.com" required aria-required="true">
+          <button id="submitBtn" class="btn">Notify me</button>
+        </div>
+        <div id="msg" style="font-size:13px;color:var(--muted);margin-top:8px"></div>
+      </form>
+
+      <div style="margin-top:6px;font-size:13px;color:var(--muted)">Follow progress</div>
+      <div class="socials" role="navigation" aria-label="social links">
+        <a class="soc" href="#" title="Twitter (placeholder)" aria-label="Twitter">T</a>
+        <a class="soc" href="#" title="LinkedIn (placeholder)" aria-label="LinkedIn">in</a>
+        <a class="soc" href="#" title="GitHub (placeholder)" aria-label="GitHub">GH</a>
+      </div>
+
+      <div class="art" aria-hidden>
+        <svg class="rocket" viewBox="0 0 600 400" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+          <defs>
+            <linearGradient id="g1" x1="0" x2="1">
+              <stop offset="0" stop-color="#7c5cff" stop-opacity="1"/>
+              <stop offset="1" stop-color="#50e3c2" stop-opacity="1"/>
+            </linearGradient>
+          </defs>
+          <rect rx="18" width="600" height="400" fill="url(#g1)" opacity="0.06"></rect>
+          <g transform="translate(110,20)">
+            <g id="ship" transform="translate(60,40)">
+              <ellipse cx="140" cy="270" rx="60" ry="18" fill="rgba(0,0,0,0.25)" />
+              <path d="M140 20 C120 20, 80 70, 70 130 C60 190, 120 230, 140 230 C160 230, 220 190, 210 130 C200 70, 180 20, 160 20 Z" fill="#fff" opacity="0.95"/>
+              <circle cx="140" cy="110" r="28" fill="#0f1724" opacity="0.9" />
+              <circle cx="140" cy="110" r="18" fill="#7c5cff" opacity="0.95" />
+              <rect x="118" y="160" width="44" height="22" rx="6" fill="#ffd4a3" opacity="0.9" />
+              <g id="flame" transform="translate(140,240)">
+                <path d="M0 0 C-6 10, -8 24, 0 38 C8 24, 6 10, 0 0 Z" fill="#ffba7a">
+                  <animateTransform attributeName="transform" type="translate" values="0 0; 0 6; 0 0" dur="0.7s" repeatCount="indefinite"/>
+                </path>
+              </g>
+            </g>
+          </g>
+        </svg>
+      </div>
+    </aside>
+  </main>
+
+  <script>
+    // ---------- Countdown (default: 14 days from first visit or fixed date) ----------
+    (function(){
+      // You can change this to a fixed date: new Date('2025-10-15T00:00:00')
+      const saved = localStorage.getItem('wp_launch_date');
+      let launchDate;
+      if(saved){ launchDate = new Date(saved); }
+      else{
+        const d = new Date();
+        d.setDate(d.getDate() + 14); // 14 days out by default
+        d.setHours(12,0,0,0);
+        launchDate = d;
+        localStorage.setItem('wp_launch_date', launchDate.toISOString());
+      }
+
+      function update(){
+        const now = new Date();
+        const diff = Math.max(0, launchDate - now);
+        const s = Math.floor(diff/1000)%60;
+        const m = Math.floor(diff/60000)%60;
+        const h = Math.floor(diff/3600000)%24;
+        const days = Math.floor(diff/86400000);
+        document.getElementById('days').textContent = String(days).padStart(2,'0');
+        document.getElementById('hours').textContent = String(h).padStart(2,'0');
+        document.getElementById('minutes').textContent = String(m).padStart(2,'0');
+        document.getElementById('seconds').textContent = String(s).padStart(2,'0');
+      }
+      update();
+      setInterval(update,1000);
+
+      // ---------- Subscribe form (frontend only) ----------
+      const form = document.getElementById('subscribe');
+      const email = document.getElementById('email');
+      const msg = document.getElementById('msg');
+      const btn = document.getElementById('submitBtn');
+
+      function showMessage(text, success){
+        msg.textContent = text;
+        msg.style.color = success ? '#baf7d3' : 'var(--muted)';
+      }
+
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        const val = email.value.trim();
+        if(!val || !/.+@.+\..+/.test(val)){
+          showMessage('Please enter a valid email address.', false);
+          return;
+        }
+        // store locally and simulate success — replace with API call if you have one
+        const list = JSON.parse(localStorage.getItem('wp_emails')||'[]');
+        if(list.includes(val)){
+          showMessage('You are already signed up — thanks!', true);
+          return;
+        }
+        list.push(val);
+        localStorage.setItem('wp_emails', JSON.stringify(list));
+        showMessage('Thanks! You are on the list — we\'ll email you when we launch.', true);
+        btn.textContent = 'Saved';
+        setTimeout(()=>{ btn.textContent = 'Notify me'; },2500);
+        email.value = '';
+      });
+
+      // small enhancement: press Enter on input triggers submit
+      email.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ form.dispatchEvent(new Event('submit')); } });
+
+    })();
+  </script>
+</body>
+</html>
