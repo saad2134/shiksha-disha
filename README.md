@@ -15,6 +15,13 @@
 
 > <p align="center">🚨 <strong>"Design and development of an AI-powered learning path generator, Vocational Pathway Navigator with Dynamic Career Intelligence and NSQF-Integrated Learning Ecosystem"</strong></p>
 
+<p align="center">
+  <a href="https://shiksha-disha.vercel.app/" target="_blank">
+    <img  style="width:350px;" src="https://img.shields.io/badge/🚀_Access_the_Prototype_Here-Live-brightgreen?style=for-the-badge&labelColor=8000FF" alt="Access the Prototype Here"  />
+  </a>
+</p>
+
+
 ### ✨ Key Features
 
 - **Smart Pathway Engine** – AI analyzes learner profiles to generate personalized NSQF-aligned career routes
@@ -104,6 +111,27 @@
 - **Government Schemes:** Enhanced effectiveness of Skill India missions through AI optimization
 
 
+
+## ⚙️ Platforms
+
+<table border="1" cellpadding="10" cellspacing="0">
+  <thead>
+    <tr>
+      <th>Platform</th>
+      <th>Supported?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Web (any browser with JS functionality) + Fully Responsive</td>
+      <td>✅</td>
+    </tr>
+    <tr>
+      <td>Android (non-natively through WebView)</td>
+      <td>✅</td>
+    </tr>
+  </tbody>
+</table>
 
 
 
