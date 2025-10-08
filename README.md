@@ -1,17 +1,4 @@
-<h1 align="center">🏆 Prototype for Smart India Hackathon 2025</h1>
-
-### 🎯 Problem Statement
-
-- **Problem Statement ID:** SIH25199  
-- **Title:** AI-Powered Personalized Learning Path Generator 
-- **Theme:** Smart Education  
-- **Category:** Software
-
-
-
-## 💡 Proposed Solution
-
-<h3 align="center">ShikshaDisha – AI-Powered NSQF-Integrated Learning Ecosystem</h3>
+<h1 align="center">ShikshaDisha – AI-Powered NSQF-Integrated Learning Ecosystem</h1>
 
 > <p align="center">🚨 <strong>"Design and development of an AI-powered learning path generator, Vocational Pathway Navigator with Dynamic Career Intelligence and NSQF-Integrated Learning Ecosystem"</strong></p>
 
@@ -21,6 +8,15 @@
   </a>
 </p>
 
+## 🎯 Context: Prototype for Smart India Hackathon 2025
+
+- **Problem Statement ID:** SIH25199  
+- **Problem Statement Title:** AI-Powered Personalized Learning Path Generator 
+- **Theme:** Smart Education  
+- **Category:** Software
+
+
+## 💡 Proposed Solution
 
 ### ✨ Key Features
 
@@ -110,7 +106,7 @@
 | Platform                                                       | Supported? |
 | --------------------------------------------------------------- | ----------- |
 | Web (any browser with JS functionality) + Fully Responsive       | ✅          |
-| [Android](native/) (non-natively through WebView)                | ✅          |
+| [Android](frontend-android/) (non-natively through WebView)                | ✅          |
 
 ## 🛠️ Tech Stack
 
@@ -123,6 +119,9 @@
 
 
 ## 🚀 Getting Started
+
+### Web Frontend
+
 1. Clone & Download the Repo
 
 2. Install NodeJS on your system.
