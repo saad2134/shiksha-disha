@@ -1,0 +1,8 @@
+course_id,title,description,nsqf_level,skills,keywords,duration_months,language,region
+C001,Electrician Basics,"Hands-on electrical installation and safety",5,"wiring;tools;safety","electrician,wiring",12,en,Delhi
+C002,Plumbing Essentials,"Learn plumbing techniques for homes and buildings",4,"pipes;tools;installation","plumbing,pipes",8,en,Mumbai
+C003,Digital Marketing 101,"Basics of online marketing, SEO and social media",6,"SEO;content;analytics","digital,marketing",6,en,Bangalore
+C004,Culinary Arts Beginner,"Introduction to cooking, hygiene and recipe prep",4,"cooking;hygiene;recipes","culinary,cooking",6,en,Kolkata
+C005,Software Testing,"Manual and automated software testing fundamentals",6,"testing;QA;automation","software,testing",6,en,Hyderabad
+C006,Welding Techniques,"Arc welding, MIG and TIG processes",5,"welding;metalwork;safety","welding,metal",12,en,Chennai
+C007,Graphic Design Basics,"Intro to Photoshop, Illustrator, and design principles",5,"photoshop;illustrator;creativity","design,graphics",6,en,Pune

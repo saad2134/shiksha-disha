@@ -8,7 +8,7 @@
   </a>
 </p>
 
-## 🎯 Context: Prototype for Smart India Hackathon 2025
+## 🍊 Context: Prototype for Smart India Hackathon 2025
 
 - **Problem Statement ID:** SIH25199  
 - **Problem Statement Title:** AI-Powered Personalized Learning Path Generator 
