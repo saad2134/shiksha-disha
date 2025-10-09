@@ -19,7 +19,7 @@ export default async function CookiePolicy() {
 
           <div className="prose prose-neutral dark:prose-invert max-w-none space-y-6">
             <p>
-              This Cookie Policy explains how <strong>ShikshaDiksha</strong> uses cookies and similar
+              This Cookie Policy explains how <strong>ShikshaDisha</strong> uses cookies and similar
               technologies when you visit our website or use our services.
             </p>
 

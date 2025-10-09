@@ -20,7 +20,7 @@ export default async function Terms() {
 
           <div className="prose prose-neutral dark:prose-invert max-w-none space-y-6">
             <p>
-              Welcome to <strong>ShikshaDiksha</strong> (“the Service”).
+              Welcome to <strong>ShikshaDisha</strong> (“the Service”).
               By accessing or using our web application, you agree to the following Terms of Service.
               Please read them carefully.
             </p>

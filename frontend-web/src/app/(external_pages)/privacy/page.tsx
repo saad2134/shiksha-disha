@@ -20,7 +20,7 @@ export default async function Privacy() {
 
           <div className="prose prose-neutral dark:prose-invert max-w-none space-y-6">
             <p>
-              At <strong>ShikshaDiksha</strong>, we respect your privacy and are committed to protecting your
+              At <strong>ShikshaDisha</strong>, we respect your privacy and are committed to protecting your
               personal information. This Privacy Policy explains how we collect, use, and safeguard your data
               when you use our Service.
             </p>
