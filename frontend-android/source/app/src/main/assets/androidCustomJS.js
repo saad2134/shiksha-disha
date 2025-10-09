@@ -1,1 +1,0 @@
-/* Android specific custom JavaScript for the application */

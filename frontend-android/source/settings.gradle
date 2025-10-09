@@ -1,7 +1,0 @@
-rootProject.name = 'GoNative'
-System.setProperty("user.dir", rootProject.projectDir.toString())
-
-// Apply plugin discovery for local plugins
-apply from: file("./plugins.gradle"); applyModulesSettingsGradle(settings)
-
-include ':app'
