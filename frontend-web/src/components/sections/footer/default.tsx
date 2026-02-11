@@ -73,7 +73,7 @@ export default function FooterSection({
       
     },
   ],
-  copyright = `© ${Number.isFinite(new Date().getFullYear()) ? new Date().getFullYear() : 2025} ${siteConfig.name} ${siteConfig.name}. All rights reserved.`,
+  copyright = `© ${Number.isFinite(new Date().getFullYear()) ? new Date().getFullYear() : 2025} ${siteConfig.name} ${siteConfig.version}. All rights reserved.`,
   policies = [
     { text: "Privacy Policy", href: siteConfig.url },
     { text: "Terms of Service", href: siteConfig.url },

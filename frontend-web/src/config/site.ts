@@ -1,5 +1,6 @@
 export const siteConfig = {
   name: "ShikshaDisha",
+  version: "v0.1.0",
   url: "",
   getStartedUrl:
     "/student/onboarding",
@@ -11,6 +12,17 @@ export const siteConfig = {
     github: "https://github.com/saad2134/shiksha-disha",
     email: "mailto:reach.saad@outlook.com",
   },
+
+
+
+
+
+
+
+
+
+
+
   pricing: {
     pro: "",
     team: "",
