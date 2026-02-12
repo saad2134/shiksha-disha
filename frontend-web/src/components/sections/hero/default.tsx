@@ -30,7 +30,7 @@ interface HeroProps {
 }
 
 export default function Hero({
-  title = "Your personalized roadmap to future-ready skills.",
+  title = "Your personalized roadmap to future-ready skills!",
   description = "Discover your future-ready career journey with personalized training recommendations.",
   mockup = (
     <Screenshot
