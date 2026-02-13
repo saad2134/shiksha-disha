@@ -110,7 +110,7 @@ function DemoSidebar({ children }: { children: React.ReactNode }) {
             <AppUI className="w-10 h-10 select-none" draggable={false} />
             <div className="flex flex-col">
               <span className="font-semibold text-sm">ShikshaDisha</span>
-              <span className="text-xs text-muted-foreground">{siteConfig.version} ✦ Demo Mode</span>
+              <span className="text-xs text-muted-foreground">{siteConfig.version} ✦ <span className="text-red-500 font-bold">Demo Mode</span></span>
             </div>
           </div>
         </SidebarHeader>
