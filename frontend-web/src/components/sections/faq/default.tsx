@@ -24,7 +24,6 @@ interface FAQProps {
 
 export default function FAQ({
   title = "Questions and Answers",
-<<<<<<< HEAD
   items = faqConfig.map((item) => ({
     ...item,
     answer: (
