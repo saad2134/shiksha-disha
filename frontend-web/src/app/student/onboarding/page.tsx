@@ -42,6 +42,9 @@ export default function OnboardingForm() {
         learningTypes: [],
         motivations: [],
         familiarWith: [],
+        neurodivergentConditions: [],
+        learningEnvironment: [],
+        internetSituation: [],
     });
     const router = useRouter();
 
@@ -70,15 +73,15 @@ export default function OnboardingForm() {
             if (!formData.targetRoles?.trim()) newErrors.targetRoles = "Please specify target industries or roles";
         } else if (s === 3) {
             if (!formData.learningTypes?.length) newErrors.learningTypes = "Select at least one learning type";
+            if (!formData.videoFormat) newErrors.videoFormat = "Please select your preferred video format";
+            if (!formData.instructorStyle) newErrors.instructorStyle = "Please select instructor style preference";
+            if (!formData.courseStructure) newErrors.courseStructure = "Please select course structure preference";
+            if (!formData.theoryPracticeRatio) newErrors.theoryPracticeRatio = "Please select theory vs practice ratio";
+            if (!formData.mathIntensity) newErrors.mathIntensity = "Please select math intensity preference";
+            if (!formData.learningEnvironment?.length) newErrors.learningEnvironment = "Please select at least one learning environment";
+            if (!formData.internetSituation?.length) newErrors.internetSituation = "Please select your internet situation";
             if (!formData.learningStyle) newErrors.learningStyle = "Please select your learning preference";
             if (!formData.collaborativeLearning) newErrors.collaborativeLearning = "Please select collaborative learning preference";
-        } else if (s === 4) {
-            if (!formData.timeCommitment) newErrors.timeCommitment = "Please select time commitment";
-            if (!formData.timeline) newErrors.timeline = "Please select target timeline";
-            if (!formData.motivations?.length) newErrors.motivations = "Select at least one motivation";
-            if (!formData.hasResources) newErrors.hasResources = "Please select resource availability";
-            if (!formData.reminders) newErrors.reminders = "Please select reminder preference";
-            if (!formData.gamification) newErrors.gamification = "Please select gamification preference";
         }
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -525,6 +528,31 @@ export default function OnboardingForm() {
                                     </div>
 
                                     <div className="space-y-4">
+                                        <Label>What video format would you prefer? <span className="text-destructive">*</span></Label>
+                                        {errors.videoFormat && <p className="text-sm text-destructive">{errors.videoFormat}</p>}
+                                        <RadioGroup
+                                            value={formData.videoFormat || ""}
+                                            onValueChange={(value) => handleChange("videoFormat", value)}
+                                            className="flex flex-col gap-4"
+                                        >
+                                            <div className="flex items-center gap-3 p-3 border rounded-lg hover:bg-muted/50 transition-colors">
+                                                <RadioGroupItem value="single" id="single" />
+                                                <Label htmlFor="single" className="cursor-pointer">
+                                                    <span className="font-medium">20 min long video</span>
+                                                    <p className="text-sm text-muted-foreground">Complete lesson in one sitting</p>
+                                                </Label>
+                                            </div>
+                                            <div className="flex items-center gap-3 p-3 border rounded-lg hover:bg-muted/50 transition-colors">
+                                                <RadioGroupItem value="chunks" id="chunks" />
+                                                <Label htmlFor="chunks" className="cursor-pointer">
+                                                    <span className="font-medium">4 chunks of 5min each with kinesthetics</span>
+                                                    <p className="text-sm text-muted-foreground">Bite-sized lessons with hands-on activities</p>
+                                                </Label>
+                                            </div>
+                                        </RadioGroup>
+                                    </div>
+
+                                    <div className="space-y-4">
                                         <Label>Do you prefer guided paths or self-paced learning? <span className="text-destructive">*</span></Label>
                                         {errors.learningStyle && <p className="text-sm text-destructive">{errors.learningStyle}</p>}
                                         <RadioGroup
@@ -554,6 +582,153 @@ export default function OnboardingForm() {
                                                 </Label>
                                             </div>
                                         </RadioGroup>
+                                    </div>
+
+                                    <div className="space-y-4">
+                                        <Label>Instructor style preference: <span className="text-destructive">*</span></Label>
+                                        {errors.instructorStyle && <p className="text-sm text-destructive">{errors.instructorStyle}</p>}
+                                        <RadioGroup
+                                            value={formData.instructorStyle || ""}
+                                            onValueChange={(value) => handleChange("instructorStyle", value)}
+                                            className="grid grid-cols-1 md:grid-cols-2 gap-4"
+                                        >
+                                            {[
+                                                { id: "energetic", label: "Energetic and fast-paced" },
+                                                { id: "calm", label: "Calm and methodical" },
+                                                { id: "humorous", label: "Humorous and entertaining" },
+                                                { id: "strict", label: "Strict and formal" },
+                                                { id: "noPref", label: "No preference" },
+                                            ].map((option) => (
+                                                <div key={option.id} className="flex items-center gap-2">
+                                                    <RadioGroupItem value={option.id} id={option.id} />
+                                                    <Label htmlFor={option.id} className="cursor-pointer">{option.label}</Label>
+                                                </div>
+                                            ))}
+                                        </RadioGroup>
+                                    </div>
+
+                                    <div className="space-y-4">
+                                        <Label>Course structure preference: <span className="text-destructive">*</span></Label>
+                                        {errors.courseStructure && <p className="text-sm text-destructive">{errors.courseStructure}</p>}
+                                        <RadioGroup
+                                            value={formData.courseStructure || ""}
+                                            onValueChange={(value) => handleChange("courseStructure", value)}
+                                            className="flex flex-col gap-4"
+                                        >
+                                            {[
+                                                { id: "structured", label: "Highly structured", desc: "Week-by-week modules" },
+                                                { id: "flexible", label: "Flexible", desc: "Self-paced, no deadlines" },
+                                                { id: "projectBased", label: "Project-based", desc: "Build as you learn" },
+                                                { id: "challengeBased", label: "Challenge-based", desc: "Solve problems" },
+                                            ].map((option) => (
+                                                <div key={option.id} className="flex items-start gap-3 p-3 border rounded-lg hover:bg-muted/50 transition-colors">
+                                                    <RadioGroupItem value={option.id} id={option.id} />
+                                                    <div>
+                                                        <Label htmlFor={option.id} className="font-medium cursor-pointer">{option.label}</Label>
+                                                        <p className="text-sm text-muted-foreground">{option.desc}</p>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </RadioGroup>
+                                    </div>
+
+                                    <div className="space-y-4">
+                                        <Label>How much theory vs practice do you want? <span className="text-destructive">*</span></Label>
+                                        {errors.theoryPracticeRatio && <p className="text-sm text-destructive">{errors.theoryPracticeRatio}</p>}
+                                        <RadioGroup
+                                            value={formData.theoryPracticeRatio || ""}
+                                            onValueChange={(value) => handleChange("theoryPracticeRatio", value)}
+                                            className="flex flex-col gap-4"
+                                        >
+                                            {[
+                                                { id: "80practice", label: "80% practice, 20% theory", desc: "Learn by doing" },
+                                                { id: "60practice", label: "60% practice, 40% theory", desc: "Balanced approach" },
+                                                { id: "40practice", label: "40% practice, 60% theory", desc: "Understand deeply" },
+                                                { id: "20practice", label: "20% practice, 80% theory", desc: "Academic focus" },
+                                            ].map((option) => (
+                                                <div key={option.id} className="flex items-start gap-3 p-3 border rounded-lg hover:bg-muted/50 transition-colors">
+                                                    <RadioGroupItem value={option.id} id={option.id} />
+                                                    <div>
+                                                        <Label htmlFor={option.id} className="font-medium cursor-pointer">{option.label}</Label>
+                                                        <p className="text-sm text-muted-foreground">{option.desc}</p>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </RadioGroup>
+                                    </div>
+
+                                    <div className="space-y-4">
+                                        <Label>For technical courses, math intensity preference: <span className="text-destructive">*</span></Label>
+                                        {errors.mathIntensity && <p className="text-sm text-destructive">{errors.mathIntensity}</p>}
+                                        <RadioGroup
+                                            value={formData.mathIntensity || ""}
+                                            onValueChange={(value) => handleChange("mathIntensity", value)}
+                                            className="flex flex-col gap-4"
+                                        >
+                                            {[
+                                                { id: "minimal", label: "Minimal math", desc: "Code-focused" },
+                                                { id: "light", label: "Light math", desc: "Where necessary only" },
+                                                { id: "moderate", label: "Moderate math", desc: "Comfortable with it" },
+                                                { id: "heavy", label: "Heavy math", desc: "Rigorous proofs and problems" },
+                                            ].map((option) => (
+                                                <div key={option.id} className="flex items-start gap-3 p-3 border rounded-lg hover:bg-muted/50 transition-colors">
+                                                    <RadioGroupItem value={option.id} id={option.id} />
+                                                    <div>
+                                                        <Label htmlFor={option.id} className="font-medium cursor-pointer">{option.label}</Label>
+                                                        <p className="text-sm text-muted-foreground">{option.desc}</p>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </RadioGroup>
+                                    </div>
+
+                                    <div className="space-y-4">
+                                        <Label>Your typical learning environment: <span className="text-destructive">*</span></Label>
+                                        {errors.learningEnvironment && <p className="text-sm text-destructive">{errors.learningEnvironment}</p>}
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                            {[
+                                                "Quiet home office/room",
+                                                "Shared space (distractions present)",
+                                                "During commute (mobile/audio only)",
+                                                "Coffee shop/public spaces",
+                                                "Workplace (lunch breaks)",
+                                            ].map((env) => (
+                                                <div key={env} className="flex items-center gap-2">
+                                                    <Checkbox
+                                                        id={`env_${env.replace(/\s+/g, '_').replace(/[()/]/g, '')}`}
+                                                        checked={formData.learningEnvironment?.includes(env) || false}
+                                                        onCheckedChange={(checked) =>
+                                                            handleArrayChange("learningEnvironment", env, checked as boolean)
+                                                        }
+                                                    />
+                                                    <Label htmlFor={`env_${env.replace(/\s+/g, '_').replace(/[()/]/g, '')}`} className="cursor-pointer">{env}</Label>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-4">
+                                        <Label>Your internet situation: <span className="text-destructive">*</span></Label>
+                                        {errors.internetSituation && <p className="text-sm text-destructive">{errors.internetSituation}</p>}
+                                        <div className="grid grid-cols-1 gap-3">
+                                            {[
+                                                "High-speed broadband (stream 1080p easily)",
+                                                "Moderate (stream 720p, occasional buffering)",
+                                                "Limited/slow (prefer downloadable content)",
+                                                "Mobile data only (need low-bandwidth options)",
+                                            ].map((internet) => (
+                                                <div key={internet} className="flex items-center gap-2">
+                                                    <Checkbox
+                                                        id={`internet_${internet.replace(/\s+/g, '_').replace(/[()/]/g, '')}`}
+                                                        checked={formData.internetSituation?.includes(internet) || false}
+                                                        onCheckedChange={(checked) =>
+                                                            handleArrayChange("internetSituation", internet, checked as boolean)
+                                                        }
+                                                    />
+                                                    <Label htmlFor={`internet_${internet.replace(/\s+/g, '_').replace(/[()/]/g, '')}`} className="cursor-pointer">{internet}</Label>
+                                                </div>
+                                            ))}
+                                        </div>
                                     </div>
 
                                     <div className="space-y-4">
@@ -707,6 +882,24 @@ export default function OnboardingForm() {
                                                 value={formData.accommodations || ""}
                                                 onChange={(e) => handleChange("accommodations", e.target.value)}
                                             />
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-4">
+                                        <Label>Do you suffer from any of these?</Label>
+                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                            {["ADHD", "Dyslexia", "Autism"].map((condition) => (
+                                                <div key={condition} className="flex items-center gap-2">
+                                                    <Checkbox
+                                                        id={`condition_${condition}`}
+                                                        checked={formData.neurodivergentConditions?.includes(condition) || false}
+                                                        onCheckedChange={(checked) =>
+                                                            handleArrayChange("neurodivergentConditions", condition, checked as boolean)
+                                                        }
+                                                    />
+                                                    <Label htmlFor={`condition_${condition}`} className="cursor-pointer">{condition}</Label>
+                                                </div>
+                                            ))}
                                         </div>
                                     </div>
 
