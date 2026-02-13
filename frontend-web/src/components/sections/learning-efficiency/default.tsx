@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { Section } from '@/components/ui/section';
 import { Search, Brain, Target, Zap, CheckCircle, Clock, TrendingUp, Sparkles, BookOpen, Award, ChevronDown } from 'lucide-react';
@@ -187,39 +188,64 @@ export default function LearningEfficiency() {
                     <p className="text-sm text-muted-foreground font-medium">{STAGE_MESSAGES[state.stage]}</p>
                     
                     {showInitialSearch && (
-                      <div className={cn(
-                        "grid grid-cols-2 gap-2 transition-all duration-500",
-                        showPersonalized ? "opacity-0 hidden" : "opacity-100"
-                      )}>
-                        {COURSE_CARDS.slice(0, showAnalysis ? 8 : 6).map((course) => (
-                          <div 
+                      <motion.div 
+                        className="grid grid-cols-2 gap-2"
+                        initial={false}
+                        animate={{ 
+                          opacity: showPersonalized ? 0 : 1,
+                          scale: showPersonalized ? 0.95 : 1
+                        }}
+                        transition={{ duration: 0.4, ease: "easeInOut" }}
+                        style={{ display: showPersonalized ? 'none' : 'grid' }}
+                      >
+                        {COURSE_CARDS.slice(0, showAnalysis ? 8 : 6).map((course, index) => (
+                          <motion.div 
                             key={course.id}
                             className={cn(
-                              "p-2 rounded-lg text-xs border transition-all duration-500",
+                              "p-2 rounded-lg text-xs border transition-colors duration-300",
                               course.relevance > 0.6 ? "bg-green-500/10 border-green-500/30" :
                               course.relevance > 0.4 ? "bg-amber-500/10 border-amber-500/30" :
                               "bg-red-500/10 border-red-500/30"
                             )}
-                            style={{
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ 
                               opacity: showAnalysis ? Math.min(1, course.relevance + 0.3) : 0.7,
+                              y: 0
+                            }}
+                            transition={{ 
+                              duration: 0.3, 
+                              delay: index * 0.05,
+                              ease: "easeOut"
                             }}
                           >
                             <span className="font-medium">{course.title}</span>
-                          </div>
+                          </motion.div>
                         ))}
-                      </div>
+                      </motion.div>
                     )}
                     
                     {showPersonalized && (
-                      <div className="space-y-2">
+                      <motion.div 
+                        className="space-y-2"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.4, ease: "easeOut" }}
+                      >
                         {PERSONALIZED_COURSES.map((course, i) => (
-                          <div 
+                          <motion.div 
                             key={course.id}
                             className={cn(
-                              "p-2.5 rounded-lg border bg-gradient-to-r transition-all duration-500",
+                              "p-2.5 rounded-lg border bg-gradient-to-r",
                               course.match > 90 ? "from-green-500/20 to-transparent border-green-500/40" :
                               "from-purple-500/20 to-transparent border-purple-500/40"
                             )}
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ 
+                              duration: 0.4, 
+                              delay: i * 0.1,
+                              ease: "easeOut"
+                            }}
                           >
                             <div className="flex items-center justify-between">
                               <div>
@@ -228,24 +254,36 @@ export default function LearningEfficiency() {
                               </div>
                               <span className="text-lg font-bold text-green-500">{course.match}%</span>
                             </div>
-                          </div>
+                          </motion.div>
                         ))}
-                      </div>
+                      </motion.div>
                     )}
                     
                     {showOptimized && (
-                      <div className="space-y-2 pt-1">
+                      <motion.div 
+                        className="space-y-2 pt-1"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.4, ease: "easeOut" }}
+                      >
                         <p className="text-sm font-medium flex items-center gap-2">
                           <BookOpen className="w-4 h-4 text-green-500" />
                           Your Learning Path
                         </p>
                         {LEARNING_PATH.map((item, i) => (
-                          <div 
+                          <motion.div 
                             key={i}
                             className={cn(
-                              "flex items-center gap-2 p-2 rounded-lg transition-all duration-500",
+                              "flex items-center gap-2 p-2 rounded-lg",
                               item.locked ? "opacity-40" : "opacity-100"
                             )}
+                            initial={{ opacity: 0, x: -15 }}
+                            animate={{ opacity: item.locked ? 0.4 : 1, x: 0 }}
+                            transition={{ 
+                              duration: 0.3, 
+                              delay: i * 0.08,
+                              ease: "easeOut"
+                            }}
                           >
                             <div className={cn(
                               "w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0",
@@ -258,19 +296,26 @@ export default function LearningEfficiency() {
                             <div className="flex-1 min-w-0">
                               <p className="text-xs font-medium truncate">{item.title}</p>
                               <div className="h-1 bg-muted rounded-full overflow-hidden mt-0.5">
-                                <div 
-                                  className="h-full bg-primary rounded-full transition-all duration-300"
-                                  style={{ width: `${item.progress}%` }}
+                                <motion.div 
+                                  className="h-full bg-primary rounded-full"
+                                  initial={{ width: 0 }}
+                                  animate={{ width: `${item.progress}%` }}
+                                  transition={{ duration: 0.6, delay: i * 0.08, ease: "easeOut" }}
                                 />
                               </div>
                             </div>
                             {item.current && (
                               <Sparkles className="w-3 h-3 text-primary animate-pulse shrink-0" />
                             )}
-                          </div>
+                          </motion.div>
                         ))}
                         
-                        <div className="flex flex-wrap gap-1.5 pt-1">
+                        <motion.div 
+                          className="flex flex-wrap gap-1.5 pt-1"
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.3, delay: 0.4 }}
+                        >
                           {['React Pro', 'Fast Learner'].map((badge) => (
                             <div 
                               key={badge}
@@ -280,8 +325,8 @@ export default function LearningEfficiency() {
                               {badge}
                             </div>
                           ))}
-                        </div>
-                      </div>
+                        </motion.div>
+                      </motion.div>
                     )}
                   </div>
                 </div>
@@ -342,48 +387,55 @@ export default function LearningEfficiency() {
                     Efficiency
                   </h3>
                   
-                  <div className="relative h-20 flex items-center justify-center">
-                    <svg className="w-40 h-20 -rotate-90" viewBox="0 0 100 50">
+                  <div className="relative h-24 flex items-center justify-center overflow-hidden">
+                    <svg className="w-32 h-16" viewBox="0 0 120 60" preserveAspectRatio="xMidYMid meet">
+                      {/* Background arc */}
                       <path
-                        d="M 10 45 A 40 40 0 0 1 90 45"
+                        d="M 15 55 A 45 45 0 0 1 105 55"
                         fill="none"
                         stroke="currentColor"
-                        strokeWidth="8"
+                        strokeWidth="10"
                         strokeLinecap="round"
-                        className="text-muted"
+                        className="text-muted/30"
                       />
+                      {/* Progress arc */}
                       <path
-                        d="M 10 45 A 40 40 0 0 1 90 45"
+                        d="M 15 55 A 45 45 0 0 1 105 55"
                         fill="none"
                         stroke="url(#efficiencyGradient)"
-                        strokeWidth="8"
+                        strokeWidth="10"
                         strokeLinecap="round"
-                        strokeDasharray={`${getEfficiency() * 1.26} 126`}
-                        className="transition-all duration-300"
+                        strokeDasharray={`${(getEfficiency() / 100) * 141} 141`}
+                        className="transition-all duration-500 ease-out"
                       />
                       <defs>
                         <linearGradient id="efficiencyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                          <stop offset="0%" stopColor="var(--primary)" />
-                          <stop offset="100%" stopColor="var(--chart-5)" />
+                          <stop offset="0%" stopColor="hsl(var(--primary))" />
+                          <stop offset="100%" stopColor="hsl(var(--chart-5))" />
                         </linearGradient>
                       </defs>
                     </svg>
-                    <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="absolute bottom-1 left-0 right-0 flex items-end justify-center">
                       <span className="text-2xl font-bold">{getEfficiency()}%</span>
                     </div>
                   </div>
                 </div>
                 
                 {showOptimized && (
-                  <div className={cn(
-                    "p-3 rounded-lg border text-center transition-all duration-500",
-                    "bg-green-500/20 border-green-500/40"
-                  )}>
+                  <motion.div 
+                    className={cn(
+                      "p-3 rounded-lg border text-center",
+                      "bg-green-500/20 border-green-500/40"
+                    )}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.4, ease: "easeOut" }}
+                  >
                     <p className="text-sm font-semibold text-green-500 flex items-center justify-center gap-2">
                       <CheckCircle className="w-4 h-4" />
                       {STAGE_MESSAGES.OPTIMISED}
                     </p>
-                  </div>
+                  </motion.div>
                 )}
               </div>
             </div>
