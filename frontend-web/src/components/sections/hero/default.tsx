@@ -36,7 +36,7 @@ export default function Hero({
     <Screenshot
       srcLight="/dashboard-light.png"
       srcDark="/dashboard-dark.png"
-      alt="Launch UI app screenshot"
+      alt="App UI app screenshot"
       width={1248}
       height={765}
       className="w-full"

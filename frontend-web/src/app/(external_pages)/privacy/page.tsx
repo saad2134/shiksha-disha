@@ -1,10 +1,11 @@
 import Footer from "@/components/sections/footer/default";
 import Navbar from "@/components/sections/navbar/default";
 import Glow from "@/components/ui/glow";
+import { siteConfig } from "@/config/site";
 
 export const metadata = {
-  title: "Privacy Policy | ShikshaDisha",
-  description: "Learn how ShikshaDisha collects, uses, and protects your personal information.",
+  title: `Privacy Policy ✦ ${siteConfig.name}`,
+  description: `Learn how ${siteConfig.name} collects, uses, and protects your personal information.`,
 };
 
 export default async function Privacy() {
@@ -20,7 +21,7 @@ export default async function Privacy() {
 
           <div className="prose prose-neutral dark:prose-invert max-w-none space-y-6">
             <p>
-              At <strong>ShikshaDisha</strong>, we respect your privacy and are committed to protecting your
+              At <strong>{siteConfig.name}</strong>, we respect your privacy and are committed to protecting your
               personal information. This Privacy Policy explains how we collect, use, and safeguard your data
               when you use our Service.
             </p>
@@ -76,8 +77,8 @@ export default async function Privacy() {
             <h2>8. Contact Us</h2>
             <p>
               If you have questions about this Privacy Policy, contact us at:{" "}
-              <a href="mailto:reach.saad@outlook.com" className="text-primary underline">
-                reach.saad@outlook.com
+              <a href={siteConfig.links.email} className="text-primary underline">
+                {siteConfig.links.email.replace('mailto:', '')}
               </a>
             </p>
           </div>

@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 
-import LaunchUI from "../../logos/app_icon";
+import AppUI from "../../logos/app_icon";
 import { Button, type ButtonProps } from "../../ui/button";
 import {
   Navbar as NavbarComponent,
@@ -40,8 +40,8 @@ interface NavbarProps {
 }
 
 export default function Navbar({
-  logo = <LaunchUI />,
-  name = "ShikshaDisha",
+  logo = <AppUI />,
+  name =  `${siteConfig.name}`,
   homeUrl = '/',
   mobileLinks = [
     { text: "Getting Started", href: '/student/onboarding' },

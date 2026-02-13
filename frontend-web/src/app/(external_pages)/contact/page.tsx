@@ -1,10 +1,11 @@
 import Footer from "@/components/sections/footer/default";
 import Navbar from "@/components/sections/navbar/default";
 import Glow from "@/components/ui/glow";
+import { siteConfig } from "@/config/site";
 
 export const metadata = {
-  title: "Contact Us | ShikshaDisha",
-  description: "Get in touch with the ShikshaDisha team for support, inquiries, or feedback.",
+  title: `Contact Us ✦ ${siteConfig.name}`,
+  description: "Get in touch with the team for support, inquiries, or feedback.",
 };
 
 
@@ -30,10 +31,10 @@ export default async function Contact() {
               </p>
               <p className="font-medium">
                 <a
-                  href="mailto:reach.saad@outlook.com"
+                  href={siteConfig.links.email}
                   className="text-primary underline"
                 >
-                  reach.saad@outlook.com
+                  {siteConfig.links.email.replace('mailto:', '')}
                 </a>
               </p>
 

@@ -14,6 +14,7 @@ import { Progress } from "@/components/ui/progress";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { ChevronLeft, ChevronRight, User, BookOpen, Target, Settings, Clock, Star, Send, LogOut } from "lucide-react";
+import { siteConfig } from "@/config/site";
 
 
 const steps = [
@@ -66,7 +67,7 @@ export default function OnboardingForm() {
     const progress = (step / (steps.length - 1)) * 100;
 
     useEffect(() => {
-              document.title = "Onboarding Questionaire | ShikshaDisha";
+              document.title = `Onboarding Questionaire ✦ ${siteConfig.name}`;
           }, []);
 
     return (

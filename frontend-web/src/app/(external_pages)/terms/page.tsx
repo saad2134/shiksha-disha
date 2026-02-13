@@ -2,10 +2,11 @@
 import Footer from "@/components/sections/footer/default";
 import Navbar from "@/components/sections/navbar/default";
 import Glow from "@/components/ui/glow";
+import { siteConfig } from "@/config/site";
 
 export const metadata = {
-  title: "Terms of Service | ShikshaDisha",
-  description: "Read the Terms of Service to understand the rules and guidelines for using ShikshaDisha.",
+  title: `Terms of Service ✦ ${siteConfig.name}`,
+  description: "Read the Terms of Service to understand the rules and guidelines for using {siteConfig.name}.",
 };
 
 export default async function Terms() {
@@ -20,7 +21,7 @@ export default async function Terms() {
 
           <div className="prose prose-neutral dark:prose-invert max-w-none space-y-6">
             <p>
-              Welcome to <strong>ShikshaDisha</strong> (“the Service”).
+              Welcome to <strong>{siteConfig.name}</strong> (“the Service”).
               By accessing or using our web application, you agree to the following Terms of Service.
               Please read them carefully.
             </p>
@@ -93,8 +94,8 @@ export default async function Terms() {
             <h2>10. Contact</h2>
             <p>
               If you have any questions about these Terms, contact us at:{" "}
-              <a href="mailto:reach.saad@outlook.com" className="text-primary underline">
-                reach.saad@outlook.com
+              <a href={siteConfig.links.email} className="text-primary underline">
+                {siteConfig.links.email.replace('mailto:', '')}
               </a>
             </p>
           </div>

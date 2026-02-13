@@ -1,11 +1,12 @@
 import Footer from "@/components/sections/footer/default";
 import Navbar from "@/components/sections/navbar/default";
 import Glow from "@/components/ui/glow";
+import { siteConfig } from "@/config/site";
 
 export const metadata = {
-  title: "Our Team | ShikshaDisha",
+  title: `Our Team ✦ ${siteConfig.name}`,
   description:
-    "Meet the DevBandits team behind ShikshaDisha, working to provide personalized roadmaps for future-ready skills.",
+    `Meet the DevBandits team behind ${siteConfig.name}, working to provide personalized roadmaps for future-ready skills.`,
 };
 
 const teamMembers = [
@@ -42,7 +43,7 @@ export default function Team() {
         <section className="mx-auto max-w-4xl px-12 py-12 pt-32 md:pt-32">
           <h1 className="text-3xl font-bold mb-6">Our SUDHEE CBIT Hackathon 2026 Team</h1>
           <p className="text-sm text-muted-foreground mb-10">
-            Meet <strong>DevBandits</strong>, the talented team driving ShikshaDisha forward.
+            Meet <strong>DevBandits</strong>, the talented team driving {siteConfig.name} forward.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
