@@ -40,7 +40,7 @@ export default function Team() {
 
         <Navbar />
 
-        <section className="mx-auto max-w-4xl px-12 py-12 pt-32 md:pt-32">
+        <section className="mx-auto max-w-4xl px-12 py-24 pt-32 md:pt-32">
           <h1 className="text-3xl font-bold mb-6">Our SUDHEE CBIT Hackathon 2026 Team</h1>
           <p className="text-sm text-muted-foreground mb-10">
             Meet <strong>DevBandits</strong>, the talented team driving {siteConfig.name} forward.

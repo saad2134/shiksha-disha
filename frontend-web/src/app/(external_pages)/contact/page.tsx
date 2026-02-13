@@ -16,7 +16,7 @@ export default async function Contact() {
       <main className="min-h-screen w-full overflow-hidden bg-gradient-to-r from-primary/5 via-transparent to-primary/5 text-foreground">
         <Navbar />
 
-        <section className="mx-auto max-w-4xl px-12 py-12 pt-32 md:pt-32 sm:gap-48 pb-40">
+        <section className="mx-auto max-w-4xl px-12 pt-32 md:pt-32 sm:gap-48 pb-24">
           <h1 className="text-3xl font-bold mb-6">Contact Us</h1>
           <p className="text-sm text-muted-foreground mb-10">
             We’d love to hear from you. Reach out with questions, feedback, or collaboration opportunities.

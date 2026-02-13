@@ -14,7 +14,7 @@ export default async function CookiePolicy() {
       <main className="min-h-screen w-full overflow-hidden bg-gradient-to-r from-primary/5 via-transparent to-primary/5 text-foreground">
         <Navbar />
 
-        <section className="mx-auto max-w-4xl px-12 py-12 pt-32 md:pt-32 sm:gap-48">
+        <section className="mx-auto max-w-4xl px-12 py-24 pt-32 md:pt-32 sm:gap-48">
           <h1 className="text-3xl font-bold mb-6">Cookie Policy</h1>
           <p className="text-sm text-muted-foreground mb-10">Last Updated: October 2025</p>
 
