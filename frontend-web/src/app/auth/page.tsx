@@ -1,49 +1,127 @@
 "use client";
 
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { signIn, useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { siteConfig } from "@/config/site";
-import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Briefcase, GraduationCap, ArrowRight, Loader2 } from "lucide-react";
 import Silk from "@/components/Silk";
+import { authService, LoginData, SignupData } from "@/lib/auth";
 
 export default function AuthPage() {
   const router = useRouter();
+  const { data: session } = useSession();
   const [isLoading, setIsLoading] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
-  const [loginData, setLoginData] = useState({ email: "", password: "" });
+  const [loginData, setLoginData] = useState({ email: "", password: "", rememberMe: false });
   const [signupData, setSignupData] = useState({ name: "", email: "", password: "", confirmPassword: "" });
+  const [error, setError] = useState("");
+  const [googleLoginAvailable, setGoogleLoginAvailable] = useState(true);
 
   useEffect(() => {
     document.title = `Sign In ✦ ${siteConfig.name}`;
-  }, []);
+    const storedEmail = authService.getStoredEmail();
+    if (storedEmail) {
+      setLoginData(prev => ({ ...prev, email: storedEmail, rememberMe: true }));
+    }
+    if (session) {
+      router.push("/student/onboarding");
+    }
+
+    // Check if Google login is configured
+    fetch('/api/auth/status')
+      .then(res => res.json())
+      .then(data => setGoogleLoginAvailable(data.googleLoginAvailable))
+      .catch(() => setGoogleLoginAvailable(false));
+  }, [session, router]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setTimeout(() => {
+    setError("");
+
+    try {
+      const result = await signIn("credentials", {
+        email: loginData.email,
+        password: loginData.password,
+        redirect: false,
+      });
+
+      if (result?.error) {
+        setError(result.error);
+      } else if (result?.ok) {
+        if (loginData.rememberMe) {
+          localStorage.setItem('remember_email', loginData.email);
+        }
+        router.push("/student/onboarding");
+      }
+    } catch (err) {
+      setError("An error occurred. Please try again.");
+    } finally {
       setIsLoading(false);
-      router.push("/onboarding");
-    }, 1500);
+    }
   };
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
+
     if (signupData.password !== signupData.confirmPassword) {
+      setError("Passwords do not match");
       return;
     }
+
+    if (signupData.password.length < 6) {
+      setError("Password must be at least 6 characters");
+      return;
+    }
+
     setIsLoading(true);
-    setTimeout(() => {
+
+    try {
+      const result = await signIn("credentials", {
+        name: signupData.name,
+        email: signupData.email,
+        password: signupData.password,
+        signup: "true",
+        redirect: false,
+      });
+
+      if (result?.error) {
+        setError(result.error);
+      } else if (result?.ok) {
+        router.push("/student/onboarding");
+      }
+    } catch (err) {
+      setError("An error occurred. Please try again.");
+    } finally {
       setIsLoading(false);
-      router.push("/onboarding");
-    }, 1500);
+    }
+  };
+
+  const handleGoogleAuth = async () => {
+    setIsLoading(true);
+    setError("");
+
+    if (!googleLoginAvailable) {
+      setError("Google Login is not configured. Please contact the administrator.");
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      await signIn("google", { callbackUrl: "/student/onboarding" });
+    } catch (err) {
+      setError("An error occurred with Google sign in.");
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -68,6 +146,11 @@ export default function AuthPage() {
             </CardHeader>
             <form onSubmit={handleLogin}>
               <CardContent className="space-y-4">
+                {error && (
+                  <div className="p-3 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-sm">
+                    {error}
+                  </div>
+                )}
                 <div className="space-y-2">
                   <Label htmlFor="login-email">Email</Label>
                   <Input
@@ -92,7 +175,11 @@ export default function AuthPage() {
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
-                    <Checkbox id="remember" />
+                    <Checkbox 
+                      id="remember" 
+                      checked={loginData.rememberMe}
+                      onCheckedChange={(checked) => setLoginData({ ...loginData, rememberMe: checked as boolean })}
+                    />
                     <label
                       htmlFor="remember"
                       className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -100,9 +187,9 @@ export default function AuthPage() {
                       Remember me
                     </label>
                   </div>
-                  <a href="#" className="text-sm text-primary hover:underline">
-                    Forgot password?
-                  </a>
+                  <span className="text-sm text-muted-foreground cursor-not-allowed">
+                    Forgot password? <span className="text-muted-foreground/50">(not available)</span>
+                  </span>
                 </div>
               </CardContent>
               <CardFooter className="flex flex-col gap-4">
@@ -124,7 +211,7 @@ export default function AuthPage() {
                     <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
                   </div>
                 </div>
-                <Button variant="outline" className="w-full" type="button">
+                <Button variant="outline" className="w-full" type="button" onClick={handleGoogleAuth} disabled={isLoading}>
                   <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
                     <path
                       d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -166,6 +253,11 @@ export default function AuthPage() {
             </CardHeader>
             <form onSubmit={handleSignup}>
               <CardContent className="space-y-4">
+                {error && (
+                  <div className="p-3 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-sm">
+                    {error}
+                  </div>
+                )}
                 <div className="space-y-2">
                   <Label htmlFor="signup-name">Full Name</Label>
                   <Input

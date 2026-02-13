@@ -9,8 +9,10 @@ import { Progress } from "@/components/ui/progress";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
+import { authService } from "@/lib/auth";
 import { 
-  LogOut, 
+  LogOut,
   ChevronLeft, 
   MapPin, 
   Target, 
@@ -42,8 +44,9 @@ export default function CareerMap() {
   const isMobile = useIsMobile();
   const [selectedMilestone, setSelectedMilestone] = React.useState<any>(null);
 
-  const handleLogout = () => {
-    router.push("/");
+  const handleLogout = async () => {
+    authService.logout();
+    await signOut({ callbackUrl: "/" });
   };
 
   const handleBack = () => {
