@@ -30,6 +30,7 @@ const PROFICIENCY_SKILLS = ["Computer basics", "Internet navigation", "Mathemati
 export default function OnboardingForm() {
     const [step, setStep] = React.useState(0);
     const [errors, setErrors] = React.useState<Record<string, string>>({});
+    const [hasAttemptedNext, setHasAttemptedNext] = React.useState(false);
     const [formData, setFormData] = React.useState<any>({
         comfortableSubjects: [],
         skills: [],
@@ -81,11 +82,15 @@ export default function OnboardingForm() {
     };
 
     const nextStep = () => {
+        setHasAttemptedNext(true);
         if (!validateStep(step)) return;
+        setHasAttemptedNext(false);
+        setErrors({});
         setStep((prev) => Math.min(prev + 1, steps.length - 1));
     };
     const prevStep = () => {
         setErrors({});
+        setHasAttemptedNext(false);
         setStep((prev) => Math.max(prev - 1, 0));
     };
 
@@ -103,6 +108,7 @@ export default function OnboardingForm() {
     };
 
     const handleSubmit = () => {
+        setHasAttemptedNext(true);
         if (!validateStep(step)) return;
         console.log("Collected Data:", formData);
         router.push("/student/dashboard");
@@ -212,7 +218,7 @@ export default function OnboardingForm() {
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent className="space-y-6">
-                                    {Object.keys(errors).length > 0 && (
+                                    {step === 0 && hasAttemptedNext && Object.keys(errors).length > 0 && (
                                         <div className="p-4 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-sm">
                                             Please fill in all required fields before continuing.
                                         </div>

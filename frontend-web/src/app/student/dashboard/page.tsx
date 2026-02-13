@@ -281,7 +281,7 @@ export default function Dashboard() {
                     </div>
 
                     {/* Sidebar - 1/3 width */}
-                    <div className="space-y-6">
+                    <div className="space-y-4 sm:space-y-6 min-w-0 lg:sticky lg:top-24 lg:self-start">
                         {/* Career Journey Map */}
                         <motion.div
                             initial={{ opacity: 0, x: 20 }}
@@ -301,7 +301,7 @@ export default function Dashboard() {
                                 <CardContent>
                                     <div className="space-y-4">
                                         {milestones.map((milestone, index) => (
-                                            <div key={milestone.id} className="flex items-start gap-3">
+                                            <div key={milestone.id} className="flex items-start gap-3 min-w-0">
                                                 <div className={`flex flex-col items-center ${milestone.status === "completed" ? "text-primary" :
                                                     milestone.status === "current" ? "text-green-500" : "text-muted-foreground"
                                                     }`}>
@@ -316,12 +316,12 @@ export default function Dashboard() {
                                                             }`} />
                                                     )}
                                                 </div>
-                                                <div className="flex-1 pb-4">
-                                                    <h3 className={`font-medium ${milestone.status === "current" ? "text-green-600" : "text-foreground"
+                                                <div className="flex-1 pb-4 min-w-0">
+                                                    <h3 className={`font-medium truncate ${milestone.status === "current" ? "text-green-600 dark:text-green-400" : "text-foreground"
                                                         }`}>
                                                         {milestone.title}
                                                     </h3>
-                                                    <p className="text-sm text-muted-foreground">{milestone.description}</p>
+                                                    <p className="text-sm text-muted-foreground line-clamp-2">{milestone.description}</p>
                                                 </div>
                                             </div>
                                         ))}
@@ -376,26 +376,26 @@ export default function Dashboard() {
                                     <CardTitle className="text-lg">Market Insights</CardTitle>
                                 </CardHeader>
                                 <CardContent className="space-y-3">
-                                    <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
-                                        <div>
-                                            <p className="font-medium text-green-800">High Demand</p>
-                                            <p className="text-sm text-green-600">Web Developers</p>
+                                    <div className="flex items-center justify-between gap-3 p-3 bg-green-50 dark:bg-green-950/30 rounded-lg min-w-0">
+                                        <div className="min-w-0">
+                                            <p className="font-medium text-green-800 dark:text-green-300">High Demand</p>
+                                            <p className="text-sm text-green-600 dark:text-green-400 truncate">Web Developers</p>
                                         </div>
-                                        <TrendingUp className="text-green-600" size={20} />
+                                        <TrendingUp className="text-green-600 dark:text-green-400 shrink-0" size={20} />
                                     </div>
-                                    <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
-                                        <div>
-                                            <p className="font-medium text-blue-800">Growing Field</p>
-                                            <p className="text-sm text-blue-600">AI & ML Jobs</p>
+                                    <div className="flex items-center justify-between gap-3 p-3 bg-blue-50 dark:bg-blue-950/30 rounded-lg min-w-0">
+                                        <div className="min-w-0">
+                                            <p className="font-medium text-blue-800 dark:text-blue-300">Growing Field</p>
+                                            <p className="text-sm text-blue-600 dark:text-blue-400 truncate">AI & ML Jobs</p>
                                         </div>
-                                        <Users className="text-blue-600" size={20} />
+                                        <Users className="text-blue-600 dark:text-blue-400 shrink-0" size={20} />
                                     </div>
-                                    <div className="flex items-center justify-between p-3 bg-orange-50 rounded-lg">
-                                        <div>
-                                            <p className="font-medium text-orange-800">New Opportunity</p>
-                                            <p className="text-sm text-orange-600">Cloud Computing</p>
+                                    <div className="flex items-center justify-between gap-3 p-3 bg-orange-50 dark:bg-orange-950/30 rounded-lg min-w-0">
+                                        <div className="min-w-0">
+                                            <p className="font-medium text-orange-800 dark:text-orange-300">New Opportunity</p>
+                                            <p className="text-sm text-orange-600 dark:text-orange-400 truncate">Cloud Computing</p>
                                         </div>
-                                        <Briefcase className="text-orange-600" size={20} />
+                                        <Briefcase className="text-orange-600 dark:text-orange-400 shrink-0" size={20} />
                                     </div>
                                 </CardContent>
                             </Card>

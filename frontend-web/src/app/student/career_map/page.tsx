@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { 
@@ -23,8 +24,21 @@ import {
   ArrowRight
 } from "lucide-react";
 
+function useIsMobile() {
+  const [isMobile, setIsMobile] = React.useState(false);
+  React.useEffect(() => {
+    const mq = window.matchMedia("(max-width: 1023px)");
+    setIsMobile(mq.matches);
+    const handler = () => setIsMobile(mq.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+  return isMobile;
+}
+
 export default function CareerMap() {
   const router = useRouter();
+  const isMobile = useIsMobile();
   const [selectedMilestone, setSelectedMilestone] = React.useState<any>(null);
 
   const handleLogout = () => {
@@ -231,7 +245,7 @@ export default function CareerMap() {
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Main Journey Timeline - 3/4 width */}
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-3 order-1">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -346,8 +360,9 @@ export default function CareerMap() {
           </div>
 
           {/* Sidebar - Milestone Details */}
-          <div className="space-y-6">
-            {/* Selected Milestone Details */}
+          <div className="space-y-4 lg:space-y-6 min-w-0 lg:sticky lg:top-24 lg:self-start order-2 lg:order-none">
+            {/* Selected Milestone Details - desktop only; mobile uses Sheet below */}
+            <div className="hidden lg:block">
             {selectedMilestone ? (
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
@@ -451,8 +466,9 @@ export default function CareerMap() {
                 </Card>
               </motion.div>
             )}
+            </div>
 
-            {/* Quick Stats */}
+            {/* Journey Summary - visible on all screens */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -491,6 +507,92 @@ export default function CareerMap() {
           </div>
         </div>
       </div>
+
+      {/* Mobile Sheet - Milestone details when selected on small screens */}
+      <Sheet
+        open={!!selectedMilestone && isMobile}
+        onOpenChange={(open) => !open && setSelectedMilestone(null)}
+      >
+        <SheetContent side="bottom" className="h-[85dvh] overflow-y-auto rounded-t-2xl">
+          <SheetHeader className="pr-12">
+            <SheetTitle className={`flex items-center gap-2 ${!selectedMilestone ? "sr-only" : ""}`}>
+              {selectedMilestone ? (
+                <>
+                  {React.createElement(selectedMilestone.icon, {
+                    className: selectedMilestone.color,
+                    size: 22,
+                  })}
+                  {selectedMilestone.title}
+                </>
+              ) : (
+                "Milestone details"
+              )}
+            </SheetTitle>
+          </SheetHeader>
+          {selectedMilestone && (
+            <>
+              <SheetDescription className="text-left">
+                {selectedMilestone.description}
+              </SheetDescription>
+              <div className="space-y-4 mt-6 pb-8">
+                <div>
+                  <h4 className="font-medium mb-2">Status</h4>
+                  <Badge
+                    variant={
+                      selectedMilestone.status === "completed"
+                        ? "default"
+                        : selectedMilestone.status === "current"
+                        ? "secondary"
+                        : "outline"
+                    }
+                  >
+                    {getStatusText(selectedMilestone.status)}
+                  </Badge>
+                </div>
+                <div>
+                  <h4 className="font-medium mb-2">Duration</h4>
+                  <p className="text-sm text-muted-foreground">{selectedMilestone.duration}</p>
+                </div>
+                <div>
+                  <h4 className="font-medium mb-2">Skills You&apos;ll Learn</h4>
+                  <div className="flex flex-wrap gap-1">
+                    {selectedMilestone.details.skills.map((skill: string, index: number) => (
+                      <Badge key={index} variant="secondary" className="text-xs">
+                        {skill}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <h4 className="font-medium mb-2">Resources</h4>
+                  <ul className="text-sm text-muted-foreground space-y-1">
+                    {selectedMilestone.details.resources.map((resource: string, index: number) => (
+                      <li key={index}>• {resource}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-medium mb-2">Next Steps</h4>
+                  <p className="text-sm text-muted-foreground">{selectedMilestone.details.nextSteps}</p>
+                </div>
+                {selectedMilestone.details.provider && (
+                  <div>
+                    <h4 className="font-medium mb-2">Provider</h4>
+                    <p className="text-sm text-muted-foreground">{selectedMilestone.details.provider}</p>
+                    <p className="text-xs text-muted-foreground">Level: {selectedMilestone.details.level}</p>
+                  </div>
+                )}
+                {selectedMilestone.details.salary && (
+                  <div>
+                    <h4 className="font-medium mb-2">Expected Salary</h4>
+                    <p className="text-sm text-muted-foreground">{selectedMilestone.details.salary}</p>
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+        </SheetContent>
+      </Sheet>
     </div>
   );
 }

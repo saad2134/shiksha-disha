@@ -12,7 +12,7 @@ import {
   NavbarRight,
 } from "../../ui/navbar";
 import Navigation from "../../ui/navigation";
-import { Sheet, SheetContent, SheetTrigger } from "../../ui/sheet";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "../../ui/sheet";
 
 interface NavbarLink {
   text: string;
@@ -113,6 +113,7 @@ export default function Navbar({
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-full max-w-[320px] sm:max-w-[360px]">
+              <SheetTitle className="sr-only">Navigation menu</SheetTitle>
               <nav className="grid gap-4 sm:gap-6 text-base sm:text-lg font-medium">
                 <a
                   href={homeUrl}
