@@ -5,7 +5,6 @@ import Footer from "../components/sections/footer/default";
 import Hero from "../components/sections/hero/default";
 import Items from "../components/sections/items/default";
 import Navbar from "../components/sections/navbar/default";
-import Pricing from "../components/sections/pricing/default";
 
 export const metadata = {
   title: `${siteConfig.name} ✦ Personalized Roadmaps for Future-ready Skills`,
