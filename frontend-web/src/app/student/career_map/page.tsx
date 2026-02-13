@@ -23,6 +23,7 @@ import {
   Star,
   ArrowRight
 } from "lucide-react";
+import { siteConfig } from "@/config/site";
 
 function useIsMobile() {
   const [isMobile, setIsMobile] = React.useState(false);
@@ -190,7 +191,7 @@ export default function CareerMap() {
   };
 
   useEffect(() => {
-          document.title = "My Career Map | ShikshaDisha";
+          document.title = `My Career Map ✦ ${siteConfig.name}`;
       }, []);
 
   return (

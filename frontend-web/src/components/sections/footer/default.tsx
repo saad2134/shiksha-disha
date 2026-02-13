@@ -15,7 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Moon, Sun } from "lucide-react";
 
-import LaunchUI from "../../logos/app_icon";
+import AppUI from "../../logos/app_icon";
 import {
   Footer,
   FooterBottom,
@@ -45,8 +45,8 @@ interface FooterProps {
 }
 
 export default function FooterSection({
-  logo = <LaunchUI />,
-  name = "ShikshaDisha",
+  logo = <AppUI />,
+  name =  `${siteConfig.name}`,
   columns = [
     {
       title: "Application",

@@ -5,6 +5,7 @@ import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 
 import Github from "../../logos/github";
+import HeroIcon from "../../logos/hero-icon";
 import { BorderBeam } from "@/components/ui/border-beam" 
 import { Button, type ButtonProps } from "../../ui/button";
 import Glow from "../../ui/glow";
@@ -36,7 +37,7 @@ export default function Hero({
     <Screenshot
       srcLight="/dashboard-light.png"
       srcDark="/dashboard-dark.png"
-      alt="Launch UI app screenshot"
+      alt="App UI app screenshot"
       width={1248}
       height={765}
       className="w-full"
@@ -73,7 +74,9 @@ export default function Hero({
 
         <div className="flex flex-col items-center gap-6 text-center sm:gap-12">
 
-          <h1 className="animate-appear from-foreground to-foreground dark:to-muted-foreground relative z-10 inline-block bg-linear-to-r bg-clip-text text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight font-semibold text-balance text-transparent drop-shadow-2xl px-2">
+          <HeroIcon className="animate-appear" />
+          
+          <h1 className="animate-appear from-foreground to-foreground dark:to-muted-foreground relative z-10 inline-block bg-linear-to-r bg-clip-text text-3xl leading-tight font-semibold text-balance text-transparent drop-shadow-2xl sm:text-5xl sm:leading-tight md:text-7xl md:leading-tight">
             {title}
           </h1>
           <p className="text-base sm:text-lg md:text-xl animate-appear text-muted-foreground relative z-10 max-w-[840px] font-medium text-balance opacity-0 delay-100 px-2">

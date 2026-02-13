@@ -1,10 +1,11 @@
 import Footer from "@/components/sections/footer/default";
 import Navbar from "@/components/sections/navbar/default";
 import Glow from "@/components/ui/glow";
+import { siteConfig } from "@/config/site";
 
 export const metadata = {
-  title: "Cookie Policy | ShikshaDisha",
-  description: "Understand how ShikshaDisha uses cookies and similar technologies on our platform.",
+  title: `Cookie Policy ✦ ${siteConfig.name}`,
+  description: "Understand how the platform uses cookies and similar technologies.",
 };
 
 export default async function CookiePolicy() {
@@ -19,7 +20,7 @@ export default async function CookiePolicy() {
 
           <div className="prose prose-neutral dark:prose-invert max-w-none space-y-6">
             <p>
-              This Cookie Policy explains how <strong>ShikshaDisha</strong> uses cookies and similar
+              This Cookie Policy explains how <strong>{siteConfig.name}</strong> uses cookies and similar
               technologies when you visit our website or use our services.
             </p>
 
@@ -59,8 +60,8 @@ export default async function CookiePolicy() {
             <h2>6. Contact Us</h2>
             <p>
               For questions about this Cookie Policy, contact us at:{" "}
-              <a href="mailto:reach.saad@outlook.com" className="text-primary underline">
-                reach.saad@outlook.com
+              <a href={siteConfig.links.email} className="text-primary underline">
+                {siteConfig.links.email.replace('mailto:', '')}
               </a>
             </p>
           </div>

@@ -22,6 +22,7 @@ import {
     Briefcase,
     Calendar
 } from "lucide-react";
+import { siteConfig } from "@/config/site";
 
 export default function Dashboard() {
     const router = useRouter();
@@ -84,7 +85,7 @@ export default function Dashboard() {
     ];
 
     useEffect(() => {
-        document.title = "Dashboard | ShikshaDisha";
+        document.title = `Dashboard ✦ ${siteConfig.name}`;
     }, []);
 
     return (
