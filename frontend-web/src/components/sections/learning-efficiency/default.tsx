@@ -63,21 +63,20 @@ export default function LearningEfficiency() {
       
       const rect = containerRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
-      const sectionTop = rect.top;
       const sectionHeight = rect.height;
       
-      const scrolled = windowHeight - sectionTop;
-      const totalScroll = windowHeight + sectionHeight;
-      const progress = Math.max(0, Math.min(1, scrolled / totalScroll));
+      const totalScroll = sectionHeight - windowHeight;
+      const scrolled = -rect.top;
+      const progress = totalScroll > 0 ? Math.max(0, Math.min(1, scrolled / totalScroll)) : 0;
       
       let stage: ScrollProgressState['stage'];
-      if (progress < 0.1) {
+      if (progress < 0.15) {
         stage = 'IDLE';
-      } else if (progress < 0.3) {
+      } else if (progress < 0.35) {
         stage = 'SEARCHING';
-      } else if (progress < 0.55) {
+      } else if (progress < 0.6) {
         stage = 'LEARNING_BEHAVIOR';
-      } else if (progress < 0.8) {
+      } else if (progress < 0.85) {
         stage = 'PERSONALISING';
       } else {
         stage = 'OPTIMISED';
@@ -95,20 +94,20 @@ export default function LearningEfficiency() {
   const getRelevanceScore = () => {
     switch (state.stage) {
       case 'IDLE': return 0;
-      case 'SEARCHING': return Math.round(20 + state.progress * 80);
-      case 'LEARNING_BEHAVIOR': return Math.round(35 + (state.progress - 0.3) * 200);
-      case 'PERSONALISING': return Math.round(60 + (state.progress - 0.55) * 160);
-      case 'OPTIMISED': return Math.round(92 + (state.progress - 0.8) * 32);
+      case 'SEARCHING': return Math.round(20 + (state.progress / 0.35) * 30);
+      case 'LEARNING_BEHAVIOR': return Math.round(50 + ((state.progress - 0.35) / 0.25) * 30);
+      case 'PERSONALISING': return Math.round(80 + ((state.progress - 0.6) / 0.25) * 15);
+      case 'OPTIMISED': return Math.round(95 + (state.progress - 0.85) * 33);
     }
   };
 
   const getTimeToFind = () => {
     switch (state.stage) {
       case 'IDLE': return '--';
-      case 'SEARCHING': return Math.round(45 - state.progress * 20) + 's';
-      case 'LEARNING_BEHAVIOR': return Math.round(25 - (state.progress - 0.3) * 60) + 's';
-      case 'PERSONALISING': return Math.round(12 - (state.progress - 0.55) * 30) + 's';
-      case 'OPTIMISED': return Math.round(3 + (0.8 - state.progress) * 12) + 's';
+      case 'SEARCHING': return Math.round(45 - (state.progress / 0.35) * 20) + 's';
+      case 'LEARNING_BEHAVIOR': return Math.round(25 - ((state.progress - 0.35) / 0.25) * 13) + 's';
+      case 'PERSONALISING': return Math.round(12 - ((state.progress - 0.6) / 0.25) * 9) + 's';
+      case 'OPTIMISED': return '3s';
     }
   };
 
@@ -119,10 +118,10 @@ export default function LearningEfficiency() {
   const getTimeSaved = () => {
     switch (state.stage) {
       case 'IDLE': return 0;
-      case 'SEARCHING': return Math.round(state.progress * 20);
-      case 'LEARNING_BEHAVIOR': return Math.round(20 + (state.progress - 0.3) * 80);
-      case 'PERSONALISING': return Math.round(40 + (state.progress - 0.55) * 120);
-      case 'OPTIMISED': return Math.round(70 + (state.progress - 0.8) * 80);
+      case 'SEARCHING': return Math.round((state.progress / 0.35) * 20);
+      case 'LEARNING_BEHAVIOR': return Math.round(20 + ((state.progress - 0.35) / 0.25) * 20);
+      case 'PERSONALISING': return Math.round(40 + ((state.progress - 0.6) / 0.25) * 30);
+      case 'OPTIMISED': return 70;
     }
   };
 
@@ -130,9 +129,9 @@ export default function LearningEfficiency() {
     switch (state.stage) {
       case 'IDLE': return 0;
       case 'SEARCHING': return 10;
-      case 'LEARNING_BEHAVIOR': return Math.round(10 + (state.progress - 0.3) * 120);
-      case 'PERSONALISING': return Math.round(40 + (state.progress - 0.55) * 100);
-      case 'OPTIMISED': return Math.round(90 + (state.progress - 0.8) * 40);
+      case 'LEARNING_BEHAVIOR': return Math.round(10 + ((state.progress - 0.35) / 0.25) * 40);
+      case 'PERSONALISING': return Math.round(50 + ((state.progress - 0.6) / 0.25) * 40);
+      case 'OPTIMISED': return 90;
     }
   };
 
@@ -145,7 +144,7 @@ export default function LearningEfficiency() {
     <Section className="relative bg-background">
       <div 
         ref={containerRef}
-        className="sticky top-0 min-h-screen overflow-hidden"
+        className="sticky top-0 h-screen overflow-hidden"
       >
         <div className="absolute inset-0 bg-gradient-to-b from-background via-background/99 to-background" />
         
@@ -342,23 +341,23 @@ export default function LearningEfficiency() {
                     Efficiency
                   </h3>
                   
-                  <div className="relative h-20 flex items-center justify-center">
-                    <svg className="w-40 h-20 -rotate-90" viewBox="0 0 100 50">
+                  <div className="relative h-24 flex items-center justify-center">
+                    <svg className="w-44 h-24 -rotate-90" viewBox="0 0 120 60">
                       <path
-                        d="M 10 45 A 40 40 0 0 1 90 45"
+                        d="M 10 50 A 50 50 0 0 1 110 50"
                         fill="none"
                         stroke="currentColor"
-                        strokeWidth="8"
+                        strokeWidth="10"
                         strokeLinecap="round"
                         className="text-muted"
                       />
                       <path
-                        d="M 10 45 A 40 40 0 0 1 90 45"
+                        d="M 10 50 A 50 50 0 0 1 110 50"
                         fill="none"
                         stroke="url(#efficiencyGradient)"
-                        strokeWidth="8"
+                        strokeWidth="10"
                         strokeLinecap="round"
-                        strokeDasharray={`${getEfficiency() * 1.26} 126`}
+                        strokeDasharray={`${getEfficiency() * 1.57} 157`}
                         className="transition-all duration-300"
                       />
                       <defs>
@@ -368,8 +367,8 @@ export default function LearningEfficiency() {
                         </linearGradient>
                       </defs>
                     </svg>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-2xl font-bold">{getEfficiency()}%</span>
+                    <div className="absolute inset-0 flex flex-col items-center justify-center pt-2">
+                      <span className="text-3xl font-bold">{getEfficiency()}%</span>
                     </div>
                   </div>
                 </div>
