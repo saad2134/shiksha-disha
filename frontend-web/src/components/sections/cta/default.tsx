@@ -30,6 +30,11 @@ export default function CTA({
       text: "Get Started",
       variant: "default",
     },
+    {
+      href: "/student/dashboard",
+      text: "Try Demo",
+      variant: "outline",
+    },
   ],
   className,
 }: CTAProps) {

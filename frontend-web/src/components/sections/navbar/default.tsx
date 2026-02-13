@@ -47,6 +47,7 @@ export default function Navbar({
     { text: "Getting Started", href: '/student/onboarding' },
   ],
   actions = [
+    { text: "Try Demo", href: '/student/dashboard', isButton: false },
     { text: "Sign in", href: '/student/onboarding', isButton: false },
     {
       text: "Get Started",

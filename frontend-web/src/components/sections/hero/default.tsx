@@ -49,6 +49,11 @@ export default function Hero({
       variant: "default",
     },
     {
+      href: '/student/dashboard',
+      text: "Try Demo",
+      variant: "outline",
+    },
+    {
       href: siteConfig.links.github,
       text: "GitHub",
       variant: "glow",

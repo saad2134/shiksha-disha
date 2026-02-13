@@ -13,7 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { ChevronLeft, ChevronRight, User, BookOpen, Target, Settings, Clock, Star, Send, LogOut } from "lucide-react";
+import { ChevronLeft, ChevronRight, User, BookOpen, Target, Settings, Clock, Star, Send, LogOut, Play } from "lucide-react";
 
 
 const steps = [
@@ -25,8 +25,11 @@ const steps = [
     { name: "Feedback", icon: Send },
 ];
 
+const PROFICIENCY_SKILLS = ["Computer basics", "Internet navigation", "Mathematics", "English communication", "Programming fundamentals"];
+
 export default function OnboardingForm() {
     const [step, setStep] = React.useState(0);
+    const [errors, setErrors] = React.useState<Record<string, string>>({});
     const [formData, setFormData] = React.useState<any>({
         comfortableSubjects: [],
         skills: [],
@@ -38,8 +41,53 @@ export default function OnboardingForm() {
     });
     const router = useRouter();
 
-    const nextStep = () => setStep((prev) => Math.min(prev + 1, steps.length - 1));
-    const prevStep = () => setStep((prev) => Math.max(prev - 1, 0));
+    const validateStep = (s: number): boolean => {
+        const newErrors: Record<string, string> = {};
+        if (s === 0) {
+            if (!formData.fullName?.trim()) newErrors.fullName = "Full name is required";
+            if (!formData.contact?.trim()) newErrors.contact = "Email or mobile number is required";
+            else {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                const phoneRegex = /^\+?[\d\s-]{10,}$/;
+                if (!emailRegex.test(formData.contact.trim()) && !phoneRegex.test(formData.contact.replace(/\s/g, ''))) {
+                    newErrors.contact = "Enter a valid email or phone number";
+                }
+            }
+            if (!formData.education) newErrors.education = "Please select your qualification";
+            if (!formData.fieldOfStudy?.trim()) newErrors.fieldOfStudy = "Field of study is required";
+        } else if (s === 1) {
+            const proficiencyKeys = PROFICIENCY_SKILLS.map(sk => `proficiency_${sk.replace(/\s+/g, '_')}`);
+            const allRated = proficiencyKeys.every(key => formData[key]);
+            if (!allRated) newErrors.proficiency = "Please rate all 5 foundational skills";
+            if (!formData.skills?.length) newErrors.skills = "Select at least one skill you possess";
+        } else if (s === 2) {
+            if (!formData.interests?.length && !formData.otherInterest?.trim()) newErrors.interests = "Select or specify at least one interest";
+            if (!formData.learningGoals?.length && !formData.otherGoal?.trim()) newErrors.learningGoals = "Select or specify at least one learning goal";
+            if (!formData.targetRoles?.trim()) newErrors.targetRoles = "Please specify target industries or roles";
+        } else if (s === 3) {
+            if (!formData.learningTypes?.length) newErrors.learningTypes = "Select at least one learning type";
+            if (!formData.learningStyle) newErrors.learningStyle = "Please select your learning preference";
+            if (!formData.collaborativeLearning) newErrors.collaborativeLearning = "Please select collaborative learning preference";
+        } else if (s === 4) {
+            if (!formData.timeCommitment) newErrors.timeCommitment = "Please select time commitment";
+            if (!formData.timeline) newErrors.timeline = "Please select target timeline";
+            if (!formData.motivations?.length) newErrors.motivations = "Select at least one motivation";
+            if (!formData.hasResources) newErrors.hasResources = "Please select resource availability";
+            if (!formData.reminders) newErrors.reminders = "Please select reminder preference";
+            if (!formData.gamification) newErrors.gamification = "Please select gamification preference";
+        }
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const nextStep = () => {
+        if (!validateStep(step)) return;
+        setStep((prev) => Math.min(prev + 1, steps.length - 1));
+    };
+    const prevStep = () => {
+        setErrors({});
+        setStep((prev) => Math.max(prev - 1, 0));
+    };
 
     const handleChange = (key: string, value: any) => {
         setFormData((prev: any) => ({ ...prev, [key]: value }));
@@ -55,6 +103,7 @@ export default function OnboardingForm() {
     };
 
     const handleSubmit = () => {
+        if (!validateStep(step)) return;
         console.log("Collected Data:", formData);
         router.push("/student/dashboard");
     };
@@ -71,15 +120,25 @@ export default function OnboardingForm() {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-background p-4 relative">
-            {/* Logout Button */}
-            <Button
-                variant="outline"
-                onClick={handleLogout}
-                className="absolute top-4 right-4 flex items-center gap-2"
-            >
-                <LogOut size={16} />
-                Logout
-            </Button>
+            {/* Top Right Buttons */}
+            <div className="absolute top-4 right-4 flex items-center gap-2">
+                <Button
+                    variant="default"
+                    onClick={() => router.push("/student/dashboard")}
+                    className="flex items-center gap-2"
+                >
+                    <Play size={16} />
+                    Try Demo
+                </Button>
+                <Button
+                    variant="outline"
+                    onClick={handleLogout}
+                    className="flex items-center gap-2"
+                >
+                    <LogOut size={16} />
+                    Logout
+                </Button>
+            </div>
 
             
 
@@ -153,35 +212,44 @@ export default function OnboardingForm() {
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent className="space-y-6">
+                                    {Object.keys(errors).length > 0 && (
+                                        <div className="p-4 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-sm">
+                                            Please fill in all required fields before continuing.
+                                        </div>
+                                    )}
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="space-y-2">
-                                            <Label htmlFor="fullName">Full Name</Label>
+                                            <Label htmlFor="fullName">Full Name <span className="text-destructive">*</span></Label>
                                             <Input
                                                 id="fullName"
                                                 placeholder="Enter your full name"
                                                 value={formData.fullName || ""}
-                                                onChange={(e) => handleChange("fullName", e.target.value)}
+                                                onChange={(e) => { handleChange("fullName", e.target.value); setErrors((prev) => ({ ...prev, fullName: "" })); }}
+                                                aria-invalid={!!errors.fullName}
                                             />
+                                            {errors.fullName && <p className="text-sm text-destructive">{errors.fullName}</p>}
                                         </div>
                                         <div className="space-y-2">
-                                            <Label htmlFor="contact">Email or Mobile Number</Label>
+                                            <Label htmlFor="contact">Email or Mobile Number <span className="text-destructive">*</span></Label>
                                             <Input
                                                 id="contact"
                                                 placeholder="email@example.com or +1234567890"
                                                 value={formData.contact || ""}
-                                                onChange={(e) => handleChange("contact", e.target.value)}
+                                                onChange={(e) => { handleChange("contact", e.target.value); setErrors((prev) => ({ ...prev, contact: "" })); }}
+                                                aria-invalid={!!errors.contact}
                                             />
+                                            {errors.contact && <p className="text-sm text-destructive">{errors.contact}</p>}
                                         </div>
                                     </div>
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="space-y-2">
-                                            <Label htmlFor="education">Current Educational Qualification</Label>
+                                            <Label htmlFor="education">Current Educational Qualification <span className="text-destructive">*</span></Label>
                                             <Select
-                                                onValueChange={(value) => handleChange("education", value)}
+                                                onValueChange={(value) => { handleChange("education", value); setErrors((prev) => ({ ...prev, education: "" })); }}
                                                 value={formData.education || ""}
                                             >
-                                                <SelectTrigger id="education">
+                                                <SelectTrigger id="education" aria-invalid={!!errors.education}>
                                                     <SelectValue placeholder="Select your qualification" />
                                                 </SelectTrigger>
                                                 <SelectContent>
@@ -193,15 +261,18 @@ export default function OnboardingForm() {
                                                     <SelectItem value="other">Other</SelectItem>
                                                 </SelectContent>
                                             </Select>
+                                            {errors.education && <p className="text-sm text-destructive">{errors.education}</p>}
                                         </div>
                                         <div className="space-y-2">
-                                            <Label htmlFor="fieldOfStudy">Major/Field of Study</Label>
+                                            <Label htmlFor="fieldOfStudy">Major/Field of Study <span className="text-destructive">*</span></Label>
                                             <Input
                                                 id="fieldOfStudy"
                                                 placeholder="e.g., Computer Science, Business Administration"
                                                 value={formData.fieldOfStudy || ""}
-                                                onChange={(e) => handleChange("fieldOfStudy", e.target.value)}
+                                                onChange={(e) => { handleChange("fieldOfStudy", e.target.value); setErrors((prev) => ({ ...prev, fieldOfStudy: "" })); }}
+                                                aria-invalid={!!errors.fieldOfStudy}
                                             />
+                                            {errors.fieldOfStudy && <p className="text-sm text-destructive">{errors.fieldOfStudy}</p>}
                                         </div>
                                     </div>
                                 </CardContent>
@@ -218,6 +289,11 @@ export default function OnboardingForm() {
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent className="space-y-6">
+                                    {Object.keys(errors).length > 0 && (
+                                        <div className="p-4 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-sm">
+                                            Please complete all required sections before continuing.
+                                        </div>
+                                    )}
                                     <div className="space-y-4">
                                         <Label>Which subjects/topics are you already comfortable with?</Label>
                                         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -237,7 +313,8 @@ export default function OnboardingForm() {
                                     </div>
 
                                     <div className="space-y-4">
-                                        <Label>Rate your proficiency in these foundational skills (1-5):</Label>
+                                        <Label>Rate your proficiency in these foundational skills (1-5): <span className="text-destructive">*</span></Label>
+                                        {errors.proficiency && <p className="text-sm text-destructive">{errors.proficiency}</p>}
                                         <div className="space-y-4">
                                             {["Computer basics", "Internet navigation", "Mathematics", "English communication", "Programming fundamentals"].map((skill) => (
                                                 <div key={skill} className="flex items-center justify-between">
@@ -278,7 +355,8 @@ export default function OnboardingForm() {
                                     </div>
 
                                     <div className="space-y-4">
-                                        <Label>Technical or soft skills you possess:</Label>
+                                        <Label>Technical or soft skills you possess: <span className="text-destructive">*</span></Label>
+                                        {errors.skills && <p className="text-sm text-destructive">{errors.skills}</p>}
                                         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                                             {["C++", "Java", "HTML/CSS", "JavaScript", "Python", "SQL", "Public speaking", "Team leadership", "Problem solving", "Project management"].map((skill) => (
                                                 <div key={skill} className="flex items-center gap-2">
@@ -328,8 +406,13 @@ export default function OnboardingForm() {
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent className="space-y-6">
+                                    {Object.keys(errors).length > 0 && (
+                                        <div className="p-4 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-sm">
+                                            Please complete all required sections before continuing.
+                                        </div>
+                                    )}
                                     <div className="space-y-4">
-                                        <Label>What are the main skills or subjects you wish to learn or improve?</Label>
+                                        <Label>What are the main skills or subjects you wish to learn or improve? <span className="text-destructive">*</span></Label>
                                         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                                             {["Web Development", "Data Science", "Mobile App Development", "Cloud Computing", "AI/ML", "Cybersecurity", "UI/UX Design", "Digital Marketing", "Project Management", "Data Analysis", "Software Engineering", "DevOps"].map((interest) => (
                                                 <div key={interest} className="flex items-center gap-2">
@@ -354,7 +437,7 @@ export default function OnboardingForm() {
                                     </div>
 
                                     <div className="space-y-4">
-                                        <Label>What are your primary learning goals?</Label>
+                                        <Label>What are your primary learning goals? <span className="text-destructive">*</span></Label>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                             {["Getting a job/internship", "Cracking competitive exams", "Building projects", "Gaining practical knowledge", "Career advancement", "Personal interest"].map((goal) => (
                                                 <div key={goal} className="flex items-center gap-2">
@@ -378,14 +461,18 @@ export default function OnboardingForm() {
                                         </div>
                                     </div>
 
+                                    {errors.interests && <p className="text-sm text-destructive">{errors.interests}</p>}
+                                    {errors.learningGoals && <p className="text-sm text-destructive">{errors.learningGoals}</p>}
                                     <div className="space-y-2">
-                                        <Label htmlFor="targetRoles">Which industries or roles are you interested in?</Label>
+                                        <Label htmlFor="targetRoles">Which industries or roles are you interested in? <span className="text-destructive">*</span></Label>
                                         <Textarea
                                             id="targetRoles"
                                             placeholder="e.g., Software Development, Data Science, Networking, UI/UX Design, etc."
                                             value={formData.targetRoles || ""}
-                                            onChange={(e) => handleChange("targetRoles", e.target.value)}
+                                            onChange={(e) => { handleChange("targetRoles", e.target.value); setErrors((prev) => ({ ...prev, targetRoles: "" })); }}
+                                            aria-invalid={!!errors.targetRoles}
                                         />
+                                        {errors.targetRoles && <p className="text-sm text-destructive">{errors.targetRoles}</p>}
                                     </div>
                                 </CardContent>
                             </Card>
@@ -401,8 +488,14 @@ export default function OnboardingForm() {
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent className="space-y-6">
+                                    {Object.keys(errors).length > 0 && (
+                                        <div className="p-4 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-sm">
+                                            Please complete all required sections before continuing.
+                                        </div>
+                                    )}
                                     <div className="space-y-4">
-                                        <Label>What type of learning best suits you?</Label>
+                                        <Label>What type of learning best suits you? <span className="text-destructive">*</span></Label>
+                                        {errors.learningTypes && <p className="text-sm text-destructive">{errors.learningTypes}</p>}
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                             {[
                                                 { id: "videos", label: "Videos", desc: "Visual and auditory learning" },
@@ -430,7 +523,8 @@ export default function OnboardingForm() {
                                     </div>
 
                                     <div className="space-y-4">
-                                        <Label>Do you prefer guided paths or self-paced learning?</Label>
+                                        <Label>Do you prefer guided paths or self-paced learning? <span className="text-destructive">*</span></Label>
+                                        {errors.learningStyle && <p className="text-sm text-destructive">{errors.learningStyle}</p>}
                                         <RadioGroup
                                             value={formData.learningStyle || ""}
                                             onValueChange={(value) => handleChange("learningStyle", value)}
@@ -461,7 +555,8 @@ export default function OnboardingForm() {
                                     </div>
 
                                     <div className="space-y-4">
-                                        <Label>Are you open to collaborative/group learning?</Label>
+                                        <Label>Are you open to collaborative/group learning? <span className="text-destructive">*</span></Label>
+                                        {errors.collaborativeLearning && <p className="text-sm text-destructive">{errors.collaborativeLearning}</p>}
                                         <RadioGroup
                                             value={formData.collaborativeLearning || ""}
                                             onValueChange={(value) => handleChange("collaborativeLearning", value)}
@@ -495,8 +590,14 @@ export default function OnboardingForm() {
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent className="space-y-6">
+                                    {Object.keys(errors).length > 0 && (
+                                        <div className="p-4 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-sm">
+                                            Please complete all required sections before continuing.
+                                        </div>
+                                    )}
                                     <div className="space-y-4">
-                                        <Label>How much time can you dedicate to learning?</Label>
+                                        <Label>How much time can you dedicate to learning? <span className="text-destructive">*</span></Label>
+                                        {errors.timeCommitment && <p className="text-sm text-destructive">{errors.timeCommitment}</p>}
                                         <RadioGroup
                                             value={formData.timeCommitment || ""}
                                             onValueChange={(value) => handleChange("timeCommitment", value)}
@@ -522,7 +623,8 @@ export default function OnboardingForm() {
                                     </div>
 
                                     <div className="space-y-4">
-                                        <Label>What is your target completion timeline?</Label>
+                                        <Label>What is your target completion timeline? <span className="text-destructive">*</span></Label>
+                                        {errors.timeline && <p className="text-sm text-destructive">{errors.timeline}</p>}
                                         <RadioGroup
                                             value={formData.timeline || ""}
                                             onValueChange={(value) => handleChange("timeline", value)}
@@ -544,7 +646,8 @@ export default function OnboardingForm() {
                                     </div>
 
                                     <div className="space-y-4">
-                                        <Label>What motivates you to learn?</Label>
+                                        <Label>What motivates you to learn? <span className="text-destructive">*</span></Label>
+                                        {errors.motivations && <p className="text-sm text-destructive">{errors.motivations}</p>}
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                             {[
                                                 "Certificates",
@@ -572,7 +675,8 @@ export default function OnboardingForm() {
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="space-y-4">
-                                            <Label>Do you have stable internet access and a personal computer/laptop?</Label>
+                                            <Label>Do you have stable internet access and a personal computer/laptop? <span className="text-destructive">*</span></Label>
+                                            {errors.hasResources && <p className="text-sm text-destructive">{errors.hasResources}</p>}
                                             <RadioGroup
                                                 value={formData.hasResources || ""}
                                                 onValueChange={(value) => handleChange("hasResources", value)}
@@ -606,7 +710,8 @@ export default function OnboardingForm() {
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="space-y-4">
-                                            <Label>Do you want to receive regular reminders/motivational nudges?</Label>
+                                            <Label>Do you want to receive regular reminders/motivational nudges? <span className="text-destructive">*</span></Label>
+                                            {errors.reminders && <p className="text-sm text-destructive">{errors.reminders}</p>}
                                             <RadioGroup
                                                 value={formData.reminders || ""}
                                                 onValueChange={(value) => handleChange("reminders", value)}
@@ -624,7 +729,8 @@ export default function OnboardingForm() {
                                         </div>
 
                                         <div className="space-y-4">
-                                            <Label>Are you interested in gamified elements?</Label>
+                                            <Label>Are you interested in gamified elements? <span className="text-destructive">*</span></Label>
+                                            {errors.gamification && <p className="text-sm text-destructive">{errors.gamification}</p>}
                                             <RadioGroup
                                                 value={formData.gamification || ""}
                                                 onValueChange={(value) => handleChange("gamification", value)}
