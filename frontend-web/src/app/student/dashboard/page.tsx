@@ -8,6 +8,8 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
+import { authService } from "@/lib/auth";
 import {
     LogOut,
     BookOpen,
@@ -35,8 +37,9 @@ export default function Dashboard() {
         learningPace: "1-2 hours/day"
     });
 
-    const handleLogout = () => {
-        router.push("/");
+    const handleLogout = async () => {
+        authService.logout();
+        await signOut({ callbackUrl: "/" });
     };
 
     const recommendedCourses = [

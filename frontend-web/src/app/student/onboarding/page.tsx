@@ -13,7 +13,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { ChevronLeft, ChevronRight, User, BookOpen, Target, Settings, Clock, Star, Send, LogOut, Play } from "lucide-react";
+import { signOut } from "next-auth/react";
+import { authService } from "@/lib/auth";
+import { ChevronLeft, ChevronRight, User, BookOpen, Target, Settings, Clock, Star, Send, LogOut } from "lucide-react";
 import { siteConfig } from "@/config/site";
 
 
@@ -115,8 +117,9 @@ export default function OnboardingForm() {
         router.push("/student/dashboard");
     };
 
-    const handleLogout = () => {
-        router.push("/");
+    const handleLogout = async () => {
+        authService.logout();
+        await signOut({ callbackUrl: "/" });
     };
 
     const progress = (step / (steps.length - 1)) * 100;
@@ -129,14 +132,6 @@ export default function OnboardingForm() {
         <div className="min-h-screen flex items-center justify-center bg-background p-4 sm:p-6 pt-24 sm:pt-28 pb-20 relative">
             {/* Top Right Buttons */}
             <div className="absolute top-4 right-4 flex flex-wrap items-center justify-end gap-2">
-                <Button
-                    variant="default"
-                    onClick={() => router.push("/student/dashboard")}
-                    className="flex items-center justify-center gap-2 text-sm sm:text-base"
-                >
-                    <Play size={16} className="shrink-0" />
-                    <span className="truncate">Try Demo</span>
-                </Button>
                 <Button
                     variant="outline"
                     onClick={handleLogout}
