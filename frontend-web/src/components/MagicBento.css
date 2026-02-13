@@ -128,11 +128,14 @@
     width: 90%;
     margin: 0 auto;
     padding: 0.5em;
+    gap: 1rem;
   }
 
   .magic-bento-card {
     width: 100%;
-    min-height: 180px;
+    min-height: 135px;
+    
+    aspect-ratio: auto;
   }
 }
 
