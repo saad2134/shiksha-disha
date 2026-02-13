@@ -11,11 +11,11 @@ export const metadata = {
 export default async function CookiePolicy() {
   return (
     <>
-      <main className="min-h-screen w-full overflow-hidden bg-gradient-to-r from-primary/5 via-transparent to-primary/5 text-foreground">
+      <main className="min-h-screen w-full overflow-hidden ">
         <Navbar />
 
-        <section className="mx-auto max-w-4xl px-12 py-12 pt-32 md:pt-32 sm:gap-48">
-          <h1 className="text-3xl font-bold mb-6">Cookie Policy</h1>
+        <section className="mx-auto max-w-4xl px-12 py-24 pt-32 md:pt-32 sm:gap-48">
+          <h1 className="text-4xl font-bold text-foreground mb-2">Cookie Policy</h1>
           <p className="text-sm text-muted-foreground mb-10">Last Updated: October 2025</p>
 
           <div className="prose prose-neutral dark:prose-invert max-w-none space-y-6">

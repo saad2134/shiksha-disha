@@ -11,8 +11,8 @@ export const viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="overflow-x-hidden">
-      <body className={`${inter.className} bg-background antialiased overflow-x-hidden`}>
+    <html lang="en" className="overflow-x-hidden ">
+      <body className={`${inter.className}  antialiased overflow-x-hidden`}>
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>

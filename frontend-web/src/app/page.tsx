@@ -6,6 +6,7 @@ import Hero from "../components/sections/hero/default";
 import Items from "../components/sections/items/default";
 import LearningEfficiency from "../components/sections/learning-efficiency/default";
 import Navbar from "../components/sections/navbar/default";
+import MagicBento from '@/components/MagicBento'
 
 export const metadata = {
   title: `${siteConfig.name} ✦ Personalized Roadmaps for Future-ready Skills`,
@@ -20,7 +21,20 @@ export default function Home() {
         <Navbar />
         <Hero />
         {/* <Logos /> */}
-        <Items />
+        {/* <Items /> */}
+        <MagicBento
+          textAutoHide={true}
+          enableStars
+          enableSpotlight
+          enableBorderGlow={true}
+          enableTilt={true}
+          enableMagnetism={false}
+          clickEffect
+          spotlightRadius={400}
+          particleCount={12}
+          glowColor="145, 60, 255"
+          disableAnimations={false}
+        />
         <LearningEfficiency />
         {/* <Stats /> */}
         {/* <Pricing /> */}

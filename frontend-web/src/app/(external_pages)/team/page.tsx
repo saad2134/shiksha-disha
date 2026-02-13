@@ -36,12 +36,12 @@ const teamMembers = [
 export default function Team() {
   return (
     <>
-      <main className="min-h-screen w-full overflow-hidden bg-gradient-to-r from-primary/5 via-transparent to-primary/5 text-foreground">
+      <main className="min-h-screen w-full overflow-hidden ">
 
         <Navbar />
 
-        <section className="mx-auto max-w-4xl px-12 py-12 pt-32 md:pt-32">
-          <h1 className="text-3xl font-bold mb-6">Our SUDHEE CBIT Hackathon 2026 Team</h1>
+        <section className="mx-auto max-w-4xl px-12 py-24 pt-32 md:pt-32">
+          <h1 className="text-4xl font-bold text-foreground mb-2">Our SUDHEE CBIT Hackathon 2026 Team</h1>
           <p className="text-sm text-muted-foreground mb-10">
             Meet <strong>DevBandits</strong>, the talented team driving {siteConfig.name} forward.
           </p>
