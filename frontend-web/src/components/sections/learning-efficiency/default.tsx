@@ -1,9 +1,10 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { Section } from '@/components/ui/section';
-import { Search, Brain, Target, Zap, CheckCircle, Clock, TrendingUp, Sparkles, BookOpen, Award, ChevronRight } from 'lucide-react';
+import { Search, Brain, Target, Zap, CheckCircle, Clock, TrendingUp, Sparkles, BookOpen, Award, ChevronDown } from 'lucide-react';
 
 interface ScrollProgressState {
   progress: number;
@@ -27,20 +28,14 @@ const STAGE_MESSAGES = {
 };
 
 const COURSE_CARDS = [
-  { id: 1, title: 'Python Basics', relevance: 0.2, x: 5, y: 10 },
-  { id: 2, title: 'Web Dev', relevance: 0.3, x: 25, y: 5 },
-  { id: 3, title: 'Data Science', relevance: 0.4, x: 45, y: 15 },
-  { id: 4, title: 'Machine Learning', relevance: 0.5, x: 65, y: 8 },
-  { id: 5, title: 'Cloud Computing', relevance: 0.3, x: 85, y: 12 },
-  { id: 6, title: 'React JS', relevance: 0.6, x: 15, y: 35 },
-  { id: 7, title: 'UI/UX Design', relevance: 0.25, x: 35, y: 40 },
-  { id: 8, title: 'DevOps', relevance: 0.35, x: 55, y: 38 },
-  { id: 9, title: 'AI Fundamentals', relevance: 0.7, x: 75, y: 42 },
-  { id: 10, title: 'Cybersecurity', relevance: 0.4, x: 10, y: 60 },
-  { id: 11, title: 'Blockchain', relevance: 0.3, x: 30, y: 65 },
-  { id: 12, title: 'Mobile Dev', relevance: 0.45, x: 50, y: 62 },
-  { id: 13, title: 'Your Perfect Match', relevance: 1, x: 70, y: 68, highlighted: true },
-  { id: 14, title: 'Backend Dev', relevance: 0.55, x: 90, y: 58 },
+  { id: 1, title: 'Python Basics', relevance: 0.2 },
+  { id: 2, title: 'Web Dev', relevance: 0.3 },
+  { id: 3, title: 'Data Science', relevance: 0.4 },
+  { id: 4, title: 'Machine Learning', relevance: 0.5 },
+  { id: 5, title: 'Cloud Computing', relevance: 0.3 },
+  { id: 6, title: 'React JS', relevance: 0.6 },
+  { id: 7, title: 'AI Fundamentals', relevance: 0.7 },
+  { id: 8, title: 'Your Perfect Match', relevance: 1, highlighted: true },
 ];
 
 const PERSONALIZED_COURSES = [
@@ -72,18 +67,23 @@ export default function LearningEfficiency() {
       const sectionTop = rect.top;
       const sectionHeight = rect.height;
       
-      const scrolled = windowHeight - sectionTop;
-      const totalScroll = windowHeight + sectionHeight;
-      const progress = Math.max(0, Math.min(1, scrolled / totalScroll));
+      // Calculate progress based on section position relative to viewport
+      // Progress starts when section enters from bottom (sectionTop = windowHeight)
+      // Progress ends when section leaves from top (sectionTop + sectionHeight = 0)
+      const scrollStart = windowHeight; // When section first appears at bottom
+      const scrollEnd = -sectionHeight; // When section fully leaves at top
+      const scrollRange = scrollStart - scrollEnd;
+      const scrolled = scrollStart - sectionTop;
+      const progress = Math.max(0, Math.min(1, scrolled / scrollRange));
       
       let stage: ScrollProgressState['stage'];
-      if (progress < 0.05) {
+      if (progress < 0.1) {
         stage = 'IDLE';
-      } else if (progress < 0.25) {
+      } else if (progress < 0.3) {
         stage = 'SEARCHING';
-      } else if (progress < 0.5) {
+      } else if (progress < 0.55) {
         stage = 'LEARNING_BEHAVIOR';
-      } else if (progress < 0.75) {
+      } else if (progress < 0.8) {
         stage = 'PERSONALISING';
       } else {
         stage = 'OPTIMISED';
@@ -102,9 +102,9 @@ export default function LearningEfficiency() {
     switch (state.stage) {
       case 'IDLE': return 0;
       case 'SEARCHING': return Math.round(20 + state.progress * 80);
-      case 'LEARNING_BEHAVIOR': return Math.round(35 + (state.progress - 0.25) * 200);
-      case 'PERSONALISING': return Math.round(60 + (state.progress - 0.5) * 160);
-      case 'OPTIMISED': return Math.round(92 + (state.progress - 0.75) * 32);
+      case 'LEARNING_BEHAVIOR': return Math.round(35 + (state.progress - 0.3) * 200);
+      case 'PERSONALISING': return Math.round(60 + (state.progress - 0.55) * 160);
+      case 'OPTIMISED': return Math.round(92 + (state.progress - 0.8) * 32);
     }
   };
 
@@ -112,9 +112,9 @@ export default function LearningEfficiency() {
     switch (state.stage) {
       case 'IDLE': return '--';
       case 'SEARCHING': return Math.round(45 - state.progress * 20) + 's';
-      case 'LEARNING_BEHAVIOR': return Math.round(25 - (state.progress - 0.25) * 60) + 's';
-      case 'PERSONALISING': return Math.round(12 - (state.progress - 0.5) * 30) + 's';
-      case 'OPTIMISED': return Math.round(3 + (0.75 - state.progress) * 12) + 's';
+      case 'LEARNING_BEHAVIOR': return Math.round(25 - (state.progress - 0.3) * 60) + 's';
+      case 'PERSONALISING': return Math.round(12 - (state.progress - 0.55) * 30) + 's';
+      case 'OPTIMISED': return Math.round(3 + (0.8 - state.progress) * 12) + 's';
     }
   };
 
@@ -123,13 +123,12 @@ export default function LearningEfficiency() {
   };
 
   const getTimeSaved = () => {
-    const base = 42;
     switch (state.stage) {
       case 'IDLE': return 0;
       case 'SEARCHING': return Math.round(state.progress * 20);
-      case 'LEARNING_BEHAVIOR': return Math.round(20 + (state.progress - 0.25) * 80);
-      case 'PERSONALISING': return Math.round(40 + (state.progress - 0.5) * 120);
-      case 'OPTIMISED': return Math.round(70 + (state.progress - 0.75) * 80);
+      case 'LEARNING_BEHAVIOR': return Math.round(20 + (state.progress - 0.3) * 80);
+      case 'PERSONALISING': return Math.round(40 + (state.progress - 0.55) * 120);
+      case 'OPTIMISED': return Math.round(70 + (state.progress - 0.8) * 80);
     }
   };
 
@@ -137,43 +136,32 @@ export default function LearningEfficiency() {
     switch (state.stage) {
       case 'IDLE': return 0;
       case 'SEARCHING': return 10;
-      case 'LEARNING_BEHAVIOR': return Math.round(10 + (state.progress - 0.25) * 120);
-      case 'PERSONALISING': return Math.round(40 + (state.progress - 0.5) * 100);
-      case 'OPTIMISED': return Math.round(90 + (state.progress - 0.75) * 40);
+      case 'LEARNING_BEHAVIOR': return Math.round(10 + (state.progress - 0.3) * 120);
+      case 'PERSONALISING': return Math.round(40 + (state.progress - 0.55) * 100);
+      case 'OPTIMISED': return Math.round(90 + (state.progress - 0.8) * 40);
     }
   };
 
-  const stageOpacity = (targetStage: string) => {
-    const stages = ['IDLE', 'SEARCHING', 'LEARNING_BEHAVIOR', 'PERSONALISING', 'OPTIMISED'];
-    const currentIndex = stages.indexOf(state.stage);
-    const targetIndex = stages.indexOf(targetStage);
-    
-    if (state.stage === 'IDLE' && targetStage === 'IDLE') return 1;
-    if (targetIndex < currentIndex) return Math.max(0, 1 - (currentIndex - targetIndex) * 0.3 - (state.progress % 0.25) * 0.5);
-    if (targetIndex === currentIndex) return 1;
-    return Math.max(0, 1 - (targetIndex - currentIndex) * 0.5);
-  };
-
-  const showInitialSearch = state.stage === 'SEARCHING' || state.stage === 'LEARNING_BEHAVIOR' || state.stage === 'PERSONALISING' || state.stage === 'OPTIMISED';
+  const showInitialSearch = state.stage !== 'IDLE';
   const showAnalysis = state.stage === 'LEARNING_BEHAVIOR' || state.stage === 'PERSONALISING' || state.stage === 'OPTIMISED';
   const showPersonalized = state.stage === 'PERSONALISING' || state.stage === 'OPTIMISED';
   const showOptimized = state.stage === 'OPTIMISED';
 
   return (
-    <Section className="relative min-h-[400vh] bg-background">
+    <Section className="relative bg-background">
       <div 
         ref={containerRef}
-        className="sticky top-0 h-screen overflow-hidden"
+        className="sticky top-0 min-h-screen overflow-hidden"
       >
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/98 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/99 to-background" />
         
-        <div className="relative z-10 h-full flex flex-col">
-          <div className="flex-1 flex items-center justify-center p-4 md:p-8">
-            <div className="w-full max-w-6xl grid lg:grid-cols-2 gap-8 items-start pt-16">
-              <div className="space-y-6">
+        <div className="relative z-10 h-full flex flex-col py-8 px-4 md:px-6">
+          <div className="flex-1 flex items-center justify-center">
+            <div className="w-full max-w-5xl grid md:grid-cols-2 gap-6">
+              <div className="space-y-4">
                 <div className="flex items-center gap-3">
                   <div className={cn(
-                    "px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-500",
+                    "px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-500",
                     state.stage === 'IDLE' && "bg-muted text-muted-foreground",
                     state.stage === 'SEARCHING' && "bg-amber-500/20 text-amber-600 dark:text-amber-400",
                     state.stage === 'LEARNING_BEHAVIOR' && "bg-blue-500/20 text-blue-600 dark:text-blue-400",
@@ -190,150 +178,180 @@ export default function LearningEfficiency() {
                 </div>
                 
                 <div className={cn(
-                  "p-6 rounded-2xl bg-card border transition-all duration-500",
+                  "p-4 rounded-xl bg-card border transition-all duration-500",
                   showOptimized ? "border-green-500/30 shadow-lg shadow-green-500/10" : "border-border"
                 )}>
-                  <div className="space-y-4">
+                  <div className="space-y-3">
                     <div className="flex items-center gap-2">
-                      <div className="flex-1 h-10 bg-muted rounded-lg flex items-center px-4 gap-2">
+                      <div className="flex-1 h-9 bg-muted rounded-lg flex items-center px-3 gap-2">
                         <Search className="w-4 h-4 text-muted-foreground" />
                         <span className="text-muted-foreground text-sm">Search courses...</span>
                         <span className="ml-auto animate-pulse">|</span>
                       </div>
                     </div>
                     
-                    <div className="space-y-2">
-                      <p className="text-sm text-muted-foreground font-medium">{STAGE_MESSAGES[state.stage]}</p>
-                    </div>
+                    <p className="text-sm text-muted-foreground font-medium">{STAGE_MESSAGES[state.stage]}</p>
                     
                     {showInitialSearch && (
-                      <div className={cn(
-                        "grid grid-cols-2 gap-2 transition-all duration-700",
-                        showPersonalized ? "opacity-0 hidden" : "opacity-100"
-                      )}>
-                        {COURSE_CARDS.slice(0, showAnalysis ? 14 : 8).map((course) => (
-                          <div 
+                      <motion.div 
+                        className="grid grid-cols-2 gap-2"
+                        initial={false}
+                        animate={{ 
+                          opacity: showPersonalized ? 0 : 1,
+                          scale: showPersonalized ? 0.95 : 1
+                        }}
+                        transition={{ duration: 0.4, ease: "easeInOut" }}
+                        style={{ display: showPersonalized ? 'none' : 'grid' }}
+                      >
+                        {COURSE_CARDS.slice(0, showAnalysis ? 8 : 6).map((course, index) => (
+                          <motion.div 
                             key={course.id}
                             className={cn(
-                              "p-2 rounded-lg text-xs border transition-all duration-500",
+                              "p-2 rounded-lg text-xs border transition-colors duration-300",
                               course.relevance > 0.6 ? "bg-green-500/10 border-green-500/30" :
                               course.relevance > 0.4 ? "bg-amber-500/10 border-amber-500/30" :
                               "bg-red-500/10 border-red-500/30"
                             )}
-                            style={{
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ 
                               opacity: showAnalysis ? Math.min(1, course.relevance + 0.3) : 0.7,
-                              transform: showAnalysis && course.relevance < 0.5 ? 'scale(0.9)' : 'scale(1)',
+                              y: 0
+                            }}
+                            transition={{ 
+                              duration: 0.3, 
+                              delay: index * 0.05,
+                              ease: "easeOut"
                             }}
                           >
                             <span className="font-medium">{course.title}</span>
-                            <span className="block text-[10px] text-muted-foreground">
-                              {Math.round(course.relevance * 100)}% match
-                            </span>
-                          </div>
+                          </motion.div>
                         ))}
-                      </div>
+                      </motion.div>
                     )}
                     
                     {showPersonalized && (
-                      <div className="space-y-2">
+                      <motion.div 
+                        className="space-y-2"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.4, ease: "easeOut" }}
+                      >
                         {PERSONALIZED_COURSES.map((course, i) => (
-                          <div 
+                          <motion.div 
                             key={course.id}
                             className={cn(
-                              "p-3 rounded-lg border bg-gradient-to-r transition-all duration-500",
+                              "p-2.5 rounded-lg border bg-gradient-to-r",
                               course.match > 90 ? "from-green-500/20 to-transparent border-green-500/40" :
                               "from-purple-500/20 to-transparent border-purple-500/40"
                             )}
-                            style={{
-                              opacity: showOptimized ? 1 : 0.7 + i * 0.1,
-                              transform: showOptimized ? 'translateX(0)' : 'translateX(-10px)',
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ 
+                              duration: 0.4, 
+                              delay: i * 0.1,
+                              ease: "easeOut"
                             }}
                           >
                             <div className="flex items-center justify-between">
                               <div>
                                 <p className="font-medium text-sm">{course.title}</p>
-                                <p className="text-xs text-muted-foreground">{course.path} Path</p>
+                                <p className="text-xs text-muted-foreground">{course.path}</p>
                               </div>
-                              <div className="text-right">
-                                <span className="text-lg font-bold text-green-500">{course.match}%</span>
-                                <p className="text-[10px] text-muted-foreground">match</p>
-                              </div>
+                              <span className="text-lg font-bold text-green-500">{course.match}%</span>
                             </div>
-                          </div>
+                          </motion.div>
                         ))}
-                      </div>
+                      </motion.div>
                     )}
                     
                     {showOptimized && (
-                      <div className="space-y-3 pt-2">
+                      <motion.div 
+                        className="space-y-2 pt-1"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.4, ease: "easeOut" }}
+                      >
                         <p className="text-sm font-medium flex items-center gap-2">
                           <BookOpen className="w-4 h-4 text-green-500" />
                           Your Learning Path
                         </p>
                         {LEARNING_PATH.map((item, i) => (
-                          <div 
+                          <motion.div 
                             key={i}
                             className={cn(
-                              "flex items-center gap-3 p-2 rounded-lg transition-all duration-500",
+                              "flex items-center gap-2 p-2 rounded-lg",
                               item.locked ? "opacity-40" : "opacity-100"
                             )}
-                            style={{ transform: `translateX(${showOptimized ? 0 : -20}px)` }}
+                            initial={{ opacity: 0, x: -15 }}
+                            animate={{ opacity: item.locked ? 0.4 : 1, x: 0 }}
+                            transition={{ 
+                              duration: 0.3, 
+                              delay: i * 0.08,
+                              ease: "easeOut"
+                            }}
                           >
                             <div className={cn(
-                              "w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold",
+                              "w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0",
                               item.progress === 100 ? "bg-green-500 text-white" :
                               item.current ? "bg-primary text-primary-foreground" :
                               "bg-muted text-muted-foreground"
                             )}>
-                              {item.progress === 100 ? <CheckCircle className="w-4 h-4" /> : item.week}
+                              {item.progress === 100 ? <CheckCircle className="w-3 h-3" /> : item.week}
                             </div>
-                            <div className="flex-1">
-                              <p className="text-sm font-medium">{item.title}</p>
-                              <div className="h-1.5 bg-muted rounded-full overflow-hidden mt-1">
-                                <div 
-                                  className="h-full bg-primary rounded-full transition-all duration-700"
-                                  style={{ width: `${item.progress}%` }}
+                            <div className="flex-1 min-w-0">
+                              <p className="text-xs font-medium truncate">{item.title}</p>
+                              <div className="h-1 bg-muted rounded-full overflow-hidden mt-0.5">
+                                <motion.div 
+                                  className="h-full bg-primary rounded-full"
+                                  initial={{ width: 0 }}
+                                  animate={{ width: `${item.progress}%` }}
+                                  transition={{ duration: 0.6, delay: i * 0.08, ease: "easeOut" }}
                                 />
                               </div>
                             </div>
                             {item.current && (
-                              <Sparkles className="w-4 h-4 text-primary animate-pulse" />
+                              <Sparkles className="w-3 h-3 text-primary animate-pulse shrink-0" />
                             )}
-                          </div>
+                          </motion.div>
                         ))}
                         
-                        <div className="flex gap-2 pt-2">
-                          {['React Pro', 'Top Performer', 'Fast Learner'].map((badge, i) => (
+                        <motion.div 
+                          className="flex flex-wrap gap-1.5 pt-1"
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.3, delay: 0.4 }}
+                        >
+                          {['React Pro', 'Fast Learner'].map((badge) => (
                             <div 
                               key={badge}
-                              className="flex items-center gap-1 px-2 py-1 bg-amber-500/20 text-amber-600 dark:text-amber-400 rounded-full text-xs"
+                              className="flex items-center gap-1 px-2 py-0.5 bg-amber-500/20 text-amber-600 dark:text-amber-400 rounded-full text-xs"
                             >
                               <Award className="w-3 h-3" />
                               {badge}
                             </div>
                           ))}
-                        </div>
-                      </div>
+                        </motion.div>
+                      </motion.div>
                     )}
                   </div>
                 </div>
               </div>
               
               <div className="space-y-4">
-                <div className="p-6 rounded-2xl bg-card border border-border">
-                  <h3 className="font-semibold mb-4 flex items-center gap-2">
-                    <TrendingUp className="w-5 h-5 text-primary" />
+                <div className="p-4 rounded-xl bg-card border border-border">
+                  <h3 className="font-semibold text-sm mb-3 flex items-center gap-2">
+                    <TrendingUp className="w-4 h-4 text-primary" />
                     Live Metrics
                   </h3>
                   
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="p-4 rounded-xl bg-muted/50">
-                      <div className="flex items-center gap-2 mb-2">
-                        <Target className="w-4 h-4 text-primary" />
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="p-3 rounded-lg bg-muted/50">
+                      <div className="flex items-center gap-1.5 mb-1">
+                        <Target className="w-3 h-3 text-primary" />
                         <span className="text-xs text-muted-foreground">Relevance</span>
                       </div>
-                      <div className="text-2xl font-bold text-primary">{getRelevanceScore()}%</div>
-                      <div className="h-1.5 bg-muted rounded-full overflow-hidden mt-2">
+                      <div className="text-xl font-bold text-primary">{getRelevanceScore()}%</div>
+                      <div className="h-1 bg-muted rounded-full overflow-hidden mt-1.5">
                         <div 
                           className="h-full bg-primary rounded-full transition-all duration-300"
                           style={{ width: `${getRelevanceScore()}%` }}
@@ -341,104 +359,102 @@ export default function LearningEfficiency() {
                       </div>
                     </div>
                     
-                    <div className="p-4 rounded-xl bg-muted/50">
-                      <div className="flex items-center gap-2 mb-2">
-                        <Clock className="w-4 h-4 text-amber-500" />
-                        <span className="text-xs text-muted-foreground">Time to Find</span>
+                    <div className="p-3 rounded-lg bg-muted/50">
+                      <div className="flex items-center gap-1.5 mb-1">
+                        <Clock className="w-3 h-3 text-amber-500" />
+                        <span className="text-xs text-muted-foreground">Time</span>
                       </div>
-                      <div className="text-2xl font-bold">{getTimeToFind()}</div>
-                      <p className="text-[10px] text-muted-foreground mt-1">vs 45s average</p>
+                      <div className="text-xl font-bold">{getTimeToFind()}</div>
+                      <p className="text-[10px] text-muted-foreground">vs 45s avg</p>
                     </div>
                     
-                    <div className="p-4 rounded-xl bg-muted/50">
-                      <div className="flex items-center gap-2 mb-2">
-                        <Zap className="w-4 h-4 text-green-500" />
-                        <span className="text-xs text-muted-foreground">Time Saved</span>
+                    <div className="p-3 rounded-lg bg-muted/50">
+                      <div className="flex items-center gap-1.5 mb-1">
+                        <Zap className="w-3 h-3 text-green-500" />
+                        <span className="text-xs text-muted-foreground">Saved</span>
                       </div>
-                      <div className="text-2xl font-bold text-green-500">+{getTimeSaved()}s</div>
-                      <p className="text-[10px] text-muted-foreground mt-1">cumulative</p>
+                      <div className="text-xl font-bold text-green-500">+{getTimeSaved()}s</div>
                     </div>
                     
-                    <div className="p-4 rounded-xl bg-muted/50">
-                      <div className="flex items-center gap-2 mb-2">
-                        <Brain className="w-4 h-4 text-purple-500" />
-                        <span className="text-xs text-muted-foreground">System Intelligence</span>
+                    <div className="p-3 rounded-lg bg-muted/50">
+                      <div className="flex items-center gap-1.5 mb-1">
+                        <Brain className="w-3 h-3 text-purple-500" />
+                        <span className="text-xs text-muted-foreground">AI Level</span>
                       </div>
-                      <div className="text-2xl font-bold text-purple-500">{getIntelligenceLevel()}%</div>
-                      <div className="h-1.5 bg-muted rounded-full overflow-hidden mt-2">
-                        <div 
-                          className="h-full bg-purple-500 rounded-full transition-all duration-300"
-                          style={{ width: `${getIntelligenceLevel()}%` }}
-                        />
-                      </div>
+                      <div className="text-xl font-bold text-purple-500">{getIntelligenceLevel()}%</div>
                     </div>
                   </div>
                 </div>
                 
-                <div className="p-6 rounded-2xl bg-card border border-border">
-                  <h3 className="font-semibold mb-4 flex items-center gap-2">
-                    <Zap className="w-5 h-5 text-green-500" />
-                    Efficiency Meter
+                <div className="p-4 rounded-xl bg-card border border-border">
+                  <h3 className="font-semibold text-sm mb-3 flex items-center gap-2">
+                    <Zap className="w-4 h-4 text-green-500" />
+                    Efficiency
                   </h3>
                   
-                  <div className="relative h-32 flex items-center justify-center">
-                    <svg className="w-48 h-24 -rotate-90" viewBox="0 0 200 100">
+                  <div className="relative h-24 flex items-center justify-center overflow-hidden">
+                    <svg className="w-32 h-16" viewBox="0 0 120 60" preserveAspectRatio="xMidYMid meet">
+                      {/* Background arc */}
                       <path
-                        d="M 20 100 A 80 80 0 0 1 180 100"
+                        d="M 15 55 A 45 45 0 0 1 105 55"
                         fill="none"
                         stroke="currentColor"
-                        strokeWidth="12"
+                        strokeWidth="10"
                         strokeLinecap="round"
-                        className="text-muted"
+                        className="text-muted/30"
                       />
+                      {/* Progress arc */}
                       <path
-                        d="M 20 100 A 80 80 0 0 1 180 100"
+                        d="M 15 55 A 45 45 0 0 1 105 55"
                         fill="none"
                         stroke="url(#efficiencyGradient)"
-                        strokeWidth="12"
+                        strokeWidth="10"
                         strokeLinecap="round"
-                        strokeDasharray={`${getEfficiency() * 2.51} 251`}
-                        className="transition-all duration-300"
+                        strokeDasharray={`${(getEfficiency() / 100) * 141} 141`}
+                        className="transition-all duration-500 ease-out"
                       />
                       <defs>
                         <linearGradient id="efficiencyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                          <stop offset="0%" stopColor="var(--primary)" />
-                          <stop offset="50%" stopColor="var(--chart-3)" />
-                          <stop offset="100%" stopColor="var(--chart-5)" />
+                          <stop offset="0%" stopColor="hsl(var(--primary))" />
+                          <stop offset="100%" stopColor="hsl(var(--chart-5))" />
                         </linearGradient>
                       </defs>
                     </svg>
-                    <div className="absolute bottom-0 text-center">
-                      <span className="text-4xl font-bold">{getEfficiency()}%</span>
-                      <p className="text-xs text-muted-foreground">Efficiency</p>
+                    <div className="absolute bottom-1 left-0 right-0 flex items-end justify-center">
+                      <span className="text-2xl font-bold">{getEfficiency()}%</span>
                     </div>
                   </div>
                 </div>
                 
                 {showOptimized && (
-                  <div className={cn(
-                    "p-4 rounded-xl border transition-all duration-700",
-                    "bg-gradient-to-r from-green-500/20 to-transparent border-green-500/40"
-                  )}>
-                    <p className="text-center font-semibold text-green-500 flex items-center justify-center gap-2">
-                      <CheckCircle className="w-5 h-5" />
+                  <motion.div 
+                    className={cn(
+                      "p-3 rounded-lg border text-center",
+                      "bg-green-500/20 border-green-500/40"
+                    )}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.4, ease: "easeOut" }}
+                  >
+                    <p className="text-sm font-semibold text-green-500 flex items-center justify-center gap-2">
+                      <CheckCircle className="w-4 h-4" />
                       {STAGE_MESSAGES.OPTIMISED}
                     </p>
-                  </div>
+                  </motion.div>
                 )}
               </div>
             </div>
           </div>
           
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
-            <span className="text-sm text-muted-foreground">Scroll to explore</span>
-            <ChevronRight className="w-5 h-5 text-muted-foreground rotate-90" />
+          <div className="flex justify-center mt-4">
+            <div className="flex flex-col items-center gap-1 animate-bounce">
+              <span className="text-xs text-muted-foreground">Scroll to explore</span>
+              <ChevronDown className="w-4 h-4 text-muted-foreground" />
+            </div>
           </div>
         </div>
         
-        <div 
-          className="absolute bottom-0 left-0 right-0 h-2 bg-muted"
-        >
+        <div className="absolute bottom-0 left-0 right-0 h-1 bg-muted">
           <div 
             className="h-full bg-primary transition-all duration-150"
             style={{ width: `${state.progress * 100}%` }}
