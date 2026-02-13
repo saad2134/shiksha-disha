@@ -1,7 +1,7 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from .db import Base, engine
 from . import models
-from .api import actions, notifications
+from .api import actions, notifications, behavior, streak
 from .realtime import manager
 
 app = FastAPI(title="ShikshaDisha Backend - Actions & Notifications")
@@ -11,6 +11,8 @@ Base.metadata.create_all(bind=engine)
 
 app.include_router(actions.router)
 app.include_router(notifications.router)
+app.include_router(behavior.router)
+app.include_router(streak.router)
 
 @app.websocket("/ws/notifications/{user_id}")
 async def notifications_ws(websocket: WebSocket, user_id: int):
