@@ -9,18 +9,18 @@ import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import {
-    LogOut,
-    BookOpen,
-    Target,
-    TrendingUp,
-    Clock,
     MapPin,
+    TrendingUp,
     Star,
     ChevronRight,
     Users,
     Award,
     Briefcase,
-    Calendar
+    MessageSquare,
+    Trophy,
+    BarChart3,
+    Sparkles,
+    Clock
 } from "lucide-react";
 import { siteConfig } from "@/config/site";
 
@@ -35,9 +35,9 @@ export default function Dashboard() {
         learningPace: "1-2 hours/day"
     });
 
-    const handleLogout = () => {
-        router.push("/");
-    };
+    useEffect(() => {
+        document.title = `Dashboard ✦ ${siteConfig.name}`;
+    }, []);
 
     const recommendedCourses = [
         {
@@ -84,12 +84,8 @@ export default function Dashboard() {
         { name: "Communication", level: 70, target: 85 }
     ];
 
-    useEffect(() => {
-        document.title = `Dashboard ✦ ${siteConfig.name}`;
-    }, []);
-
     return (
-        <div className="min-h-screen bg-background pt-24 sm:pt-28 px-4 sm:px-6 lg:px-8 pb-12">
+        <div className="p-4 sm:p-6 lg:p-8">
             <div className="max-w-7xl mx-auto">
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6 sm:mb-8">
                     <div>
@@ -101,10 +97,6 @@ export default function Dashboard() {
                             <p className="font-medium text-foreground truncate">Welcome back, {userData.name}!</p>
                             <p className="text-sm text-muted-foreground">{userData.careerGoal} Path</p>
                         </div>
-                        <Button variant="outline" onClick={handleLogout} className="flex items-center justify-center gap-2 shrink-0">
-                            <LogOut size={16} />
-                            Go to Landing Page
-                        </Button>
                     </div>
                 </div>
 
@@ -159,6 +151,57 @@ export default function Dashboard() {
                                                 View Full Career Path
                                             </Button>
                                         </div>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: 0.15 }}
+                        >
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle className="flex items-center gap-2">
+                                        <Sparkles className="text-primary" size={20} />
+                                        Quick Actions
+                                    </CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="grid grid-cols-2 gap-3">
+                                        <Button
+                                            variant="outline"
+                                            onClick={() => router.push('/demo/achievements')}
+                                            className="flex flex-col items-center gap-2 h-auto py-4"
+                                        >
+                                            <Trophy className="text-amber-500" size={24} />
+                                            <span className="text-sm">Achievements</span>
+                                        </Button>
+                                        <Button
+                                            variant="outline"
+                                            onClick={() => router.push('/demo/ai-companion')}
+                                            className="flex flex-col items-center gap-2 h-auto py-4"
+                                        >
+                                            <MessageSquare className="text-violet-500" size={24} />
+                                            <span className="text-sm">AI Companion</span>
+                                        </Button>
+                                        <Button
+                                            variant="outline"
+                                            onClick={() => router.push('/demo/leaderboard')}
+                                            className="flex flex-col items-center gap-2 h-auto py-4"
+                                        >
+                                            <BarChart3 className="text-blue-500" size={24} />
+                                            <span className="text-sm">Leaderboard</span>
+                                        </Button>
+                                        <Button
+                                            variant="outline"
+                                            onClick={() => router.push('/demo/insights')}
+                                            className="flex flex-col items-center gap-2 h-auto py-4"
+                                        >
+                                            <TrendingUp className="text-green-500" size={24} />
+                                            <span className="text-sm">Market Insights</span>
+                                        </Button>
                                     </div>
                                 </CardContent>
                             </Card>

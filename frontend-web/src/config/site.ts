@@ -3,7 +3,7 @@ export const siteConfig = {
   version: "v0.1.0",
   url: "",
   getStartedUrl:
-    "/student/onboarding",
+    "/auth",
   ogImage: "",
   description:
     "Your personalized roadmap to future-ready skills.",
