@@ -134,7 +134,7 @@ export default function OnboardingForm() {
                     className="flex items-center justify-center gap-2 text-sm sm:text-base"
                 >
                     <Play size={16} className="shrink-0" />
-                    <span className="truncate">Try Demo</span>
+                    <span className="truncate">Try Demo Dashboard</span>
                 </Button>
                 <Button
                     variant="outline"
@@ -142,7 +142,7 @@ export default function OnboardingForm() {
                     className="flex items-center justify-center gap-2 text-sm sm:text-base"
                 >
                     <LogOut size={16} />
-                    Logout
+                    Go to Landing Page
                 </Button>
             </div>
 

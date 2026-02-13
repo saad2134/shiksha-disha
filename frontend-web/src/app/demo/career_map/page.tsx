@@ -210,7 +210,7 @@ export default function CareerMap() {
           </div>
           <Button variant="outline" onClick={handleLogout} className="flex items-center justify-center gap-2 w-fit self-start sm:self-auto">
             <LogOut size={16} />
-            Logout
+            Go to Landing Page
           </Button>
         </div>
 

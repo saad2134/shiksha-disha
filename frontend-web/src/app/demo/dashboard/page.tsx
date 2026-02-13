@@ -103,7 +103,7 @@ export default function Dashboard() {
                         </div>
                         <Button variant="outline" onClick={handleLogout} className="flex items-center justify-center gap-2 shrink-0">
                             <LogOut size={16} />
-                            Logout
+                            Go to Landing Page
                         </Button>
                     </div>
                 </div>

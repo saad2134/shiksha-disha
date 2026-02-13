@@ -12,6 +12,7 @@ import { siteConfig } from "@/config/site";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Briefcase, GraduationCap, ArrowRight, Loader2 } from "lucide-react";
+import Silk from "@/components/Silk";
 
 export default function AuthPage() {
   const router = useRouter();
@@ -46,11 +47,17 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen flex">
+      <div className="w-[60%] min-h-screen relative hidden lg:block">
+        <div className="absolute inset-0">
+          <Silk color="#9482e7" speed={8} />
+        </div>
+      </div>
+      <div className="w-full lg:w-[40%] min-h-screen flex items-center justify-center bg-background p-4 py-16 lg:p-8">
+        <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">{siteConfig.name}</h1>
-          <p className="text-muted-foreground">Your personalized career journey starts here</p>
+          <h1 className="text-3xl font-bold text-foreground mb-2">Authentication</h1>
+          <p className="text-muted-foreground">Your personalized career journey starts here!</p>
         </div>
 
         {isLogin ? (
@@ -247,7 +254,7 @@ export default function AuthPage() {
           transition={{ delay: 0.3 }}
           className="mt-8 p-6 bg-muted/50 rounded-lg border"
         >
-          <h3 className="font-semibold mb-4 text-center">Try the Demo First</h3>
+          <h3 className="font-semibold mb-4 text-center">Try the Student Demo First</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Button
               variant="outline"
@@ -255,7 +262,7 @@ export default function AuthPage() {
               className="w-full"
             >
               <GraduationCap className="mr-2 h-4 w-4" />
-              Student Demo
+              Onboarding Demo
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
             <Button
@@ -273,6 +280,7 @@ export default function AuthPage() {
         <p className="text-center text-sm text-muted-foreground mt-6">
           <a href="/" className="hover:text-primary">← Back to Home</a>
         </p>
+        </div>
       </div>
     </div>
   );
