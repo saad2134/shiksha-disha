@@ -67,9 +67,14 @@ export default function LearningEfficiency() {
       const sectionTop = rect.top;
       const sectionHeight = rect.height;
       
-      const scrolled = windowHeight - sectionTop;
-      const totalScroll = windowHeight + sectionHeight;
-      const progress = Math.max(0, Math.min(1, scrolled / totalScroll));
+      // Calculate progress based on section position relative to viewport
+      // Progress starts when section enters from bottom (sectionTop = windowHeight)
+      // Progress ends when section leaves from top (sectionTop + sectionHeight = 0)
+      const scrollStart = windowHeight; // When section first appears at bottom
+      const scrollEnd = -sectionHeight; // When section fully leaves at top
+      const scrollRange = scrollStart - scrollEnd;
+      const scrolled = scrollStart - sectionTop;
+      const progress = Math.max(0, Math.min(1, scrolled / scrollRange));
       
       let stage: ScrollProgressState['stage'];
       if (progress < 0.1) {
