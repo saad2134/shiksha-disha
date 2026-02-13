@@ -1,11 +1,13 @@
+"use client";
+
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { 
   BookOpen, 
   DollarSign, 
   TrendingUp, 
   Clock, 
   BarChart3, 
-  Users, 
   Sparkles, 
   Brain,
   Target,
@@ -19,16 +21,17 @@ import {
   Timer,
   CheckCircle2
 } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 
-// Types
 interface CourseRecommendation {
   id: string;
   title: string;
   platform: string;
   instructor: string;
   thumbnail: string;
-  
-  // Learning Style Match
   matchScore: number;
   learningStyleFit: {
     visual: number;
@@ -36,34 +39,24 @@ interface CourseRecommendation {
     theoretical: number;
     interactive: number;
   };
-  
-  // Course Characteristics
   pedagogicalApproach: string;
   pace: 'Fast' | 'Moderate' | 'Relaxed';
   difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
-  
-  // Content Breakdown
   contentMix: {
     video: number;
     handson: number;
     reading: number;
     quizzes: number;
   };
-  
-  // Technical Requirements (for technical courses)
   technicalBreakdown?: {
     math: number;
     coding: number;
     theory: number;
     systems: number;
   };
-  
-  // Time Investment
   estimatedHours: number;
-  personalizedHours: number; // Based on learning speed
+  personalizedHours: number;
   idealSessionLength: string;
-  
-  // Career Impact
   avgSalary: {
     entry: number;
     mid: number;
@@ -72,31 +65,24 @@ interface CourseRecommendation {
   jobDemand: {
     trend: 'High' | 'Growing' | 'Moderate' | 'Declining';
     openings: number;
-    demandMultiplier?: string; // e.g., "3x more than Angular"
+    demandMultiplier?: string;
   };
-  
-  // Outcomes
   skillsGained: string[];
   projectOutcomes: string[];
   certificationValue: 'High' | 'Moderate' | 'Low';
-  
-  // Student-Specific
   prerequisites: string[];
   completionRate: number;
   studentFriendly: {
     affordability: 'Free' | 'Budget' | 'Premium';
     schedule: 'Self-paced' | 'Deadline-driven';
-    supportQuality: number; // 1-10
+    supportQuality: number;
   };
-  
-  // Warnings & Insights
   insights: {
     type: 'warning' | 'tip' | 'highlight';
     message: string;
   }[];
 }
 
-// Sample Data
 const sampleCourses: CourseRecommendation[] = [
   {
     id: '1',
@@ -317,74 +303,61 @@ const sampleCourses: CourseRecommendation[] = [
       {
         type: 'tip',
         message: 'Industry gold standard certification - worth the challenge for career impact'
-      },
-      {
-        type: 'warning',
-        message: 'Lower match score due to pace mismatch - will take you ~145 hours vs avg 120 hours'
       }
     ]
   }
 ];
 
-// Components
 const CourseRecommendationPage: React.FC = () => {
   const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50">
-      {/* Header */}
-      <header className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-8 px-6 shadow-lg">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center gap-3 mb-2">
-            <Sparkles className="w-8 h-8" />
-            <h1 className="text-3xl font-bold">Your Personalized Learning Path</h1>
-          </div>
-          <p className="text-purple-100 text-lg">
-            Curated based on your visual-practical learning style • Project-focused approach • Career goals in Tech
-          </p>
+    <div className="p-6 space-y-6">
+      <div className="bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-2xl p-8">
+        <div className="flex items-center gap-3 mb-2">
+          <Sparkles className="w-8 h-8" />
+          <h1 className="text-3xl font-bold">Your Personalized Learning Path</h1>
         </div>
-      </header>
+        <p className="text-violet-100 text-lg">
+          Curated based on your visual-practical learning style • Project-focused approach • Career goals in Tech
+        </p>
+      </div>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-6 py-8">
-        {/* Learning Profile Summary */}
-        <div className="bg-white rounded-2xl shadow-md p-6 mb-8 border border-purple-100">
-          <div className="flex items-center gap-2 mb-4">
-            <Brain className="w-6 h-6 text-purple-600" />
-            <h2 className="text-xl font-semibold text-gray-800">Your Learning Profile</h2>
+      <div className="bg-card rounded-xl border p-6">
+        <div className="flex items-center gap-2 mb-4">
+          <Brain className="w-6 h-6 text-violet-500" />
+          <h2 className="text-xl font-semibold">Your Learning Profile</h2>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="text-center p-3 bg-violet-50 dark:bg-violet-950/30 rounded-lg">
+            <div className="text-2xl font-bold text-violet-600">Visual</div>
+            <div className="text-sm text-muted-foreground">Primary Style</div>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="text-center p-3 bg-purple-50 rounded-lg">
-              <div className="text-2xl font-bold text-purple-600">Visual</div>
-              <div className="text-sm text-gray-600">Primary Style</div>
-            </div>
-            <div className="text-center p-3 bg-purple-50 rounded-lg">
-              <div className="text-2xl font-bold text-purple-600">Hands-On</div>
-              <div className="text-sm text-gray-600">Learning Mode</div>
-            </div>
-            <div className="text-center p-3 bg-purple-50 rounded-lg">
-              <div className="text-2xl font-bold text-purple-600">Fast</div>
-              <div className="text-sm text-gray-600">Pace Preference</div>
-            </div>
-            <div className="text-center p-3 bg-purple-50 rounded-lg">
-              <div className="text-2xl font-bold text-purple-600">2-3hrs</div>
-              <div className="text-sm text-gray-600">Session Length</div>
-            </div>
+          <div className="text-center p-3 bg-violet-50 dark:bg-violet-950/30 rounded-lg">
+            <div className="text-2xl font-bold text-violet-600">Hands-On</div>
+            <div className="text-sm text-muted-foreground">Learning Mode</div>
+          </div>
+          <div className="text-center p-3 bg-violet-50 dark:bg-violet-950/30 rounded-lg">
+            <div className="text-2xl font-bold text-violet-600">Fast</div>
+            <div className="text-sm text-muted-foreground">Pace Preference</div>
+          </div>
+          <div className="text-center p-3 bg-violet-50 dark:bg-violet-950/30 rounded-lg">
+            <div className="text-2xl font-bold text-violet-600">2-3hrs</div>
+            <div className="text-sm text-muted-foreground">Session Length</div>
           </div>
         </div>
+      </div>
 
-        {/* Course Cards */}
-        <div className="space-y-6">
-          {sampleCourses.map((course) => (
-            <CourseCard 
-              key={course.id} 
-              course={course} 
-              isExpanded={selectedCourse === course.id}
-              onToggle={() => setSelectedCourse(selectedCourse === course.id ? null : course.id)}
-            />
-          ))}
-        </div>
-      </main>
+      <div className="space-y-6">
+        {sampleCourses.map((course) => (
+          <CourseCard 
+            key={course.id} 
+            course={course} 
+            isExpanded={selectedCourse === course.id}
+            onToggle={() => setSelectedCourse(selectedCourse === course.id ? null : course.id)}
+          />
+        ))}
+      </div>
     </div>
   );
 };
@@ -395,8 +368,7 @@ const CourseCard: React.FC<{
   onToggle: () => void;
 }> = ({ course, isExpanded, onToggle }) => {
   return (
-    <div className="bg-gradient-to-br from-purple-600 to-indigo-600 rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300">
-      {/* Match Score Banner */}
+    <div className="bg-gradient-to-br from-violet-600 to-indigo-600 rounded-2xl shadow-xl overflow-hidden">
       <div className="bg-gradient-to-r from-yellow-400 to-yellow-500 px-6 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Star className="w-5 h-5 text-yellow-900 fill-yellow-900" />
@@ -410,7 +382,6 @@ const CourseCard: React.FC<{
       </div>
 
       <div className="p-6 text-white">
-        {/* Course Header */}
         <div className="flex gap-6 mb-6">
           <div className="flex-shrink-0">
             <img 
@@ -423,7 +394,7 @@ const CourseCard: React.FC<{
             <div className="flex items-start justify-between mb-2">
               <div>
                 <h3 className="text-2xl font-bold mb-1">{course.title}</h3>
-                <div className="flex items-center gap-3 text-purple-100">
+                <div className="flex items-center gap-3 text-violet-100">
                   <span className="flex items-center gap-1">
                     <GraduationCap className="w-4 h-4" />
                     {course.instructor}
@@ -439,39 +410,37 @@ const CourseCard: React.FC<{
               </div>
             </div>
 
-            {/* Key Metrics Row */}
             <div className="grid grid-cols-3 gap-4 mt-4">
               <div className="bg-white/10 backdrop-blur rounded-lg p-3">
                 <div className="flex items-center gap-2 mb-1">
                   <DollarSign className="w-5 h-5 text-green-300" />
-                  <span className="text-sm text-purple-100">Avg Salary</span>
+                  <span className="text-sm text-violet-100">Avg Salary</span>
                 </div>
                 <div className="text-2xl font-bold">${(course.avgSalary.entry / 1000).toFixed(0)}k-${(course.avgSalary.senior / 1000).toFixed(0)}k</div>
-                <div className="text-xs text-purple-200">Entry to Senior</div>
+                <div className="text-xs text-violet-200">Entry to Senior</div>
               </div>
 
               <div className="bg-white/10 backdrop-blur rounded-lg p-3">
                 <div className="flex items-center gap-2 mb-1">
                   <Briefcase className="w-5 h-5 text-blue-300" />
-                  <span className="text-sm text-purple-100">Job Openings</span>
+                  <span className="text-sm text-violet-100">Job Openings</span>
                 </div>
                 <div className="text-2xl font-bold">{(course.jobDemand.openings / 1000).toFixed(1)}k+</div>
-                <div className="text-xs text-purple-200">{course.jobDemand.demandMultiplier}</div>
+                <div className="text-xs text-violet-200">{course.jobDemand.demandMultiplier}</div>
               </div>
 
               <div className="bg-white/10 backdrop-blur rounded-lg p-3">
                 <div className="flex items-center gap-2 mb-1">
                   <Timer className="w-5 h-5 text-yellow-300" />
-                  <span className="text-sm text-purple-100">Time to Complete</span>
+                  <span className="text-sm text-violet-100">Time to Complete</span>
                 </div>
                 <div className="text-2xl font-bold">{course.personalizedHours}hrs</div>
-                <div className="text-xs text-purple-200">Based on your pace</div>
+                <div className="text-xs text-violet-200">Based on your pace</div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Learning Style Fit */}
         <div className="bg-white/10 backdrop-blur rounded-lg p-4 mb-4">
           <div className="flex items-center gap-2 mb-3">
             <Target className="w-5 h-5" />
@@ -481,7 +450,7 @@ const CourseCard: React.FC<{
             {Object.entries(course.learningStyleFit).map(([style, score]) => (
               <div key={style}>
                 <div className="flex justify-between items-center mb-1">
-                  <span className="text-sm capitalize text-purple-100">{style}</span>
+                  <span className="text-sm capitalize text-violet-100">{style}</span>
                   <span className="text-sm font-bold">{score}%</span>
                 </div>
                 <div className="w-full bg-white/20 rounded-full h-2">
@@ -497,7 +466,6 @@ const CourseCard: React.FC<{
           </div>
         </div>
 
-        {/* Content Mix */}
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div className="bg-white/10 backdrop-blur rounded-lg p-4">
             <div className="flex items-center gap-2 mb-3">
@@ -507,11 +475,11 @@ const CourseCard: React.FC<{
             <div className="space-y-2">
               {Object.entries(course.contentMix).map(([type, percentage]) => (
                 <div key={type} className="flex items-center justify-between">
-                  <span className="text-sm capitalize text-purple-100">{type}</span>
+                  <span className="text-sm capitalize text-violet-100">{type}</span>
                   <div className="flex items-center gap-2">
                     <div className="w-24 bg-white/20 rounded-full h-2">
                       <div 
-                        className="bg-purple-300 h-2 rounded-full"
+                        className="bg-violet-300 h-2 rounded-full"
                         style={{ width: `${percentage}%` }}
                       />
                     </div>
@@ -531,7 +499,7 @@ const CourseCard: React.FC<{
               <div className="space-y-2">
                 {Object.entries(course.technicalBreakdown).map(([type, percentage]) => (
                   <div key={type} className="flex items-center justify-between">
-                    <span className="text-sm capitalize text-purple-100">
+                    <span className="text-sm capitalize text-violet-100">
                       {type}
                       {type === 'math' && percentage > 50 && ' ⚠️'}
                     </span>
@@ -553,7 +521,6 @@ const CourseCard: React.FC<{
           )}
         </div>
 
-        {/* Insights & Warnings */}
         <div className="space-y-2 mb-4">
           {course.insights.map((insight, index) => (
             <div 
@@ -578,10 +545,8 @@ const CourseCard: React.FC<{
           ))}
         </div>
 
-        {/* Expandable Section */}
         {isExpanded && (
           <div className="space-y-4 pt-4 border-t border-white/20">
-            {/* Skills Gained */}
             <div>
               <h4 className="font-semibold mb-2 flex items-center gap-2">
                 <Sparkles className="w-4 h-4" />
@@ -599,7 +564,6 @@ const CourseCard: React.FC<{
               </div>
             </div>
 
-            {/* Project Outcomes */}
             <div>
               <h4 className="font-semibold mb-2 flex items-center gap-2">
                 <BookOpen className="w-4 h-4" />
@@ -615,23 +579,21 @@ const CourseCard: React.FC<{
               </ul>
             </div>
 
-            {/* Student-Friendly Info */}
             <div className="grid grid-cols-3 gap-3">
               <div className="bg-white/10 rounded-lg p-3">
-                <div className="text-sm text-purple-200 mb-1">Cost</div>
+                <div className="text-sm text-violet-200 mb-1">Cost</div>
                 <div className="font-semibold">{course.studentFriendly.affordability}</div>
               </div>
               <div className="bg-white/10 rounded-lg p-3">
-                <div className="text-sm text-purple-200 mb-1">Schedule</div>
+                <div className="text-sm text-violet-200 mb-1">Schedule</div>
                 <div className="font-semibold">{course.studentFriendly.schedule}</div>
               </div>
               <div className="bg-white/10 rounded-lg p-3">
-                <div className="text-sm text-purple-200 mb-1">Support</div>
+                <div className="text-sm text-violet-200 mb-1">Support</div>
                 <div className="font-semibold">{course.studentFriendly.supportQuality}/10</div>
               </div>
             </div>
 
-            {/* Prerequisites */}
             {course.prerequisites.length > 0 && (
               <div>
                 <h4 className="font-semibold mb-2 flex items-center gap-2">
@@ -651,10 +613,9 @@ const CourseCard: React.FC<{
               </div>
             )}
 
-            {/* Completion Rate */}
             <div className="bg-white/10 rounded-lg p-3">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm text-purple-200">Student Completion Rate</span>
+                <span className="text-sm text-violet-200">Student Completion Rate</span>
                 <span className="font-bold">{course.completionRate}%</span>
               </div>
               <div className="w-full bg-white/20 rounded-full h-2">
@@ -667,9 +628,8 @@ const CourseCard: React.FC<{
           </div>
         )}
 
-        {/* Action Buttons */}
         <div className="flex gap-3 mt-6">
-          <button className="flex-1 bg-white text-purple-600 py-3 px-6 rounded-lg font-semibold hover:bg-purple-50 transition-colors flex items-center justify-center gap-2">
+          <button className="flex-1 bg-white text-violet-600 py-3 px-6 rounded-lg font-semibold hover:bg-violet-50 transition-colors flex items-center justify-center gap-2">
             <BookOpen className="w-5 h-5" />
             Start Learning
           </button>

@@ -15,7 +15,8 @@ import {
   Bell,
   Sun,
   Moon,
-  BookOpen
+  BookOpen,
+  Target
 } from "lucide-react";
 import AppUI from "@/components/logos/app_icon";
 import {
@@ -58,6 +59,11 @@ const demoNavItems = [
     title: "Browse Courses",
     url: "/demo/browse_courses",
     icon: BookOpen,
+  },
+  {
+    title: "Recommendations",
+    url: "/demo/recommendations",
+    icon: Target,
   },
   {
     title: "Career Map",
