@@ -69,7 +69,7 @@ export default function Hero({
         className,
       )}
     >
-      <div className="max-w-container mx-auto flex flex-col gap-8 sm:gap-12 md:gap-16 lg:gap-24 pt-24 sm:pt-28 md:pt-32 px-4 sm:px-6">
+      <div className="max-w-container mx-auto flex flex-col gap-8 sm:gap-12 md:gap-16 lg:gap-24 pt-20 sm:pt-16 md:pt-16 px-4 sm:px-6">
 
         <div className="flex flex-col items-center gap-6 text-center sm:gap-12">
 

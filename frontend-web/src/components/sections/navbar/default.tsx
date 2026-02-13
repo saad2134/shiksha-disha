@@ -45,10 +45,10 @@ export default function Navbar({
   homeUrl = '/',
   mobileLinks = [],
   actions = [
-    { text: "Try Demo", href: '/student/dashboard', isButton: false },
+    { text: "Try Demo", href: '/demo/dashboard', isButton: false },
     {
       text: "Get Started",
-      href: '/student/onboarding',
+      href: '/auth',
       isButton: true,
       variant: "default",
     },
