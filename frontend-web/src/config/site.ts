@@ -11,7 +11,7 @@ export const siteConfig = {
     twitter: "",
     github: "https://github.com/saad2134/shiksha-disha",
     email: "mailto:reach.saad@outlook.com",
-    phone: "tel:",
+    phone: "",
   },
 
 
