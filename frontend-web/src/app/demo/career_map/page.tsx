@@ -10,8 +10,6 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { 
-  LogOut, 
-  ChevronLeft, 
   MapPin, 
   Target, 
   BookOpen, 
@@ -19,7 +17,6 @@ import {
   Award, 
   CheckCircle2,
   Clock,
-  Users,
   Star,
   ArrowRight
 } from "lucide-react";
@@ -38,17 +35,8 @@ function useIsMobile() {
 }
 
 export default function CareerMap() {
-  const router = useRouter();
   const isMobile = useIsMobile();
   const [selectedMilestone, setSelectedMilestone] = React.useState<any>(null);
-
-  const handleLogout = () => {
-    router.push("/");
-  };
-
-  const handleBack = () => {
-    router.push("/demo/dashboard");
-  };
 
   const careerPath = {
     goal: "Software Developer",
@@ -195,23 +183,13 @@ export default function CareerMap() {
       }, []);
 
   return (
-    <div className="min-h-screen bg-background px-4 sm:px-6 pt-24 sm:pt-28 pb-24">
+    <div className="p-4 sm:p-6 pb-24">
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6 sm:mb-8">
-          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-            <Button variant="outline" onClick={handleBack} className="flex items-center justify-center gap-2 w-fit">
-              <ChevronLeft size={16} />
-              Back to Dashboard
-            </Button>
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Career Journey Map</h1>
-              <p className="text-sm sm:text-base text-muted-foreground">Your personalized path to becoming a {careerPath.goal}</p>
-            </div>
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Career Journey Map</h1>
+            <p className="text-sm sm:text-base text-muted-foreground">Your personalized path to becoming a {careerPath.goal}</p>
           </div>
-          <Button variant="outline" onClick={handleLogout} className="flex items-center justify-center gap-2 w-fit self-start sm:self-auto">
-            <LogOut size={16} />
-            Go to Landing Page
-          </Button>
         </div>
 
         <motion.div

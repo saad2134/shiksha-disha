@@ -43,9 +43,11 @@ export default function Navbar({
   logo = <AppUI />,
   name =  `${siteConfig.name}`,
   homeUrl = '/',
-  mobileLinks = [],
+  mobileLinks = [/* 
+    { text: "Try Demo", href: '/demo/onboarding' },*/
+  ],
   actions = [
-    { text: "Try Demo", href: '/demo/dashboard', isButton: false },
+    { text: "Try Demo", href: '/demo/onboarding', isButton: false },
     {
       text: "Get Started",
       href: '/auth',

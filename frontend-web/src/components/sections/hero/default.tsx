@@ -52,7 +52,7 @@ export default function Hero({
       variant: "default",
     },
     {
-      href: '/demo/dashboard',
+      href: '/demo/onboarding',
       text: "Try Demo",
       variant: "outline",
     },
