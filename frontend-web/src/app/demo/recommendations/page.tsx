@@ -313,12 +313,12 @@ const CourseRecommendationPage: React.FC = () => {
 
   return (
     <div className="p-6 space-y-6">
-      <div className="bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-2xl p-8">
+      <div className="bg-card  rounded-2xl p-8  border">
         <div className="flex items-center gap-3 mb-2">
           <Sparkles className="w-8 h-8" />
           <h1 className="text-3xl font-bold">Your Personalized Learning Path</h1>
         </div>
-        <p className="text-violet-100 text-lg">
+        <p className="text-lg ">
           Curated based on your visual-practical learning style • Project-focused approach • Career goals in Tech
         </p>
       </div>
@@ -368,7 +368,7 @@ const CourseCard: React.FC<{
   onToggle: () => void;
 }> = ({ course, isExpanded, onToggle }) => {
   return (
-    <div className="bg-gradient-to-br from-violet-600 to-indigo-600 rounded-2xl shadow-xl overflow-hidden">
+    <div className=" bg-gradient-to-br from-violet-600 to-indigo-600 rounded-2xl shadow-xl overflow-hidden">
       <div className="bg-gradient-to-r from-yellow-400 to-yellow-500 px-6 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Star className="w-5 h-5 text-yellow-900 fill-yellow-900" />
