@@ -10,7 +10,7 @@ ShikshaDisha consists of 3 backend microservices:
 
 | Service | Port | Description |
 |---------|------|-------------|
-| **backend-core** | 8000 | Core API, Users, Actions, Notifications, Database |
+| **backend_1-core** | 8000 | Core API, Users, Actions, Notifications, Database |
 | **backend-2-ai_engine_service** | 9000 | AI Matching Engine, Course Recommendations |
 | **backend-3-ai_companion** | 9001 | AI Companion, Chat, Skill Forecasting |
 
@@ -22,7 +22,7 @@ ShikshaDisha consists of 3 backend microservices:
 
 ```bash
 # 1. Core API (with PostgreSQL + Redis + Celery)
-cd backend-core
+cd backend_1-core
 docker-compose up -d --build
 
 # 2. AI Engine Service
@@ -57,7 +57,7 @@ docker pull ghcr.io/<username>/shiksha-disha/ai-companion:latest
 
 ## Backend Services
 
-### 1. Core API (backend-core)
+### 1. Core API (backend_1-core)
 
 **Port:** 8000
 
@@ -73,7 +73,7 @@ docker pull ghcr.io/<username>/shiksha-disha/ai-companion:latest
 
 **Deploy:**
 ```bash
-cd backend-core
+cd backend_1-core
 
 # With Docker Compose (recommended)
 docker-compose up -d --build
@@ -226,14 +226,14 @@ docker logs shiksha-ai-companion
 
 ### Rebuild Services
 ```bash
-cd backend-core && docker-compose up -d --build
+cd backend_1-core && docker-compose up -d --build
 cd ../backend-2-ai_engine_service && docker-compose up -d --build
 cd ../backend-3-ai_companion && docker-compose up -d --build
 ```
 
 ### Stop All Services
 ```bash
-cd backend-core && docker-compose down
+cd backend_1-core && docker-compose down
 cd ../backend-2-ai_engine_service && docker-compose down
 cd ../backend-3-ai_companion && docker-compose down
 ```

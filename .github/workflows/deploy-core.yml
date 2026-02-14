@@ -5,14 +5,14 @@ on:
     branches:
       - main
     paths:
-      - 'backend-core/**'
+      - 'backend_1-core/**'
   pull_request:
     paths:
-      - 'backend-core/**'
+      - 'backend_1-core/**'
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}/core-api
+  IMAGE_NAME: ${{ github.repository }}/b1-core
 
 jobs:
   build-and-deploy:
@@ -50,7 +50,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: ./backend-core
+          context: ./backend_1-core
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

@@ -142,7 +142,7 @@ See [DEPLOYMENT_FULL.md](DEPLOYMENT_FULL.md) for complete deployment instruction
 
 ```bash
 # Core API
-cd backend-core
+cd backend_1-core
 docker-compose up -d
 
 # AI Engine
