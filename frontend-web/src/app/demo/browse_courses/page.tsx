@@ -32,7 +32,8 @@ const categories = [
     "Cloud Computing",
     "AI & Machine Learning",
     "Cybersecurity",
-    "DevOps"
+    "DevOps",
+    "Free Courses"
 ];
 
 const courses = [
@@ -193,7 +194,6 @@ export default function BrowseCourses() {
     const [selectedCategory, setSelectedCategory] = React.useState("All");
     const [selectedLevel, setSelectedLevel] = React.useState("All Levels");
     const [selectedDuration, setSelectedDuration] = React.useState("Any Duration");
-    const [showFreeOnly, setShowFreeOnly] = React.useState(false);
     const [bookmarkedCourses, setBookmarkedCourses] = React.useState<number[]>([2, 5]);
     const [showFilters, setShowFilters] = React.useState(false);
 
@@ -206,22 +206,10 @@ export default function BrowseCourses() {
             course.provider.toLowerCase().includes(searchQuery.toLowerCase());
         const matchesCategory = selectedCategory === "All" || course.tags.includes(selectedCategory);
         const matchesLevel = selectedLevel === "All Levels" || course.level === selectedLevel;
-        const matchesFreeFilter = !showFreeOnly || course.price === 0;
-        
-        // Duration filtering
-        let matchesDuration = true;
-        if (selectedDuration !== "Any Duration") {
-            const weeks = parseInt(course.duration);
-            if (selectedDuration === "Under 4 weeks") matchesDuration = weeks < 4;
-            else if (selectedDuration === "4-8 weeks") matchesDuration = weeks >= 4 && weeks <= 8;
-            else if (selectedDuration === "8-12 weeks") matchesDuration = weeks > 8 && weeks <= 12;
-            else if (selectedDuration === "12+ weeks") matchesDuration = weeks > 12;
-        }
-        
-        return matchesSearch && matchesCategory && matchesLevel && matchesFreeFilter && matchesDuration;
+        return matchesSearch && matchesCategory && matchesLevel;
     }).sort((a, b) => {
-        // When showing free courses only, sort by completion rate (highest first)
-        if (showFreeOnly) {
+        // For Free Courses category, sort by completion rate (highest first)
+        if (selectedCategory === "Free Courses") {
             const rateA = (a as any).completionRate || 0;
             const rateB = (b as any).completionRate || 0;
             return rateB - rateA;
@@ -270,60 +258,18 @@ export default function BrowseCourses() {
                         </Button>
                     </div>
 
-                    <div className="hidden sm:flex flex-col gap-4 mb-6">
-                        <div className="flex flex-wrap gap-2">
-                            <span className="text-sm font-medium text-muted-foreground mr-2 self-center">Category:</span>
-                            {categories.map((category) => (
-                                <Button
-                                    key={category}
-                                    variant={selectedCategory === category ? "default" : "outline"}
-                                    size="sm"
-                                    onClick={() => setSelectedCategory(category)}
-                                    className="rounded-full"
-                                >
-                                    {category}
-                                </Button>
-                            ))}
-                        </div>
-                        <div className="flex flex-wrap gap-2 items-center">
-                            <span className="text-sm font-medium text-muted-foreground mr-2">Level:</span>
-                            {levels.map((level) => (
-                                <Button
-                                    key={level}
-                                    variant={selectedLevel === level ? "secondary" : "outline"}
-                                    size="sm"
-                                    onClick={() => setSelectedLevel(level)}
-                                    className="rounded-full"
-                                >
-                                    {level}
-                                </Button>
-                            ))}
-                        </div>
-                        <div className="flex flex-wrap gap-2 items-center">
-                            <span className="text-sm font-medium text-muted-foreground mr-2">Duration:</span>
-                            {durations.map((duration) => (
-                                <Button
-                                    key={duration}
-                                    variant={selectedDuration === duration ? "secondary" : "outline"}
-                                    size="sm"
-                                    onClick={() => setSelectedDuration(duration)}
-                                    className="rounded-full"
-                                >
-                                    {duration}
-                                </Button>
-                            ))}
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <span className="text-sm font-medium text-muted-foreground mr-2">Price:</span>
+                    <div className="hidden sm:flex flex-wrap gap-2 mb-6">
+                        {categories.map((category) => (
                             <Button
-                                variant={showFreeOnly ? "default" : "outline"}
+                                key={category}
+                                variant={selectedCategory === category ? "default" : "outline"}
                                 size="sm"
-                                onClick={() => setShowFreeOnly(!showFreeOnly)}
+                                onClick={() => setSelectedCategory(category)}
                                 className="rounded-full"
                             >
-                                {showFreeOnly ? "✓ Free Courses Only" : "Free Courses Only"}
+                                {category}
                             </Button>
-                        </div>
+                        ))}
                     </div>
 
                     {showFilters && (
@@ -379,18 +325,6 @@ export default function BrowseCourses() {
                                     ))}
                                 </div>
                             </div>
-                            <div>
-                                <label className="text-sm font-medium mb-2 block">Price</label>
-                                <div className="flex flex-wrap gap-2">
-                                    <Button
-                                        variant={showFreeOnly ? "default" : "outline"}
-                                        size="sm"
-                                        onClick={() => setShowFreeOnly(!showFreeOnly)}
-                                    >
-                                        {showFreeOnly ? "✓ Free Courses Only" : "Free Courses Only"}
-                                    </Button>
-                                </div>
-                            </div>
                         </motion.div>
                     )}
 
@@ -398,6 +332,18 @@ export default function BrowseCourses() {
                         <p className="text-sm text-muted-foreground">
                             Showing <span className="font-medium text-foreground">{filteredCourses.length}</span> courses
                         </p>
+                        <div className="hidden sm:flex gap-2">
+                            {levels.map((level) => (
+                                <Button
+                                    key={level}
+                                    variant={selectedLevel === level ? "secondary" : "ghost"}
+                                    size="sm"
+                                    onClick={() => setSelectedLevel(level)}
+                                >
+                                    {level}
+                                </Button>
+                            ))}
+                        </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -504,8 +450,6 @@ export default function BrowseCourses() {
                                 setSearchQuery("");
                                 setSelectedCategory("All");
                                 setSelectedLevel("All Levels");
-                                setSelectedDuration("Any Duration");
-                                setShowFreeOnly(false);
                             }}>
                                 Clear Filters
                             </Button>
