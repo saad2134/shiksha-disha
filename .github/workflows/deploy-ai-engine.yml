@@ -12,7 +12,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}/b2-ai-engine-service
+  IMAGE_NAME: ${{ github.repository }}/b2-ai-pathway-engine
 
 jobs:
   build-and-deploy:
