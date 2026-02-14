@@ -142,15 +142,15 @@ See [DEPLOYMENT_FULL.md](DEPLOYMENT_FULL.md) for complete deployment instruction
 
 ```bash
 # Core API
-cd backend_1-core
+cd backend_1-core_service
 docker-compose up -d
 
 # AI Engine
-cd ../backend-2-ai_engine_service
+cd ../backend_2-ai_engine_service
 docker-compose up -d
 
 # AI Companion
-cd ../backend-3-ai_companion
+cd ..//backend_3-ai_companion
 docker-compose up -d
 ```
 
@@ -179,7 +179,7 @@ graph TB
             Behavior[Behavior<br/>Analyzer]
         end
 
-        subgraph "backend-3-ai_companion :9001"
+        subgraph "/backend_3-ai_companion :9001"
             Chat[AI Companion<br/>Chat]
             Forecast[Skill<br/>Forecaster]
             Alerts[Industry<br/>Alerts]
@@ -211,7 +211,7 @@ graph TB
 |---------|------|------------|---------|
 | **backend-core** | 8000 | FastAPI + PostgreSQL | User management, actions, notifications, sessions, streaks |
 | **backend-2-ai_engine_service** | 9000 | FastAPI + FAISS | Course matching, behavior analysis, recommendations |
-| **backend-3-ai_companion** | 9001 | FastAPI + Redis | AI chat, skill forecasting, alerts |
+| **/backend_3-ai_companion** | 9001 | FastAPI + Redis | AI chat, skill forecasting, alerts |
 
 ### Data Flow
 

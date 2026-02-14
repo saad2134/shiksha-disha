@@ -15,7 +15,7 @@ def send_notification(payload: schemas.NotificationCreate, background_tasks: Bac
         user_id=payload.user_id,
         title=payload.title,
         body=payload.body,
-        metadata=payload.metadata or {}
+        meta=payload.meta or {}
     )
     db.add(notif)
     db.commit()
@@ -27,7 +27,7 @@ def send_notification(payload: schemas.NotificationCreate, background_tasks: Bac
             "id": notif.id,
             "title": notif.title,
             "body": notif.body,
-            "metadata": notif.metadata,
+            "meta": notif.meta,
             "created_at": str(notif.created_at)
         }))
     except Exception:

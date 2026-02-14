@@ -1,20 +1,36 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
 from typing import Optional, Dict, Any, List
 from datetime import datetime
 
+class LoginRequest(BaseModel):
+    email: str
+    password: str
+
+class SignupRequest(BaseModel):
+    email: str
+    password: str
+    name: str
+    language: Optional[str] = "en"
+
+class AuthResponse(BaseModel):
+    success: bool
+    message: str
+    user: Optional[Dict[str, Any]] = None
+    token: Optional[str] = None
+
 class UserCreate(BaseModel):
-    email: EmailStr
+    email: str
     name: Optional[str] = None
     language: Optional[str] = "en"
 
 class UserOut(BaseModel):
     id: int
-    email: EmailStr
+    email: str
     name: Optional[str]
     language: str
     created_at: datetime
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class UserUpdate(BaseModel):
     name: Optional[str] = None
@@ -31,14 +47,13 @@ class ActionOut(BaseModel):
     type: str
     payload: Optional[Dict[str, Any]]
     created_at: datetime
-    class Config:
-        orm_mode = True
+    model_config = {"from_attributes": True}
 
 class NotificationCreate(BaseModel):
     user_id: int
     title: str
     body: str
-    metadata: Optional[Dict[str, Any]] = None
+    meta: Optional[Dict[str, Any]] = None
     deliver_immediately: Optional[bool] = True
 
 class NotificationOut(BaseModel):
@@ -46,12 +61,12 @@ class NotificationOut(BaseModel):
     user_id: int
     title: str
     body: str
-    metadata: Optional[Dict[str, Any]]
+    meta: Optional[Dict[str, Any]]
     delivered: bool
     read: bool
     created_at: datetime
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class SessionStart(BaseModel):
@@ -74,8 +89,7 @@ class SessionOut(BaseModel):
     duration_seconds: int
     engagement_score: Optional[int]
     dropout_risk: Optional[float]
-    class Config:
-        orm_mode = True
+    model_config = {"from_attributes": True}
 
 class BehaviorEventCreate(BaseModel):
     user_id: int
@@ -83,7 +97,7 @@ class BehaviorEventCreate(BaseModel):
     event_type: str
     content_id: Optional[str] = None
     content_type: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
+    meta: Optional[Dict[str, Any]] = None
 
 class BehaviorEventOut(BaseModel):
     id: int
@@ -92,10 +106,10 @@ class BehaviorEventOut(BaseModel):
     event_type: str
     content_id: Optional[str]
     content_type: Optional[str]
-    metadata: Optional[Dict[str, Any]]
+    meta: Optional[Dict[str, Any]]
     timestamp: datetime
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class EngagementProfileOut(BaseModel):
     user_id: int
@@ -104,8 +118,7 @@ class EngagementProfileOut(BaseModel):
     preferred_difficulty: Optional[str]
     dropout_risk_score: float
     last_updated: datetime
-    class Config:
-        orm_mode = True
+    model_config = {"from_attributes": True}
 
 class RealtimePrediction(BaseModel):
     user_id: int
@@ -126,8 +139,7 @@ class StreakOut(BaseModel):
     total_active_days: int
     freeze_count: int
     updated_at: datetime
-    class Config:
-        orm_mode = True
+    model_config = {"from_attributes": True}
 
 
 class StreakActivityCreate(BaseModel):
@@ -146,5 +158,4 @@ class StreakActivityOut(BaseModel):
     content_type: Optional[str]
     streak_continued: bool
     created_at: datetime
-    class Config:
-        orm_mode = True
+    model_config = {"from_attributes": True}
