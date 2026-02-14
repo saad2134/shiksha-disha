@@ -159,57 +159,6 @@ export default function Dashboard() {
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: 0.15 }}
-                        >
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle className="flex items-center gap-2">
-                                        <Sparkles className="text-primary" size={20} />
-                                        Quick Actions
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="grid grid-cols-2 gap-3">
-                                        <Button
-                                            variant="outline"
-                                            onClick={() => router.push('/demo/achievements')}
-                                            className="flex flex-col items-center gap-2 h-auto py-4"
-                                        >
-                                            <Trophy className="text-amber-500" size={24} />
-                                            <span className="text-sm">Achievements</span>
-                                        </Button>
-                                        <Button
-                                            variant="outline"
-                                            onClick={() => router.push('/demo/ai-companion')}
-                                            className="flex flex-col items-center gap-2 h-auto py-4"
-                                        >
-                                            <MessageSquare className="text-violet-500" size={24} />
-                                            <span className="text-sm">AI Companion</span>
-                                        </Button>
-                                        <Button
-                                            variant="outline"
-                                            onClick={() => router.push('/demo/leaderboard')}
-                                            className="flex flex-col items-center gap-2 h-auto py-4"
-                                        >
-                                            <BarChart3 className="text-blue-500" size={24} />
-                                            <span className="text-sm">Leaderboard</span>
-                                        </Button>
-                                        <Button
-                                            variant="outline"
-                                            onClick={() => router.push('/demo/insights')}
-                                            className="flex flex-col items-center gap-2 h-auto py-4"
-                                        >
-                                            <TrendingUp className="text-green-500" size={24} />
-                                            <span className="text-sm">Market Insights</span>
-                                        </Button>
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        </motion.div>
-
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: 0.2 }}
                         >
                             <Card>
