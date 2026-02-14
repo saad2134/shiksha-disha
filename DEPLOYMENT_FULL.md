@@ -12,7 +12,7 @@ ShikshaDisha consists of 3 backend microservices:
 |---------|------|-------------|
 | **backend_1-core_service** | 8000 | Core API, Users, Actions, Notifications, Database |
 | **backend_2-ai_engine_service** | 9000 | AI Matching Engine, Course Recommendations |
-| **/backend_3-ai_companion** | 9001 | AI Companion, Chat, Skill Forecasting |
+| **backend_3-ai_companion** | 9001 | AI Companion, Chat, Skill Forecasting |
 
 ---
 
