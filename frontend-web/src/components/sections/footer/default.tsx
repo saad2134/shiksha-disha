@@ -101,8 +101,8 @@ export default function FooterSection({
   return (
     <footer className={cn("bg-background w-full border-t py-8", className)}>
       <div className="max-w-container mx-auto px-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-          <div className="flex flex-col gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
+          <div className="flex flex-col gap-3 sm:col-span-2 lg:col-span-2">
             <div className="flex flex-wrap items-center gap-2">
               {logo}
               <span className="text-xl font-bold">{name}</span>

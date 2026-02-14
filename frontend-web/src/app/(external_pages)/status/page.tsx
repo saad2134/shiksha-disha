@@ -72,7 +72,7 @@ export default function StatusPage() {
 
   return (
     <>
-      <div className="h-screen bg-gradient-to-r from-primary/5 via-transparent to-primary/5">
+      <div className="h-screen ">
         <Navbar />
 
         <div className="max-w-4xl mx-auto p-8 pt-32 pb-20">

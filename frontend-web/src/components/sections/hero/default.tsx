@@ -1,3 +1,5 @@
+'use client';
+
 import { ArrowRightIcon } from "lucide-react";
 import { ReactNode } from "react";
 
@@ -11,6 +13,7 @@ import Glow from "../../ui/glow";
 import { Mockup, MockupFrame } from "../../ui/mockup";
 import Screenshot from "../../ui/screenshot";
 import { Section } from "../../ui/section";
+import { motion } from "framer-motion";
 
 interface HeroButtonProps {
   href: string;
@@ -44,12 +47,12 @@ export default function Hero({
   ),
   buttons = [
     {
-      href: '/student/onboarding',
+      href: '/auth',
       text: "Get Started",
       variant: "default",
     },
     {
-      href: '/student/dashboard',
+      href: '/demo/onboarding',
       text: "Try Demo",
       variant: "outline",
     },
@@ -65,11 +68,54 @@ export default function Hero({
   return (
     <Section
       className={cn(
-        "fade-bottom overflow-hidden pb-0 sm:pb-0 md:pb-0",
+        "fade-bottom overflow-hidden pb-0 sm:pb-0 md:pb-0 relative",
         className,
       )}
     >
-      <div className="max-w-container mx-auto flex flex-col gap-8 sm:gap-12 md:gap-16 lg:gap-24 pt-24 sm:pt-28 md:pt-32 px-4 sm:px-6">
+      {/* Background orbs */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
+        <motion.div
+          className="absolute top-10 left-10 w-[150px] h-[150px] rounded-full bg-primary/20 blur-[60px]"
+          animate={{
+            x: [0, 20, 0],
+            y: [0, 15, 0],
+            scale: [1, 1.1, 1],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+        <motion.div
+          className="absolute top-10 right-10 w-[120px] h-[120px] rounded-full bg-secondary/20 blur-[50px]"
+          animate={{
+            x: [0, -15, 0],
+            y: [0, 10, 0],
+            scale: [1, 1.15, 1],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2,
+          }}
+        />
+        <motion.div
+          className="absolute top-1/3 left-1/4 w-[80px] h-[80px] rounded-full bg-accent/15 blur-[40px]"
+          animate={{
+            x: [0, 10, 0],
+            y: [0, -10, 0],
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1,
+          }}
+        />
+      </div>
+      <div className="max-w-container mx-auto flex flex-col gap-8 sm:gap-12 md:gap-16 lg:gap-24 pt-20 sm:pt-16 md:pt-16 px-4 sm:px-6">
 
         <div className="flex flex-col items-center gap-6 text-center sm:gap-12">
 

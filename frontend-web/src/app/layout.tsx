@@ -1,6 +1,6 @@
 import "@/app/globals.css";
 
-import { ThemeProvider } from "@/components/contexts/theme-provider";
+import { Providers } from "@/components/providers";
 import { inter } from "@/lib/fonts";
 
 export const viewport = {
@@ -11,9 +11,9 @@ export const viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="overflow-x-hidden">
-      <body className={`${inter.className} bg-background antialiased overflow-x-hidden`}>
-        <ThemeProvider>{children}</ThemeProvider>
+    <html lang="en" className="overflow-x-hidden ">
+      <body className={`${inter.className}  antialiased overflow-x-hidden`}>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
