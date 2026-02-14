@@ -9,6 +9,7 @@ class User(Base):
     email = Column(String, unique=True, index=True, nullable=False)
     name = Column(String, nullable=True)
     language = Column(String, default="en")
+    hashed_password = Column(String, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 
     actions = relationship("Action", back_populates="user")
@@ -36,7 +37,7 @@ class Notification(Base):
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     title = Column(String, nullable=False)
     body = Column(Text, nullable=False)
-    metadata = Column(JSON, nullable=True)  # e.g., { "type": "path_update", ...}
+    meta = Column(JSON, nullable=True)
     delivered = Column(Boolean, default=False)
     read = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.utcnow)
@@ -78,7 +79,7 @@ class BehaviorEvent(Base):
     event_type = Column(String, index=True)
     content_id = Column(String, nullable=True)
     content_type = Column(String, nullable=True)
-    metadata = Column(JSON, nullable=True)
+    meta = Column(JSON, nullable=True)
     timestamp = Column(DateTime, default=datetime.utcnow)
     
     user = relationship("User", back_populates="behavior_events")

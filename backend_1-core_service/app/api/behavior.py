@@ -57,7 +57,7 @@ def log_event(payload: schemas.BehaviorEventCreate, db: Session = Depends(get_db
         event_type=payload.event_type,
         content_id=payload.content_id,
         content_type=payload.content_type,
-        metadata=payload.metadata,
+        meta=payload.meta,
         timestamp=datetime.utcnow()
     )
     db.add(event)

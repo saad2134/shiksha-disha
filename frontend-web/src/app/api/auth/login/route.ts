@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
 
-const DB_URL = process.env.DATABASE_URL || process.env.NEXT_PUBLIC_API_URL || '';
+const BACKEND_URL = process.env.BACKEND_SERVICE_CORE_BASE_URL || 'http://localhost:8000';
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { email, password, rememberMe } = body;
+    const { email, password } = body;
 
     if (!email || !password) {
       return NextResponse.json(
@@ -14,52 +14,35 @@ export async function POST(request: Request) {
       );
     }
 
-    if (!DB_URL) {
-      return NextResponse.json(
-        { success: false, message: 'Database configuration missing' },
-        { status: 503 }
-      );
-    }
-
     try {
-      const dbResponse = await fetch(`${DB_URL}/api/users/login`, {
+      const backendResponse = await fetch(`${BACKEND_URL}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
         signal: AbortSignal.timeout(10000),
       });
 
-      if (!dbResponse.ok) {
-        const errorData = await dbResponse.json().catch(() => ({}));
+      if (!backendResponse.ok) {
         return NextResponse.json(
-          { success: false, message: errorData.message || 'Invalid credentials' },
+          { success: false, message: 'Cannot reach backend core service.' },
+          { status: 503 }
+        );
+      }
+
+      const userData = await backendResponse.json();
+
+      if (!backendResponse.ok || !userData.success) {
+        return NextResponse.json(
+          { success: false, message: userData.detail || 'Invalid credentials' },
           { status: 401 }
         );
       }
 
-      const userData = await dbResponse.json();
-
-      if (!userData.success) {
-        return NextResponse.json(
-          { success: false, message: userData.message || 'Invalid credentials' },
-          { status: 401 }
-        );
-      }
-
-      return NextResponse.json({
-        success: true,
-        message: 'Login successful',
-        user: userData.user || {
-          id: '1',
-          name: email.split('@')[0],
-          email,
-        },
-        token: userData.token || 'demo-token-' + Date.now(),
-      });
+      return NextResponse.json(userData);
     } catch (dbError) {
-      console.error('Database connection failed:', dbError);
+      console.error('Backend connection failed:', dbError);
       return NextResponse.json(
-        { success: false, message: 'Unable to connect to database. Please try again later.' },
+        { success: false, message: 'Cannot reach backend core service.' },
         { status: 503 }
       );
     }

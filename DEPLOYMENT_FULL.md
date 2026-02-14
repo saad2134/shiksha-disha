@@ -10,9 +10,9 @@ ShikshaDisha consists of 3 backend microservices:
 
 | Service | Port | Description |
 |---------|------|-------------|
-| **backend_1-core** | 8000 | Core API, Users, Actions, Notifications, Database |
-| **backend-2-ai_engine_service** | 9000 | AI Matching Engine, Course Recommendations |
-| **backend-3-ai_companion** | 9001 | AI Companion, Chat, Skill Forecasting |
+| **backend_1-core_service** | 8000 | Core API, Users, Actions, Notifications, Database |
+| **backend_2-ai_engine_service** | 9000 | AI Matching Engine, Course Recommendations |
+| **backend_3-ai_companion** | 9001 | AI Companion, Chat, Skill Forecasting |
 
 ---
 
@@ -22,15 +22,15 @@ ShikshaDisha consists of 3 backend microservices:
 
 ```bash
 # 1. Core API (with PostgreSQL + Redis + Celery)
-cd backend_1-core
+cd backend_1-core_service
 docker-compose up -d --build
 
 # 2. AI Engine Service
-cd ../backend-2-ai_engine_service
+cd ../backend_2-ai_engine_service
 docker-compose up -d --build
 
 # 3. AI Companion Service
-cd ../backend-3-ai_companion
+cd ../backend_3-ai_companion
 docker-compose up -d --build
 ```
 
@@ -57,7 +57,7 @@ docker pull ghcr.io/<username>/shiksha-disha/ai-companion:latest
 
 ## Backend Services
 
-### 1. Core API (backend_1-core)
+### 1. Core API (backend_1-core_service)
 
 **Port:** 8000
 
@@ -73,7 +73,7 @@ docker pull ghcr.io/<username>/shiksha-disha/ai-companion:latest
 
 **Deploy:**
 ```bash
-cd backend_1-core
+cd backend_1-core_service
 
 # With Docker Compose (recommended)
 docker-compose up -d --build
@@ -95,9 +95,16 @@ docker run -d -p 8000:8000 \
 
 **API Docs:** http://localhost:8000/docs
 
+**Database Admin:** http://localhost:8080
+- System: PostgreSQL
+- Server: db
+- User: postgres
+- Password: postgres
+- Database: shikshadisha
+
 ---
 
-### 2. AI Engine Service (backend-2-ai_engine_service)
+### 2. AI Engine Service (backend_2-ai_engine_service)
 
 **Port:** 9000
 
@@ -110,7 +117,7 @@ docker run -d -p 8000:8000 \
 
 **Deploy:**
 ```bash
-cd backend-2-ai_engine_service
+cd backend_2-ai_engine_service
 
 # With Docker Compose
 docker-compose up -d --build
@@ -130,7 +137,7 @@ docker run -d -p 9000:9000 shiksha-ai-engine
 
 ---
 
-### 3. AI Companion (backend-3-ai_companion)
+### 3. AI Companion (/backend_3-ai_companion)
 
 **Port:** 9001
 
@@ -142,7 +149,7 @@ docker run -d -p 9000:9000 shiksha-ai-engine
 
 **Deploy:**
 ```bash
-cd backend-3-ai_companion
+cd /backend_3-ai_companion
 
 # With Docker Compose
 docker-compose up -d --build
@@ -226,16 +233,16 @@ docker logs shiksha-ai-companion
 
 ### Rebuild Services
 ```bash
-cd backend_1-core && docker-compose up -d --build
-cd ../backend-2-ai_engine_service && docker-compose up -d --build
-cd ../backend-3-ai_companion && docker-compose up -d --build
+cd backend_1-core_service && docker-compose up -d --build
+cd ../backend_2-ai_engine_service && docker-compose up -d --build
+cd ..//backend_3-ai_companion && docker-compose up -d --build
 ```
 
 ### Stop All Services
 ```bash
-cd backend_1-core && docker-compose down
-cd ../backend-2-ai_engine_service && docker-compose down
-cd ../backend-3-ai_companion && docker-compose down
+cd backend_1-core_service && docker-compose down
+cd ../backend_2-ai_engine_service && docker-compose down
+cd ..//backend_3-ai_companion && docker-compose down
 ```
 
 ---
