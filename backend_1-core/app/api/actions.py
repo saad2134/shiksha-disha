@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from .. import schemas, models
 from ..db import get_db
 
-router = APIRouter(prefix="/actions", tags=["actions"])
+router = APIRouter()
 
 @router.post("/", response_model=schemas.ActionOut)
 def create_action(payload: schemas.ActionCreate, db: Session = Depends(get_db)):
@@ -14,9 +14,6 @@ def create_action(payload: schemas.ActionCreate, db: Session = Depends(get_db)):
     db.add(action)
     db.commit()
     db.refresh(action)
-
-    # TODO: hook: trigger AI matching engine or event bus to update user pathway
-    # e.g., publish to Redis stream or call internal service
     return action
 
 @router.get("/", response_model=list[schemas.ActionOut])

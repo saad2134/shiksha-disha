@@ -1,0 +1,257 @@
+# ShikshaDisha - Full Deployment Guide
+
+> Complete deployment instructions for all ShikshaDisha backend services
+
+---
+
+## Overview
+
+ShikshaDisha consists of 3 backend microservices:
+
+| Service | Port | Description |
+|---------|------|-------------|
+| **backend_1-core** | 8000 | Core API, Users, Actions, Notifications, Database |
+| **backend-2-ai_engine_service** | 9000 | AI Matching Engine, Course Recommendations |
+| **backend-3-ai_companion** | 9001 | AI Companion, Chat, Skill Forecasting |
+
+---
+
+## Quick Deploy All Services
+
+### Option 1: Deploy Each Service Separately
+
+```bash
+# 1. Core API (with PostgreSQL + Redis + Celery)
+cd backend_1-core
+docker-compose up -d --build
+
+# 2. AI Engine Service
+cd ../backend-2-ai_engine_service
+docker-compose up -d --build
+
+# 3. AI Companion Service
+cd ../backend-3-ai_companion
+docker-compose up -d --build
+```
+
+### Option 2: Deploy All at Once
+
+```bash
+# Create a root docker-compose.yml for orchestration
+```
+
+### Option 3: Pull Pre-built Images
+
+```bash
+# Core API
+docker pull ghcr.io/<username>/shiksha-disha/core-api:latest
+
+# AI Engine
+docker pull ghcr.io/<username>/shiksha-disha/ai-engine-service:latest
+
+# AI Companion
+docker pull ghcr.io/<username>/shiksha-disha/ai-companion:latest
+```
+
+---
+
+## Backend Services
+
+### 1. Core API (backend_1-core)
+
+**Port:** 8000
+
+**Features:**
+- User Management (CRUD)
+- Action Tracking
+- Notifications (Email, Push, WebSocket)
+- Learning Sessions & Behavior Tracking
+- Streaks & Gamification
+- PostgreSQL Database
+- Redis Cache
+- Celery Workers for async tasks
+
+**Deploy:**
+```bash
+cd backend_1-core
+
+# With Docker Compose (recommended)
+docker-compose up -d --build
+
+# Or run manually
+docker build -t shiksha-core .
+docker run -d -p 8000:8000 \
+  -e DATABASE_URL=postgresql://postgres:postgres@localhost:5432/shikshadisha \
+  -e REDIS_URL=redis://localhost:6379/0 \
+  shiksha-core
+```
+
+**Environment Variables:**
+| Variable | Default | Description |
+|----------|---------|-------------|
+| DATABASE_URL | postgresql://...@db:5432/shikshadisha | PostgreSQL connection |
+| REDIS_URL | redis://redis:6379/0 | Redis connection |
+| SECRET_KEY | dev-secret | JWT secret key |
+
+**API Docs:** http://localhost:8000/docs
+
+---
+
+### 2. AI Engine Service (backend-2-ai_engine_service)
+
+**Port:** 9000
+
+**Features:**
+- Semantic Course Matching
+- NSQF Course Recommendations
+- Behavior Analysis
+- Engagement & Dropout Prediction
+- FAISS Index for fast search
+
+**Deploy:**
+```bash
+cd backend-2-ai_engine_service
+
+# With Docker Compose
+docker-compose up -d --build
+
+# Or manually
+docker build -t shiksha-ai-engine .
+docker run -d -p 9000:9000 shiksha-ai-engine
+```
+
+**Environment Variables:**
+| Variable | Default | Description |
+|----------|---------|-------------|
+| EMBEDDING_MODEL | all-MiniLM-L6-v2 | Sentence transformer model |
+| NSQF_COURSES_PATH | ./data/nsqf_courses.csv | Course data CSV |
+
+**API Docs:** http://localhost:9000/docs
+
+---
+
+### 3. AI Companion (backend-3-ai_companion)
+
+**Port:** 9001
+
+**Features:**
+- AI Chat Companion
+- Skill Forecasting
+- Industry Alerts
+- Content Recommendations
+
+**Deploy:**
+```bash
+cd backend-3-ai_companion
+
+# With Docker Compose
+docker-compose up -d --build
+
+# Or manually
+docker build -t shiksha-ai-companion .
+docker run -d -p 9001:9001 shiksha-ai-companion
+```
+
+**API Docs:** http://localhost:9001/docs
+
+---
+
+## Auto-Update with Watchtower
+
+Add Watchtower to automatically update containers:
+
+```yaml
+# docker-compose.full.yml
+version: "3.8"
+
+services:
+  core:
+    image: ghcr.io/${GITHUB_USERNAME}/shiksha-disha/core-api:latest
+    # ... other config
+
+  ai-engine:
+    image: ghcr.io/${GITHUB_USERNAME}/shiksha-disha/ai-engine-service:latest
+    # ... other config
+
+  ai-companion:
+    image: ghcr.io/${GITHUB_USERNAME}/shiksha-disha/ai-companion:latest
+    # ... other config
+
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 60 --include-restart core ai-engine ai-companion
+```
+
+Run:
+```bash
+docker-compose -f docker-compose.full.yml up -d
+```
+
+---
+
+## Verify Deployment
+
+```bash
+# Check all services
+curl http://localhost:8000/health    # Core API
+curl http://localhost:9000/health    # AI Engine
+curl http://localhost:9001/health    # AI Companion
+
+# Check Docker containers
+docker ps
+```
+
+Expected output:
+```
+CONTAINER ID   IMAGE                    STATUS          PORTS
+abc123         shiksha-core-api         Up 2 minutes    0.0.0.0:8000->8000/tcp
+def456         shiksha-ai-engine        Up 2 minutes    0.0.0.0:9000->9000/tcp
+ghi789         shiksha-ai-companion     Up 2 minutes    0.0.0.0:9001->9001/tcp
+jkl012         shiksha-db               Up 3 minutes    0.0.0.0:5432->5432/tcp
+mno345         shiksha-redis            Up 3 minutes    0.0.0.0:6379->6379/tcp
+```
+
+---
+
+## Troubleshooting
+
+### View Logs
+```bash
+docker logs shiksha-core-api
+docker logs shiksha-ai-engine
+docker logs shiksha-ai-companion
+```
+
+### Rebuild Services
+```bash
+cd backend_1-core && docker-compose up -d --build
+cd ../backend-2-ai_engine_service && docker-compose up -d --build
+cd ../backend-3-ai_companion && docker-compose up -d --build
+```
+
+### Stop All Services
+```bash
+cd backend_1-core && docker-compose down
+cd ../backend-2-ai_engine_service && docker-compose down
+cd ../backend-3-ai_companion && docker-compose down
+```
+
+---
+
+## GitHub Container Registry
+
+After GitHub Actions runs, images are available at:
+
+```
+ghcr.io/<github-username>/shiksha-disha/core-api:latest
+ghcr.io/<github-username>/shiksha-disha/ai-engine-service:latest
+ghcr.io/<github-username>/shiksha-disha/ai-companion:latest
+```
+
+To pull:
+```bash
+echo $GITHUB_TOKEN | docker login ghcr.io -u $GITHUB_USERNAME --password-stdin
+docker pull ghcr.io/<username>/shiksha-disha/core-api:latest
+```

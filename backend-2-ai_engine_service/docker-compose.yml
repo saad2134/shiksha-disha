@@ -6,12 +6,23 @@ services:
       - "9000:9000"
     environment:
       - REDIS_URL=redis://redis:6379/0
-      - NSQF_COURSES_PATH=/data/nsqf_courses.csv
+      - NSQF_COURSES_PATH=./data/nsqf_courses.csv
+      - INDEX_PATH=./models/faiss.index
+      - EMBEDS_PATH=./models/course_embeds.npy
+      - META_PATH=./models/course_meta.pkl
     volumes:
-      - ./data:/data
+      - ./data:/app/data
       - ./models:/app/models
     depends_on:
       - redis
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
   redis:
-    image: redis:7
+    image: redis:7-alpine
     command: ["redis-server", "--save", "900", "1"]
+    ports:
+      - "6379:6379"
