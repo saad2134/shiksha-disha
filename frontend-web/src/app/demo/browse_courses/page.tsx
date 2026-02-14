@@ -32,12 +32,64 @@ const categories = [
     "Cloud Computing",
     "AI & Machine Learning",
     "Cybersecurity",
-    "DevOps"
+    "DevOps",
+    "Free Courses"
 ];
 
 const courses = [
     {
         id: 1,
+        title: "Introduction to Programming",
+        provider: "FreeCode Academy",
+        instructor: "Prof. Arun Kumar",
+        rating: 4.9,
+        students: 45000,
+        duration: "8 weeks",
+        level: "Beginner",
+        price: 0,
+        originalPrice: 0,
+        image: "/api/placeholder/400/200",
+        tags: ["Web Development", "Free Courses", "Programming"],
+        match: 98,
+        completionRate: 94,
+        isBookmarked: false
+    },
+    {
+        id: 2,
+        title: "Digital Marketing Fundamentals",
+        provider: "Skill India Hub",
+        instructor: "Priya Sharma",
+        rating: 4.7,
+        students: 32000,
+        duration: "6 weeks",
+        level: "Beginner",
+        price: 0,
+        originalPrice: 0,
+        image: "/api/placeholder/400/200",
+        tags: ["Free Courses", "Marketing", "Business"],
+        match: 92,
+        completionRate: 89,
+        isBookmarked: true
+    },
+    {
+        id: 3,
+        title: "Data Analytics Basics",
+        provider: "Google Career Certificates",
+        instructor: "Dr. Sarah Chen",
+        rating: 4.8,
+        students: 28000,
+        duration: "10 weeks",
+        level: "Beginner",
+        price: 0,
+        originalPrice: 0,
+        image: "/api/placeholder/400/200",
+        tags: ["Data Science", "Free Courses", "Analytics"],
+        match: 90,
+        completionRate: 87,
+        isBookmarked: false
+    },
+    {
+        id: 4,
         title: "Full Stack Web Development Bootcamp",
         provider: "Tech Academy",
         instructor: "Sarah Johnson",
@@ -85,7 +137,7 @@ const courses = [
         isBookmarked: true
     },
     {
-        id: 4,
+        id: 5,
         title: "iOS App Development with Swift",
         provider: "Apple Developer Academy",
         instructor: "Emily Davis",
@@ -101,7 +153,7 @@ const courses = [
         isBookmarked: false
     },
     {
-        id: 5,
+        id: 6,
         title: "Introduction to Cybersecurity",
         provider: "SecureNet",
         instructor: "Alex Thompson",
@@ -117,7 +169,7 @@ const courses = [
         isBookmarked: false
     },
     {
-        id: 6,
+        id: 7,
         title: "DevOps Engineering with Kubernetes",
         provider: "DevOps Academy",
         instructor: "Robert Martinez",
@@ -142,7 +194,7 @@ export default function BrowseCourses() {
     const [selectedCategory, setSelectedCategory] = React.useState("All");
     const [selectedLevel, setSelectedLevel] = React.useState("All Levels");
     const [selectedDuration, setSelectedDuration] = React.useState("Any Duration");
-    const [bookmarkedCourses, setBookmarkedCourses] = React.useState<number[]>([1, 3]);
+    const [bookmarkedCourses, setBookmarkedCourses] = React.useState<number[]>([2, 5]);
     const [showFilters, setShowFilters] = React.useState(false);
 
     useEffect(() => {
@@ -155,6 +207,14 @@ export default function BrowseCourses() {
         const matchesCategory = selectedCategory === "All" || course.tags.includes(selectedCategory);
         const matchesLevel = selectedLevel === "All Levels" || course.level === selectedLevel;
         return matchesSearch && matchesCategory && matchesLevel;
+    }).sort((a, b) => {
+        // For Free Courses category, sort by completion rate (highest first)
+        if (selectedCategory === "Free Courses") {
+            const rateA = (a as any).completionRate || 0;
+            const rateB = (b as any).completionRate || 0;
+            return rateB - rateA;
+        }
+        return 0;
     });
 
     const toggleBookmark = (courseId: number) => {
@@ -352,9 +412,22 @@ export default function BrowseCourses() {
                                             <Progress value={course.match} className="flex-1 h-2" />
                                         </div>
                                         <div className="flex items-center gap-2">
-                                            <span className="text-lg font-bold text-violet-600">₹{course.price.toLocaleString()}</span>
-                                            <span className="text-sm text-muted-foreground line-through">₹{course.originalPrice.toLocaleString()}</span>
-                                            <Badge className="bg-green-500">50% OFF</Badge>
+                                            {course.price === 0 ? (
+                                                <>
+                                                    <span className="text-lg font-bold text-green-600">Free</span>
+                                                    {(course as any).completionRate && (
+                                                        <Badge className="bg-violet-500">
+                                                            {(course as any).completionRate}% Completion Rate
+                                                        </Badge>
+                                                    )}
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <span className="text-lg font-bold text-violet-600">₹{course.price.toLocaleString()}</span>
+                                                    <span className="text-sm text-muted-foreground line-through">₹{course.originalPrice.toLocaleString()}</span>
+                                                    <Badge className="bg-green-500">50% OFF</Badge>
+                                                </>
+                                            )}
                                         </div>
                                     </CardContent>
                                     <CardFooter className="pt-0">
