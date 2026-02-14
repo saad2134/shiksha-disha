@@ -1,11 +1,15 @@
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
-from .schemas import MatchRequest, Profile, CourseResponse
+from .schemas import MatchRequest, Profile, CourseResponse, LearnerMatchRequest, CourseMatchResponse, MonitorRequest, MonitorResponse, AdaptiveRecommendRequest, AdaptiveUpdateRequest, LearningStyleRequest
 from .matcher import semantic_search, apply_filters, compose_scores
 from .indexer import build_index, load_index
 from .config import settings
 from .behavior_analyzer import analyzer
 from .catalog import load_catalog
+from .learner_course_matcher import matcher
+from .learner_monitor import monitor
+from .adaptive_recommender import recommender
+from .learning_style_classifier import classifier
 import uvicorn
 import pandas as pd
 from typing import Optional, List
@@ -105,6 +109,104 @@ def match_simple(
     sem = semantic_search(profile, top_k=200)
     scored = compose_scores(sem, profile)
     return {"matches": scored[:top_k]}
+
+
+@app.post("/match/learner", response_model=List[CourseMatchResponse], tags=["Matching"])
+def match_learner(req: LearnerMatchRequest):
+    """
+    Match courses to a learner using logistic regression model.
+    
+    Predicts:
+    - Match probability: How well the learner matches with the course
+    - Completion probability: Likelihood of completing the course
+    - Performance probability: Expected performance in the course
+    - Engagement probability: Likelihood of staying engaged
+    
+    - **skills**: List of learner skills
+    - **experience_years**: Years of experience
+    - **preferred_nsqf_level**: Desired NSQF level
+    - **region**: Preferred region
+    - **preferred_language**: Preferred language
+    - **top_k**: Number of top matches to return
+    """
+    profile = {
+        "skills": req.skills or [],
+        "experience_years": req.experience_years or 0.0,
+        "preferred_nsqf_level": req.preferred_nsqf_level,
+        "region": req.region or "",
+        "preferred_language": req.preferred_language or ""
+    }
+    
+    df = load_catalog()
+    
+    if req.filters:
+        if 'nsqf_level' in req.filters:
+            df = df[df['nsqf_level'] == req.filters['nsqf_level']]
+        if 'region' in req.filters and req.filters['region']:
+            df = df[df['region'].str.lower() == req.filters['region'].lower()]
+        if 'language' in req.filters and req.filters['language']:
+            df = df[df['language'].str.lower() == req.filters['language'].lower()]
+        if 'max_duration_months' in req.filters:
+            df = df[df['duration_months'] <= req.filters['max_duration_months']]
+    
+    courses = df.to_dict('records')
+    matches = matcher.match_courses(profile, courses, top_k=req.top_k or 10)
+    
+    return matches
+
+
+@app.post("/match/learner/predict", tags=["Matching"])
+def predict_learner_course(
+    skills: List[str] = Query([]),
+    experience_years: float = Query(0.0),
+    preferred_nsqf_level: int = Query(None),
+    region: str = Query(""),
+    preferred_language: str = Query(""),
+    course_id: str = Query(...)
+):
+    """
+    Get predictions for a specific course match for a learner.
+    """
+    profile = {
+        "skills": skills,
+        "experience_years": experience_years,
+        "preferred_nsqf_level": preferred_nsqf_level,
+        "region": region,
+        "preferred_language": preferred_language
+    }
+    
+    df = load_catalog()
+    course = df[df['course_id'] == course_id]
+    
+    if course.empty:
+        raise HTTPException(status_code=404, detail="Course not found")
+    
+    course_dict = course.iloc[0].to_dict()
+    
+    match_pred = matcher.predict_match(profile, course_dict)
+    completion_pred = matcher.predict_completion(profile, course_dict)
+    performance_pred = matcher.predict_performance(profile, course_dict)
+    engagement_pred = matcher.predict_engagement(profile, course_dict)
+    
+    return {
+        "course": course_dict,
+        "predictions": {
+            "match": match_pred,
+            "completion": completion_pred,
+            "performance": performance_pred,
+            "engagement": engagement_pred
+        }
+    }
+
+
+@app.post("/match/train", tags=["Matching"])
+def train_matcher():
+    """
+    Train the logistic regression models for learner-course matching.
+    """
+    matcher.train()
+    matcher.save()
+    return {"ok": True, "message": "Learner-course matcher trained and saved successfully"}
 
 
 @app.get("/courses", tags=["Courses"])
@@ -237,6 +339,145 @@ def train_behavior_model():
     analyzer.train()
     analyzer.save()
     return {'ok': True, 'message': 'Model trained and saved successfully'}
+
+
+@app.post("/monitor/analyze", response_model=MonitorResponse, tags=["Monitoring"])
+def monitor_analyze(request: MonitorRequest):
+    """
+    Analyze learner session for anomalies and issues.
+    
+    Detects:
+    - Boredom patterns (low interaction, long gaps)
+    - Inactivity (long inactive periods)
+    - Struggle (tab switching, quiz failures, video pausing)
+    - Fast completion (suspiciously quick completion)
+    
+    - **events**: List of learner events with timestamps
+    - **user_id**: Optional user identifier
+    """
+    return monitor.analyze_session(request.events, request.user_id)
+
+
+@app.post("/monitor/boredom", tags=["Monitoring"])
+def detect_boredom(request: MonitorRequest):
+    """
+    Detect if user is bored or disengaged.
+    """
+    return monitor.detect_boredom(request.events)
+
+
+@app.post("/monitor/inactivity", tags=["Monitoring"])
+def detect_inactivity(request: MonitorRequest):
+    """
+    Detect long inactive periods.
+    """
+    return monitor.detect_inactivity(request.events)
+
+
+@app.post("/monitor/struggle", tags=["Monitoring"])
+def detect_struggle(request: MonitorRequest):
+    """
+    Detect if user is struggling with content.
+    """
+    return monitor.detect_struggle(request.events)
+
+
+@app.post("/monitor/fast-completion", tags=["Monitoring"])
+def detect_fast_completion(request: MonitorRequest):
+    """
+    Detect suspicious fast completion patterns.
+    """
+    return monitor.detect_fast_completion(request.events)
+
+
+@app.post("/monitor/recommendations", tags=["Monitoring"])
+def get_monitor_recommendations(request: MonitorRequest):
+    """
+    Get actionable recommendations based on learner behavior.
+    """
+    return {'recommendations': monitor.get_recommendations(request.events)}
+
+
+@app.post("/monitor/train", tags=["Monitoring"])
+def train_monitor():
+    """Train the learner monitoring models."""
+    monitor.train()
+    monitor.save()
+    return {'ok': True, 'message': 'Monitor models trained and saved successfully'}
+
+
+@app.post("/adaptive/recommend", tags=["Adaptive"])
+def adaptive_recommend(request: AdaptiveRecommendRequest):
+    """
+    Get adaptive course recommendations using reinforcement learning.
+    
+    The model learns from user feedback to improve recommendations over time.
+    """
+    learner_state = request.learner_state.dict()
+    courses = request.available_courses
+    
+    return recommender.get_recommendation(learner_state, courses)
+
+
+@app.post("/adaptive/update", tags=["Adaptive"])
+def adaptive_update(request: AdaptiveUpdateRequest):
+    """
+    Update the reinforcement learning model with user feedback.
+    
+    Feedback can include:
+    - engagement_delta: Change in engagement score
+    - completion: Whether user completed the course
+    - performance_delta: Change in performance
+    - satisfaction: User satisfaction (0-1)
+    - skip: Whether user skipped the recommendation
+    - negative_feedback: User gave negative feedback
+    """
+    learner_state = request.learner_state.dict()
+    result = recommender.update(learner_state, request.action, request.feedback)
+    recommender.save()
+    return result
+
+
+@app.get("/adaptive/stats", tags=["Adaptive"])
+def adaptive_stats():
+    """Get adaptive recommendation system statistics."""
+    return recommender.get_stats()
+
+
+@app.get("/adaptive/policy", tags=["Adaptive"])
+def adaptive_policy():
+    """Get the current learned policy from Q-table."""
+    return {'policy': recommender.get_policy()}
+
+
+@app.post("/learning-style/predict", tags=["Learning Style"])
+def predict_learning_style(request: LearningStyleRequest):
+    """
+    Predict learner's learning style based on their behavior.
+    
+    Learning styles: visual, auditory, reading_writing, kinesthetic
+    """
+    return classifier.predict(request.events)
+
+
+@app.post("/learning-style/recommendations", tags=["Learning Style"])
+def get_style_recommendations(learning_style: str = Query(...)):
+    """Get content recommendations based on learning style."""
+    return classifier.get_style_recommendations(learning_style)
+
+
+@app.get("/learning-style/importance", tags=["Learning Style"])
+def get_feature_importance():
+    """Get feature importance for learning style classification."""
+    return {'importance': classifier.get_feature_importance()}
+
+
+@app.post("/learning-style/train", tags=["Learning Style"])
+def train_classifier():
+    """Train the learning style classifier."""
+    classifier.train()
+    classifier.save()
+    return {'ok': True, 'message': 'Learning style classifier trained successfully'}
 
 
 if __name__ == "__main__":
