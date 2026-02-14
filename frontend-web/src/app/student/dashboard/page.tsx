@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -10,6 +10,7 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { authService } from "@/lib/auth";
+import { apiService, Course } from "@/lib/api";
 import {
     LogOut,
     BookOpen,
@@ -22,7 +23,8 @@ import {
     Users,
     Award,
     Briefcase,
-    Calendar
+    Calendar,
+    Loader2
 } from "lucide-react";
 import { siteConfig } from "@/config/site";
 
@@ -34,44 +36,22 @@ export default function Dashboard() {
         careerGoal: "Software Development",
         skillLevel: "Beginner",
         progress: 25,
-        learningPace: "1-2 hours/day"
+        learningPace: "1-2 hours/day",
+        skills: ["python", "javascript", "react"], // This will trigger matching for these skills
+        preferred_nsqf_level: 4,
+        preferred_language: "en"
     });
+
+    // State for real data
+    const [recommendations, setRecommendations] = useState<Course[]>([]);
+    const [loading, setLoading] = useState(true);
 
     const handleLogout = async () => {
         authService.logout();
         await signOut({ callbackUrl: "/" });
     };
 
-    const recommendedCourses = [
-        {
-            id: 1,
-            title: "Web Development Fundamentals",
-            provider: "NSQF Level 4",
-            duration: "6 weeks",
-            level: "Beginner",
-            match: 95,
-            type: "course"
-        },
-        {
-            id: 2,
-            title: "Python Programming Basics",
-            provider: "Skill India",
-            duration: "4 weeks",
-            level: "Beginner",
-            match: 88,
-            type: "course"
-        },
-        {
-            id: 3,
-            title: "IT Support Internship",
-            provider: "Tech Solutions Ltd.",
-            duration: "3 months",
-            level: "Intermediate",
-            match: 76,
-            type: "internship"
-        }
-    ];
-
+    // Static milestones for now
     const milestones = [
         { id: 1, title: "Profile Setup", status: "completed", description: "Basic information collected" },
         { id: 2, title: "Web Dev Fundamentals", status: "current", description: "Next recommended step" },
@@ -89,7 +69,26 @@ export default function Dashboard() {
 
     useEffect(() => {
         document.title = `Dashboard ✦ ${siteConfig.name}`;
-    }, []);
+
+        // Fetch recommendations from our new AI Engine
+        const fetchRecommendations = async () => {
+            setLoading(true);
+            try {
+                const courses = await apiService.getRecommendedCourses({
+                    skills: userData.skills,
+                    preferred_nsqf_level: userData.preferred_nsqf_level,
+                    preferred_language: userData.preferred_language
+                });
+                setRecommendations(courses);
+            } catch (error) {
+                console.error("Failed to load recommendations", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchRecommendations();
+    }, [userData]);
 
     return (
         <div className="min-h-screen bg-background pt-24 sm:pt-28 px-4 sm:px-6 lg:px-8 pb-12">
@@ -157,7 +156,6 @@ export default function Dashboard() {
                                             </div>
                                         </div>
 
-                                        {/* Add the View Full Path button here */}
                                         <div className="mt-6">
                                             <Button
                                                 onClick={() => router.push('/student/career_map')}
@@ -172,53 +170,7 @@ export default function Dashboard() {
                             </Card>
                         </motion.div>
 
-                        {/* Progress Overview */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: 0.1 }}
-                        >
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle className="flex items-center gap-2">
-                                        <TrendingUp className="text-primary" size={20} />
-                                        Journey Progress
-                                    </CardTitle>
-                                    <CardDescription>
-                                        Your overall progress towards becoming job-ready in {userData.careerGoal}
-                                    </CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="space-y-4">
-                                        <div className="flex justify-between items-center">
-                                            <span className="text-sm font-medium">Overall Completion</span>
-                                            <span className="text-sm font-medium">{userData.progress}%</span>
-                                        </div>
-                                        <Progress value={userData.progress} className="h-3" />
-                                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mt-6">
-                                            <div className="text-center p-3 sm:p-4 border rounded-lg">
-                                                <div className="text-xl sm:text-2xl font-bold text-primary">2</div>
-                                                <div className="text-xs sm:text-sm text-muted-foreground">Courses Completed</div>
-                                            </div>
-                                            <div className="text-center p-3 sm:p-4 border rounded-lg">
-                                                <div className="text-xl sm:text-2xl font-bold text-primary">5</div>
-                                                <div className="text-xs sm:text-sm text-muted-foreground">Skills Gained</div>
-                                            </div>
-                                            <div className="text-center p-3 sm:p-4 border rounded-lg">
-                                                <div className="text-xl sm:text-2xl font-bold text-primary">12</div>
-                                                <div className="text-xs sm:text-sm text-muted-foreground">Weeks Remaining</div>
-                                            </div>
-                                            <div className="text-center p-3 sm:p-4 border rounded-lg">
-                                                <div className="text-xl sm:text-2xl font-bold text-primary">85%</div>
-                                                <div className="text-xs sm:text-sm text-muted-foreground">Path Match</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        </motion.div>
-
-                        {/* Recommended Next Steps */}
+                        {/* Recommendation Card with API Integration */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -228,56 +180,67 @@ export default function Dashboard() {
                                 <CardHeader>
                                     <CardTitle className="flex items-center gap-2">
                                         <Star className="text-primary" size={20} />
-                                        Recommended Next Steps
+                                        Recommended Next Steps (AI Powered)
                                     </CardTitle>
                                     <CardDescription>
-                                        AI-suggested learning opportunities based on your profile and goals
+                                        Courses matched using semantic search on your profile.
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent>
                                     <div className="space-y-4">
-                                        {recommendedCourses.map((course, index) => (
-                                            <motion.div
-                                                key={course.id}
-                                                initial={{ opacity: 0, x: -20 }}
-                                                animate={{ opacity: 1, x: 0 }}
-                                                transition={{ duration: 0.5, delay: 0.1 * index }}
-                                            >
-                                                <Card className="hover:shadow-md transition-shadow cursor-pointer">
-                                                    <CardContent className="p-4">
-                                                        <div className="flex items-start justify-between">
-                                                            <div className="flex-1">
-                                                                <div className="flex items-center gap-3 mb-2">
-                                                                    <h3 className="font-semibold text-foreground">{course.title}</h3>
-                                                                    <Badge variant={course.type === "internship" ? "default" : "secondary"}>
-                                                                        {course.type}
-                                                                    </Badge>
+                                        {loading ? (
+                                            <div className="flex flex-col items-center justify-center p-8 text-muted-foreground">
+                                                <Loader2 className="h-8 w-8 animate-spin text-primary mb-2" />
+                                                <p>Finding best matches for you...</p>
+                                            </div>
+                                        ) : recommendations.length > 0 ? (
+                                            recommendations.map((course, index) => (
+                                                <motion.div
+                                                    key={course.course_id}
+                                                    initial={{ opacity: 0, x: -20 }}
+                                                    animate={{ opacity: 1, x: 0 }}
+                                                    transition={{ duration: 0.5, delay: 0.1 * index }}
+                                                >
+                                                    <Card className="hover:shadow-md transition-shadow cursor-pointer">
+                                                        <CardContent className="p-4">
+                                                            <div className="flex items-start justify-between">
+                                                                <div className="flex-1">
+                                                                    <div className="flex items-center gap-3 mb-2">
+                                                                        <h3 className="font-semibold text-foreground">{course.title}</h3>
+                                                                        <Badge variant="secondary">
+                                                                            NSQF L{course.nsqf_level}
+                                                                        </Badge>
+                                                                    </div>
+                                                                    <p className="text-sm text-muted-foreground mb-2">Provider: {course.provider}</p>
+                                                                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                                                                        <div className="flex items-center gap-1">
+                                                                            <Clock size={14} />
+                                                                            <span>{course.duration_months} months</span>
+                                                                        </div>
+                                                                        <div className="flex items-center gap-1">
+                                                                            <TrendingUp size={14} />
+                                                                            <span className="text-green-600 font-medium">{course.match_probability}% Match</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    {/* Display aligned skills */}
+                                                                    <div className="mt-2 text-xs text-muted-foreground">
+                                                                        {course.skills.split(',').slice(0, 3).join(', ')}...
+                                                                    </div>
                                                                 </div>
-                                                                <p className="text-sm text-muted-foreground mb-2">{course.provider}</p>
-                                                                <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                                                                    <div className="flex items-center gap-1">
-                                                                        <Clock size={14} />
-                                                                        <span>{course.duration}</span>
-                                                                    </div>
-                                                                    <div className="flex items-center gap-1">
-                                                                        <Award size={14} />
-                                                                        <span>{course.level}</span>
-                                                                    </div>
-                                                                    <div className="flex items-center gap-1">
-                                                                        <TrendingUp size={14} />
-                                                                        <span>{course.match}% Match</span>
-                                                                    </div>
-                                                                </div>
+                                                                <Button size="sm" className="flex items-center gap-1">
+                                                                    Enroll
+                                                                    <ChevronRight size={16} />
+                                                                </Button>
                                                             </div>
-                                                            <Button size="sm" className="flex items-center gap-1">
-                                                                Enroll
-                                                                <ChevronRight size={16} />
-                                                            </Button>
-                                                        </div>
-                                                    </CardContent>
-                                                </Card>
-                                            </motion.div>
-                                        ))}
+                                                        </CardContent>
+                                                    </Card>
+                                                </motion.div>
+                                            ))
+                                        ) : (
+                                            <p className="text-center text-muted-foreground p-4">
+                                                No specific recommendations found. Try updating your skill profile.
+                                            </p>
+                                        )}
                                     </div>
                                 </CardContent>
                             </Card>
