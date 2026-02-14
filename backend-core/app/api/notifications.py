@@ -1,10 +1,10 @@
-from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks, WebSocket
+from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
 from sqlalchemy.orm import Session
-from .. import schemas, models, workers
+from .. import schemas, models
 from ..db import get_db
 from ..realtime import manager
 
-router = APIRouter(prefix="/notifications", tags=["notifications"])
+router = APIRouter()
 
 @router.post("/send", response_model=schemas.NotificationOut)
 def send_notification(payload: schemas.NotificationCreate, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
@@ -21,7 +21,6 @@ def send_notification(payload: schemas.NotificationCreate, background_tasks: Bac
     db.commit()
     db.refresh(notif)
 
-    # Real-time deliver via WebSocket if connected
     import asyncio
     try:
         asyncio.create_task(manager.send_personal(payload.user_id, {
@@ -34,10 +33,13 @@ def send_notification(payload: schemas.NotificationCreate, background_tasks: Bac
     except Exception:
         pass
 
-    # Dispatch async tasks to send email/push (Celery)
     if payload.deliver_immediately:
-        workers.send_email_task.delay(notif.id)
-        workers.send_push_notification_task.delay(notif.id)
+        try:
+            from . import workers
+            workers.send_email_task.delay(notif.id)
+            workers.send_push_notification_task.delay(notif.id)
+        except Exception:
+            pass
 
     return notif
 
@@ -57,3 +59,11 @@ def mark_read(notif_id: int, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(notif)
     return notif
+
+@router.get("/unread-count")
+def unread_count(user_id: int, db: Session = Depends(get_db)):
+    count = db.query(models.Notification).filter(
+        models.Notification.user_id == user_id,
+        models.Notification.read == False
+    ).count()
+    return {"unread_count": count}
