@@ -188,13 +188,15 @@ const courses = [
 
 const levels = ["All Levels", "Beginner", "Intermediate", "Advanced"];
 const durations = ["Any Duration", "Under 4 weeks", "4-8 weeks", "8-12 weeks", "12+ weeks"];
+const priceTypes = ["All", "Free", "Paid"];
 
 export default function BrowseCourses() {
     const [searchQuery, setSearchQuery] = React.useState("");
     const [selectedCategory, setSelectedCategory] = React.useState("All");
     const [selectedLevel, setSelectedLevel] = React.useState("All Levels");
     const [selectedDuration, setSelectedDuration] = React.useState("Any Duration");
-    const [bookmarkedCourses, setBookmarkedCourses] = React.useState<number[]>([2, 5]);
+    const [selectedPriceType, setSelectedPriceType] = React.useState("All");
+    const [bookmarkedCourses, setBookmarkedCourses] = React.useState<number[]>([1, 3]);
     const [showFilters, setShowFilters] = React.useState(false);
 
     useEffect(() => {
@@ -206,15 +208,21 @@ export default function BrowseCourses() {
             course.provider.toLowerCase().includes(searchQuery.toLowerCase());
         const matchesCategory = selectedCategory === "All" || course.tags.includes(selectedCategory);
         const matchesLevel = selectedLevel === "All Levels" || course.level === selectedLevel;
-        return matchesSearch && matchesCategory && matchesLevel;
-    }).sort((a, b) => {
-        // For Free Courses category, sort by completion rate (highest first)
-        if (selectedCategory === "Free Courses") {
-            const rateA = (a as any).completionRate || 0;
-            const rateB = (b as any).completionRate || 0;
-            return rateB - rateA;
+        
+        let matchesDuration = true;
+        if (selectedDuration !== "Any Duration") {
+            const weeks = parseInt(course.duration.split(" ")[0]);
+            if (selectedDuration === "Under 4 weeks") matchesDuration = weeks < 4;
+            else if (selectedDuration === "4-8 weeks") matchesDuration = weeks >= 4 && weeks <= 8;
+            else if (selectedDuration === "8-12 weeks") matchesDuration = weeks > 8 && weeks <= 12;
+            else if (selectedDuration === "12+ weeks") matchesDuration = weeks > 12;
         }
-        return 0;
+
+        const matchesPriceType = selectedPriceType === "All" || 
+            (selectedPriceType === "Free" && course.price === 0) ||
+            (selectedPriceType === "Paid" && course.price > 0);
+
+        return matchesSearch && matchesCategory && matchesLevel && matchesDuration && matchesPriceType;
     });
 
     const toggleBookmark = (courseId: number) => {
@@ -325,6 +333,21 @@ export default function BrowseCourses() {
                                     ))}
                                 </div>
                             </div>
+                            <div>
+                                <label className="text-sm font-medium mb-2 block">Price</label>
+                                <div className="flex flex-wrap gap-2">
+                                    {priceTypes.map((type) => (
+                                        <Button
+                                            key={type}
+                                            variant={selectedPriceType === type ? "default" : "outline"}
+                                            size="sm"
+                                            onClick={() => setSelectedPriceType(type)}
+                                        >
+                                            {type}
+                                        </Button>
+                                    ))}
+                                </div>
+                            </div>
                         </motion.div>
                     )}
 
@@ -333,17 +356,44 @@ export default function BrowseCourses() {
                             Showing <span className="font-medium text-foreground">{filteredCourses.length}</span> courses
                         </p>
                         <div className="hidden sm:flex gap-2">
-                            {levels.map((level) => (
+                            {priceTypes.map((type) => (
                                 <Button
-                                    key={level}
-                                    variant={selectedLevel === level ? "secondary" : "ghost"}
+                                    key={type}
+                                    variant={selectedPriceType === type ? "secondary" : "ghost"}
                                     size="sm"
-                                    onClick={() => setSelectedLevel(level)}
+                                    onClick={() => setSelectedPriceType(type)}
                                 >
-                                    {level}
+                                    {type}
                                 </Button>
                             ))}
                         </div>
+                    </div>
+
+                    <div className="hidden sm:flex flex-wrap gap-2 mb-4">
+                        {durations.map((duration) => (
+                            <Button
+                                key={duration}
+                                variant={selectedDuration === duration ? "secondary" : "ghost"}
+                                size="sm"
+                                onClick={() => setSelectedDuration(duration)}
+                            >
+                                <Clock size={14} className="mr-1" />
+                                {duration}
+                            </Button>
+                        ))}
+                    </div>
+
+                    <div className="hidden sm:flex flex-wrap gap-2 mb-4">
+                        {levels.map((level) => (
+                            <Button
+                                key={level}
+                                variant={selectedLevel === level ? "secondary" : "ghost"}
+                                size="sm"
+                                onClick={() => setSelectedLevel(level)}
+                            >
+                                {level}
+                            </Button>
+                        ))}
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -450,6 +500,8 @@ export default function BrowseCourses() {
                                 setSearchQuery("");
                                 setSelectedCategory("All");
                                 setSelectedLevel("All Levels");
+                                setSelectedDuration("Any Duration");
+                                setSelectedPriceType("All");
                             }}>
                                 Clear Filters
                             </Button>
