@@ -16,7 +16,8 @@ import {
   Sun,
   Moon,
   BookOpen,
-  Target
+  Target,
+  HelpCircle
 } from "lucide-react";
 import AppUI from "@/components/logos/app_icon";
 import {
@@ -89,6 +90,11 @@ const demoNavItems = [
     title: "Market Insights",
     url: "/demo/insights",
     icon: Sparkles,
+  },
+  {
+    title: "Take a quick quiz",
+    url: "/demo/quick-quiz",
+    icon: HelpCircle,
   },
 ];
 
@@ -185,7 +191,7 @@ function DemoSidebar({ children }: { children: React.ReactNode }) {
       </Sidebar>
       
       <SidebarInset className="flex flex-col flex-1 h-full overflow-auto">
-        <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4 sticky top-0 z-10 bg-background/80 backdrop-blur-md">
+        <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4 sticky top-0 z-[100] bg-background/80 backdrop-blur-md">
           <SidebarTrigger />
           <div className="flex-1">
             <h1 className="text-lg font-semibold">

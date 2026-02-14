@@ -6,6 +6,7 @@ import Hero from "../components/sections/hero/default";
 import Items from "../components/sections/items/default";
 import LearningEfficiency from "../components/sections/learning-efficiency/default";
 import Navbar from "../components/sections/navbar/default";
+import ProgrammingComputerSection from "../components/sections/programming-computer/default";
 import MagicBento from '@/components/MagicBento'
 
 export const metadata = {
@@ -35,6 +36,7 @@ export default function Home() {
           glowColor="145, 60, 255"
           disableAnimations={false}
         />
+        <ProgrammingComputerSection />
         <LearningEfficiency />
         {/* <Stats /> */}
         {/* <Pricing /> */}
