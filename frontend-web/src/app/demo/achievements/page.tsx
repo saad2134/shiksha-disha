@@ -33,7 +33,7 @@ interface Achievement {
   icon: React.ElementType;
   progress: number;
   maxProgress: number;
-  tier: "bronze" | "silver" | "gold" | "platinum";
+  tier: "Bronze" | "Silver" | "Gold" | "Platinum";
   unlocked: boolean;
   unlockedDate?: string;
   reward: string;
@@ -59,7 +59,7 @@ export default function Achievements() {
       icon: BookOpen,
       progress: 1,
       maxProgress: 1,
-      tier: "bronze",
+      tier: "Bronze",
       unlocked: true,
       unlockedDate: "Jan 15, 2026",
       reward: "100 points",
@@ -72,7 +72,7 @@ export default function Achievements() {
       icon: Zap,
       progress: 5,
       maxProgress: 5,
-      tier: "silver",
+      tier: "Silver",
       unlocked: true,
       unlockedDate: "Jan 18, 2026",
       reward: "250 points",
@@ -85,7 +85,7 @@ export default function Achievements() {
       icon: Award,
       progress: 10,
       maxProgress: 10,
-      tier: "gold",
+      tier: "Gold",
       unlocked: true,
       unlockedDate: "Feb 1, 2026",
       reward: "500 points + Badge",
@@ -98,7 +98,7 @@ export default function Achievements() {
       icon: Flame,
       progress: 7,
       maxProgress: 7,
-      tier: "silver",
+      tier: "Silver",
       unlocked: true,
       unlockedDate: "Jan 22, 2026",
       reward: "300 points",
@@ -111,7 +111,7 @@ export default function Achievements() {
       icon: Flame,
       progress: 12,
       maxProgress: 30,
-      tier: "platinum",
+      tier: "Platinum",
       unlocked: false,
       reward: "1000 points + Trophy",
       category: "Consistency"
@@ -123,7 +123,7 @@ export default function Achievements() {
       icon: Target,
       progress: 2,
       maxProgress: 6,
-      tier: "gold",
+      tier: "Gold",
       unlocked: false,
       reward: "750 points",
       category: "Career"
@@ -135,7 +135,7 @@ export default function Achievements() {
       icon: Star,
       progress: 3,
       maxProgress: 3,
-      tier: "bronze",
+      tier: "Bronze",
       unlocked: true,
       unlockedDate: "Jan 20, 2026",
       reward: "150 points",
@@ -148,7 +148,7 @@ export default function Achievements() {
       icon: Medal,
       progress: 2,
       maxProgress: 10,
-      tier: "silver",
+      tier: "Silver",
       unlocked: false,
       reward: "400 points",
       category: "Achievement"
@@ -160,7 +160,7 @@ export default function Achievements() {
       icon: Crown,
       progress: 0,
       maxProgress: 1,
-      tier: "platinum",
+      tier: "Platinum",
       unlocked: false,
       reward: "2000 points + Crown Badge",
       category: "Competition"
@@ -172,7 +172,7 @@ export default function Achievements() {
       icon: Shield,
       progress: 3,
       maxProgress: 5,
-      tier: "silver",
+      tier: "Silver",
       unlocked: false,
       reward: "350 points",
       category: "Community"
@@ -184,7 +184,7 @@ export default function Achievements() {
       icon: Zap,
       progress: 1,
       maxProgress: 1,
-      tier: "gold",
+      tier: "Gold",
       unlocked: true,
       unlockedDate: "Jan 25, 2026",
       reward: "400 points",
@@ -197,7 +197,7 @@ export default function Achievements() {
       icon: Star,
       progress: 5,
       maxProgress: 5,
-      tier: "bronze",
+      tier: "Bronze",
       unlocked: true,
       unlockedDate: "Jan 28, 2026",
       reward: "100 points",
@@ -207,20 +207,20 @@ export default function Achievements() {
 
   const getTierColor = (tier: string) => {
     switch (tier) {
-      case "bronze": return "text-amber-700 dark:text-amber-400";
-      case "silver": return "text-slate-400";
-      case "gold": return "text-yellow-500";
-      case "platinum": return "text-violet-500";
+      case "Bronze": return "text-amber-700 dark:text-amber-400";
+      case "Silver": return "text-slate-400";
+      case "Gold": return "text-yellow-500";
+      case "Platinum": return "text-violet-500";
       default: return "text-muted-foreground";
     }
   };
 
   const getTierBg = (tier: string) => {
     switch (tier) {
-      case "bronze": return "bg-amber-100 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800";
-      case "silver": return "bg-slate-100 dark:bg-slate-800/30 border-slate-200 dark:border-slate-700";
-      case "gold": return "bg-yellow-100 dark:bg-yellow-950/30 border-yellow-200 dark:border-yellow-800";
-      case "platinum": return "bg-violet-100 dark:bg-violet-950/30 border-violet-200 dark:border-violet-800";
+      case "Bronze": return "bg-amber-100 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800";
+      case "Silver": return "bg-slate-100 dark:bg-slate-800/30 border-slate-200 dark:border-slate-700";
+      case "Gold": return "bg-yellow-100 dark:bg-yellow-950/30 border-yellow-200 dark:border-yellow-800";
+      case "Platinum": return "bg-violet-100 dark:bg-violet-950/30 border-violet-200 dark:border-violet-800";
       default: return "bg-muted border-border";
     }
   };
@@ -307,28 +307,28 @@ export default function Achievements() {
                       <Trophy className="text-amber-500" size={16} />
                       <span className="text-sm">Bronze</span>
                     </div>
-                    <Badge variant="outline">{achievements.filter(a => a.tier === "bronze" && a.unlocked).length}</Badge>
+                    <Badge variant="outline">{achievements.filter(a => a.tier === "Bronze" && a.unlocked).length}</Badge>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Medal className="text-slate-400" size={16} />
                       <span className="text-sm">Silver</span>
                     </div>
-                    <Badge variant="outline">{achievements.filter(a => a.tier === "silver" && a.unlocked).length}</Badge>
+                    <Badge variant="outline">{achievements.filter(a => a.tier === "Silver" && a.unlocked).length}</Badge>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Award className="text-yellow-500" size={16} />
                       <span className="text-sm">Gold</span>
                     </div>
-                    <Badge variant="outline">{achievements.filter(a => a.tier === "gold" && a.unlocked).length}</Badge>
+                    <Badge variant="outline">{achievements.filter(a => a.tier === "Gold" && a.unlocked).length}</Badge>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Crown className="text-violet-500" size={16} />
                       <span className="text-sm">Platinum</span>
                     </div>
-                    <Badge variant="outline">{achievements.filter(a => a.tier === "platinum" && a.unlocked).length}</Badge>
+                    <Badge variant="outline">{achievements.filter(a => a.tier === "Platinum" && a.unlocked).length}</Badge>
                   </div>
                 </div>
 
