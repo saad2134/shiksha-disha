@@ -13,16 +13,16 @@
 ### 1. Pull the Latest Image
 
 ```bash
-docker pull ghcr.io/<your-username>/shiksha-disha/ai-companion:latest
+docker pull ghcr.io/saad2134/shiksha-disha/b3-ai-companion:latest
 ```
 
 ### 2. Run the Container
 
 ```bash
 docker run -d \
-  --name shiksha-ai-companion \
+  --name shiksha-b3-ai-companion \
   -p 9001:9001 \
-  ghcr.io/<your-username>/shiksha-disha/ai-companion:latest
+  ghcr.io/saad2134/shiksha-disha/b3-ai-companion:latest
 ```
 
 ### 3. Verify
@@ -42,8 +42,8 @@ version: "3.8"
 
 services:
   ai_companion:
-    image: ghcr.io/${GITHUB_USERNAME}/shiksha-disha/ai-companion:latest
-    container_name: shiksha-ai-companion
+    image: ghcr.io/saad2134/shiksha-disha/b3-ai-companion:latest
+    container_name: shiksha-b3-ai-companion
     ports:
       - "9001:9001"
     restart: unless-stopped
@@ -58,7 +58,7 @@ services:
     container_name: watchtower-companion
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    command: --interval 60 --include-restart shiksha-ai-companion
+    command: --interval 60 --include-restart shiksha-b3-ai-companion
     restart: unless-stopped
 ```
 
@@ -71,7 +71,7 @@ docker run -d \
   containrrr/watchtower \
   --interval 60 \
   --include-restart \
-  shiksha-ai-companion
+  shiksha-b3-ai-companion
 ```
 
 ---
@@ -105,13 +105,13 @@ docker run -d \
 
 ```bash
 # Pull latest
-docker pull ghcr.io/<username>/shiksha-disha/ai-companion:latest
+docker pull ghcr.io/saad2134/shiksha-disha/b3-ai-companion:latest
 
 # Restart
-docker stop shiksha-ai-companion
-docker rm shiksha-ai-companion
-docker run -d --name shiksha-ai-companion -p 9001:9001 \
-  ghcr.io/<username>/shiksha-disha/ai-companion:latest
+docker stop shiksha-b3-ai-companion
+docker rm shiksha-b3-ai-companion
+docker run -d --name shiksha-b3-ai-companion -p 9001:9001 \
+  ghcr.io/saad2134/shiksha-disha/b3-ai-companion:latest
 ```
 
 ---
@@ -120,13 +120,13 @@ docker run -d --name shiksha-ai-companion -p 9001:9001 \
 
 ```bash
 # Check logs
-docker logs shiksha-ai-companion
+docker logs shiksha-b3-ai-companion
 
 # Check health
 curl http://localhost:9001/health
 
 # Rebuild from source
-cd backend_3-ai_companion
+cd backend_3-ai_companion_service
 docker-compose up --build
 ```
 
@@ -135,5 +135,5 @@ docker-compose up --build
 ## Image Location
 
 ```
-ghcr.io/<github-username>/shiksha-disha/ai-companion:latest
+ghcr.io/saad2134/shiksha-disha/b3-ai-companion:latest
 ```

@@ -12,7 +12,7 @@ ShikshaDisha consists of 3 backend microservices:
 |---------|------|-------------|
 | **backend_1-core_service** | 8000 | Core API, Users, Actions, Notifications, Database |
 | **backend_2-ai_engine_service** | 9000 | AI Matching Engine, Course Recommendations |
-| **backend_3-ai_companion** | 9001 | AI Companion, Chat, Skill Forecasting |
+| **backend_3-ai_companion_service** | 9001 | AI Companion, Chat, Skill Forecasting |
 
 ---
 
@@ -30,7 +30,7 @@ cd ../backend_2-ai_engine_service
 docker-compose up -d --build
 
 # 3. AI Companion Service
-cd ../backend_3-ai_companion
+cd ../backend_3-ai_companion_service
 docker-compose up -d --build
 ```
 
@@ -44,13 +44,13 @@ docker-compose up -d --build
 
 ```bash
 # Core API
-docker pull ghcr.io/<username>/shiksha-disha/core-api:latest
+docker pull ghcr.io/saad2134/shiksha-disha/b1-core:latest
 
 # AI Engine
-docker pull ghcr.io/<username>/shiksha-disha/ai-engine-service:latest
+docker pull ghcr.io/saad2134/shiksha-disha/b2-ai-engine:latest
 
 # AI Companion
-docker pull ghcr.io/<username>/shiksha-disha/ai-companion:latest
+docker pull ghcr.io/saad2134/shiksha-disha/b3-ai-companion:latest
 ```
 
 ---
@@ -137,7 +137,7 @@ docker run -d -p 9000:9000 shiksha-ai-engine
 
 ---
 
-### 3. AI Companion (/backend_3-ai_companion)
+### 3. AI Companion (/backend_3-ai_companion_service)
 
 **Port:** 9001
 
@@ -149,7 +149,7 @@ docker run -d -p 9000:9000 shiksha-ai-engine
 
 **Deploy:**
 ```bash
-cd /backend_3-ai_companion
+cd /backend_3-ai_companion_service
 
 # With Docker Compose
 docker-compose up -d --build
@@ -173,15 +173,15 @@ version: "3.8"
 
 services:
   core:
-    image: ghcr.io/${GITHUB_USERNAME}/shiksha-disha/core-api:latest
+    image: ghcr.io/saad2134/shiksha-disha/b1-core:latest
     # ... other config
 
   ai-engine:
-    image: ghcr.io/${GITHUB_USERNAME}/shiksha-disha/ai-engine-service:latest
+    image: ghcr.io/saad2134/shiksha-disha/b2-ai-engine:latest
     # ... other config
 
   ai-companion:
-    image: ghcr.io/${GITHUB_USERNAME}/shiksha-disha/ai-companion:latest
+    image: ghcr.io/saad2134/shiksha-disha/b3-ai-companion:latest
     # ... other config
 
   watchtower:
@@ -235,14 +235,14 @@ docker logs shiksha-ai-companion
 ```bash
 cd backend_1-core_service && docker-compose up -d --build
 cd ../backend_2-ai_engine_service && docker-compose up -d --build
-cd ..//backend_3-ai_companion && docker-compose up -d --build
+cd ..//backend_3-ai_companion_service && docker-compose up -d --build
 ```
 
 ### Stop All Services
 ```bash
 cd backend_1-core_service && docker-compose down
 cd ../backend_2-ai_engine_service && docker-compose down
-cd ..//backend_3-ai_companion && docker-compose down
+cd ..//backend_3-ai_companion_service && docker-compose down
 ```
 
 ---
@@ -252,13 +252,13 @@ cd ..//backend_3-ai_companion && docker-compose down
 After GitHub Actions runs, images are available at:
 
 ```
-ghcr.io/<github-username>/shiksha-disha/core-api:latest
-ghcr.io/<github-username>/shiksha-disha/ai-engine-service:latest
-ghcr.io/<github-username>/shiksha-disha/ai-companion:latest
+ghcr.io/saad2134/shiksha-disha/b1-core:latest
+ghcr.io/saad2134/shiksha-disha/b2-ai-engine:latest
+ghcr.io/saad2134/shiksha-disha/b3-ai-companion:latest
 ```
 
 To pull:
 ```bash
 echo $GITHUB_TOKEN | docker login ghcr.io -u $GITHUB_USERNAME --password-stdin
-docker pull ghcr.io/<username>/shiksha-disha/core-api:latest
+docker pull ghcr.io/saad2134/shiksha-disha/b1-core:latest
 ```
