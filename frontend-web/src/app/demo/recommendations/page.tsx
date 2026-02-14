@@ -369,7 +369,7 @@ const CourseCard: React.FC<{
 }> = ({ course, isExpanded, onToggle }) => {
   return (
     <div className="bg-card rounded-2xl shadow-xl overflow-hidden border">
-      <div className="bg-gradient-to-r from-green-500 to-emerald-600 px-6 py-3 flex items-center justify-between">
+      <div className="bg-gradient-to-r from-[#3C0061] to-[#5a1a8a] px-6 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Star className="w-5 h-5 text-white fill-white" />
           <span className="font-bold text-white text-lg">{course.matchScore}% Match Score</span>
@@ -450,14 +450,12 @@ const CourseCard: React.FC<{
             {Object.entries(course.learningStyleFit).map(([style, score]) => (
               <div key={style}>
                 <div className="flex justify-between items-center mb-1">
-                  <span className="text-sm capitalize text-muted-foreground">{style}</span>
+                  <span className="text-sm font-bold capitalize text-gray-700 dark:text-gray-300">{style}</span>
                   <span className="text-sm font-bold text-card-foreground">{score}%</span>
                 </div>
                 <div className="w-full bg-muted rounded-full h-2">
                   <div 
-                    className={`h-2 rounded-full ${
-                      score >= 80 ? 'bg-emerald-500' : score >= 60 ? 'bg-amber-500' : 'bg-red-500'
-                    }`}
+                    className="h-2 rounded-full bg-violet-500"
                     style={{ width: `${score}%` }}
                   />
                 </div>
