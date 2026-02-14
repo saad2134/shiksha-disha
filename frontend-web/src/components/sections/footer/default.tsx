@@ -47,6 +47,7 @@ export default function FooterSection({
         { text: "Home", href: "/" },
         { text: "About", href: "/about" },
         { text: "Our Team", href: "/team" },
+        { text: "Pricing", href: "/pricing" },
       ],
     },
     {
@@ -55,6 +56,7 @@ export default function FooterSection({
         { text: "Terms of Service", href: "/terms" },
         { text: "Privacy Policy", href: "/privacy" },
         { text: "Cookie Policy", href: "/cookies" },
+        { text: "Refunds Policy", href: "/refunds" },
       ],
     },
     {

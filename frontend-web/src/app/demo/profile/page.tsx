@@ -30,9 +30,12 @@ import {
     TrendingUp,
     CheckCircle,
     XCircle,
-    ExternalLink
+    ExternalLink,
+    CreditCard,
+    Zap
 } from "lucide-react";
 import { siteConfig } from "@/config/site";
+import { PricingCards } from "@/components/pricing/pricing-card";
 
 const userProfile = {
     name: "Saad Mohammed",
@@ -90,7 +93,7 @@ const userProfile = {
     ]
 };
 
-type TabType = "activity" | "achievements" | "preferences";
+type TabType = "activity" | "achievements" | "preferences" | "billing";
 
 export default function Profile() {
     const router = useRouter();
@@ -112,6 +115,7 @@ export default function Profile() {
     const tabs = [
         { id: "activity", label: "Activity", icon: Clock },
         { id: "achievements", label: "Achievements", icon: Award },
+        { id: "billing", label: "Billing", icon: CreditCard },
         { id: "preferences", label: "Preferences", icon: Settings },
     ] as const;
 
@@ -350,6 +354,39 @@ export default function Profile() {
                                                 </motion.div>
                                             ))}
                                         </div>
+                                    </CardContent>
+                                </Card>
+                            </motion.div>
+                        )}
+                        
+                        {activeTab === "billing" && (
+                            <motion.div
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle className="flex items-center gap-2">
+                                            <CreditCard className="text-primary" size={20} />
+                                            Billing & Subscription
+                                        </CardTitle>
+                                        <CardDescription>Manage your subscription and billing information</CardDescription>
+                                    </CardHeader>
+                                    <CardContent className="space-y-6">
+                                        <div className="bg-muted/30 rounded-xl p-4 mb-4">
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <Badge variant="outline" className="bg-violet-50 dark:bg-violet-950/30">
+                                                    Current Plan: Freemium
+                                                </Badge>
+                                            </div>
+                                            <p className="text-sm text-muted-foreground">
+                                                You&apos;re on the free plan. Upgrade to unlock all features!
+                                            </p>
+                                        </div>
+                                        
+                                        <PricingCards compact />
+                                        
                                     </CardContent>
                                 </Card>
                             </motion.div>
