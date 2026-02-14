@@ -10,6 +10,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { siteConfig } from "@/config/site";
 import { faqConfig, FAQItem } from "@/config/faqConfig";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 const FAQ_CONFIG = {
   description: "Find answers to common questions about our AI-powered learning path generator and how it can help you achieve your career goals.",
@@ -40,7 +41,7 @@ export default function FAQ({
   className,
 }: FAQProps) {
   return (
-    <section id='faqs' className={`py-24 relative overflow-hidden ${className || ''}`}>
+    <section id='faqs' className={`py-12 sm:py-16 relative overflow-hidden ${className || ''}`}>
       <div className="absolute inset-0">
         <motion.div
             className="absolute top-20 left-10 h-24 w-24 rounded-full bg-primary/15 blur-xl"
@@ -93,6 +94,13 @@ export default function FAQ({
             <p className="text-lg text-muted-foreground leading-relaxed">
                 {FAQ_CONFIG.description}
             </p>
+            <div className="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 pt-4">
+              <DotLottieReact
+                src="https://lottie.host/b3fe4f6c-fedd-45fb-b0c6-cd1a0c8377da/lIUexQIsMW.lottie"
+                loop
+                autoplay
+              />
+            </div>
           </div>
 
           <div className="w-full">
