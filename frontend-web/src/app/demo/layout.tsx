@@ -110,8 +110,8 @@ function DemoSidebar({ children }: { children: React.ReactNode }) {
 
   return (
     <SidebarProvider defaultOpen={true} className="h-screen">
-      <Sidebar collapsible="offcanvas" className="border-r">
-        <SidebarHeader className="py-4">
+      <Sidebar collapsible="offcanvas" className="border-r z-20">
+        <SidebarHeader className="py-4 border-b">
           <div className="flex items-center gap-3 px-2">
             <AppUI className="w-10 h-10 select-none" draggable={false} />
             <div className="flex flex-col">

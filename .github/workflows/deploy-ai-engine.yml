@@ -5,10 +5,10 @@ on:
     branches:
       - main
     paths:
-      - 'backend-2-ai_engine_service/**'
+      - 'backend_2-ai_engine_service/**'
   pull_request:
     paths:
-      - 'backend-2-ai_engine_service/**'
+      - 'backend_2-ai_engine_service/**'
 
 env:
   REGISTRY: ghcr.io
@@ -50,7 +50,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: ./backend-2-ai_engine_service
+          context: ./backend_2-ai_engine_service
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

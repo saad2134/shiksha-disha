@@ -3,7 +3,6 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { signIn, useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,17 +12,16 @@ import { siteConfig } from "@/config/site";
 import { motion } from "framer-motion";
 import { Briefcase, GraduationCap, ArrowRight, Loader2 } from "lucide-react";
 import Silk from "@/components/Silk";
-import { authService, LoginData, SignupData } from "@/lib/auth";
+import { authService } from "@/lib/auth";
 
 export default function AuthPage() {
   const router = useRouter();
-  const { data: session } = useSession();
   const [isLoading, setIsLoading] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
   const [loginData, setLoginData] = useState({ email: "", password: "", rememberMe: false });
   const [signupData, setSignupData] = useState({ name: "", email: "", password: "", confirmPassword: "" });
   const [error, setError] = useState("");
-  const [googleLoginAvailable, setGoogleLoginAvailable] = useState(true);
+  const [googleLoginAvailable, setGoogleLoginAvailable] = useState(false);
 
   useEffect(() => {
     document.title = `Sign In ✦ ${siteConfig.name}`;
@@ -31,16 +29,10 @@ export default function AuthPage() {
     if (storedEmail) {
       setLoginData(prev => ({ ...prev, email: storedEmail, rememberMe: true }));
     }
-    if (session) {
+    if (authService.isAuthenticated()) {
       router.push("/student/onboarding");
     }
-
-    // Check if Google login is configured
-    fetch('/api/auth/status')
-      .then(res => res.json())
-      .then(data => setGoogleLoginAvailable(data.googleLoginAvailable))
-      .catch(() => setGoogleLoginAvailable(false));
-  }, [session, router]);
+  }, [router]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,19 +40,12 @@ export default function AuthPage() {
     setError("");
 
     try {
-      const result = await signIn("credentials", {
-        email: loginData.email,
-        password: loginData.password,
-        redirect: false,
-      });
+      const result = await authService.login(loginData);
 
-      if (result?.error) {
-        setError(result.error);
-      } else if (result?.ok) {
-        if (loginData.rememberMe) {
-          localStorage.setItem('remember_email', loginData.email);
-        }
+      if (result.success) {
         router.push("/student/onboarding");
+      } else {
+        setError(result.message || "Login failed. Please try again.");
       }
     } catch (err) {
       setError("An error occurred. Please try again.");
@@ -86,18 +71,16 @@ export default function AuthPage() {
     setIsLoading(true);
 
     try {
-      const result = await signIn("credentials", {
+      const result = await authService.signup({
         name: signupData.name,
         email: signupData.email,
-        password: signupData.password,
-        signup: "true",
-        redirect: false,
+        password: signupData.password
       });
 
-      if (result?.error) {
-        setError(result.error);
-      } else if (result?.ok) {
+      if (result.success) {
         router.push("/student/onboarding");
+      } else {
+        setError(result.message || "Signup failed. Please try again.");
       }
     } catch (err) {
       setError("An error occurred. Please try again.");
@@ -107,21 +90,7 @@ export default function AuthPage() {
   };
 
   const handleGoogleAuth = async () => {
-    setIsLoading(true);
-    setError("");
-
-    if (!googleLoginAvailable) {
-      setError("Google Login is not configured. Please contact the administrator.");
-      setIsLoading(false);
-      return;
-    }
-
-    try {
-      await signIn("google", { callbackUrl: "/student/onboarding" });
-    } catch (err) {
-      setError("An error occurred with Google sign in.");
-      setIsLoading(false);
-    }
+    setError("Google Login is not configured. Please sign up with email.");
   };
 
   return (
