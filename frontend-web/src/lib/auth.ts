@@ -14,41 +14,33 @@ export interface AuthResponse {
   success: boolean;
   message: string;
   user?: {
-    id: string;
+    id: number;
     name: string;
     email: string;
   };
   token?: string;
 }
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || '/api';
-
 export const authService = {
   async login(data: LoginData): Promise<AuthResponse> {
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/login`, {
+      const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          email: data.email,
+          password: data.password
+        }),
       });
-
-      const contentType = response.headers.get('content-type');
-      if (!contentType || !contentType.includes('application/json')) {
-        const text = await response.text();
-        console.error('Non-JSON response:', text);
-        return {
-          success: false,
-          message: 'Server error. Please try again later.',
-        };
-      }
 
       const result = await response.json();
       
       if (response.ok && result.success) {
         if (result.token) {
           localStorage.setItem('auth_token', result.token);
+          localStorage.setItem('user_data', JSON.stringify(result.user));
         }
         if (data.rememberMe) {
           localStorage.setItem('remember_email', data.email);
@@ -67,29 +59,24 @@ export const authService = {
 
   async signup(data: SignupData): Promise<AuthResponse> {
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/signup`, {
+      const response = await fetch('/api/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          password: data.password
+        }),
       });
-
-      const contentType = response.headers.get('content-type');
-      if (!contentType || !contentType.includes('application/json')) {
-        const text = await response.text();
-        console.error('Non-JSON response:', text);
-        return {
-          success: false,
-          message: 'Server error. Please try again later.',
-        };
-      }
 
       const result = await response.json();
       
       if (response.ok && result.success) {
         if (result.token) {
           localStorage.setItem('auth_token', result.token);
+          localStorage.setItem('user_data', JSON.stringify(result.user));
         }
       }
       
@@ -103,38 +90,9 @@ export const authService = {
     }
   },
 
-  async googleAuth(): Promise<AuthResponse> {
-    try {
-      const response = await fetch(`${API_BASE_URL}/auth/google`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      const contentType = response.headers.get('content-type');
-      if (!contentType || !contentType.includes('application/json')) {
-        const text = await response.text();
-        console.error('Non-JSON response:', text);
-        return {
-          success: false,
-          message: 'Server error. Please try again later.',
-        };
-      }
-
-      const result = await response.json();
-      return result;
-    } catch (error) {
-      console.error('Google auth error:', error);
-      return {
-        success: false,
-        message: 'Unable to connect to server. Please try again.',
-      };
-    }
-  },
-
   logout() {
     localStorage.removeItem('auth_token');
+    localStorage.removeItem('user_data');
     localStorage.removeItem('remember_email');
   },
 
@@ -145,4 +103,13 @@ export const authService = {
   isAuthenticated(): boolean {
     return !!localStorage.getItem('auth_token');
   },
+
+  getUser(): { id: number; name: string; email: string } | null {
+    const userData = localStorage.getItem('user_data');
+    return userData ? JSON.parse(userData) : null;
+  },
+
+  getToken(): string | null {
+    return localStorage.getItem('auth_token');
+  }
 };

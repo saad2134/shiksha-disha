@@ -51,6 +51,15 @@ services:
     volumes:
       - redis_data:/data
 
+  adminer:
+    image: adminer
+    container_name: shiksha-adminer
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    depends_on:
+      - db
+
   worker:
     build: .
     container_name: shiksha-worker

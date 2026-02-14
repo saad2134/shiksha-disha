@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from .db import Base, engine
 from . import models
-from .api import users_router, actions_router, notifications_router, behavior_router, streak_router
+from .api import users_router, actions_router, notifications_router, behavior_router, streak_router, auth_router
 from .realtime import manager
 from .config import settings
 from datetime import datetime
@@ -56,6 +56,7 @@ app.include_router(actions_router, prefix="/actions", tags=["actions"])
 app.include_router(notifications_router, prefix="/notifications", tags=["notifications"])
 app.include_router(behavior_router, prefix="/behavior", tags=["behavior"])
 app.include_router(streak_router, prefix="/streak", tags=["streak"])
+app.include_router(auth_router, prefix="/auth", tags=["auth"])
 
 
 @app.get("/", tags=["Root"])
