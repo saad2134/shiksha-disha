@@ -64,6 +64,7 @@ jobs:
   deploy:
     needs: build-and-deploy
     runs-on: ubuntu-latest
+    permissions: {}
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - name: Deploy notification
