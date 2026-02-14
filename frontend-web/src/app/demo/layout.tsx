@@ -57,44 +57,72 @@ const demoNavItems = [
     icon: LayoutDashboard,
   },
   {
-    title: "Browse Courses",
-    url: "/demo/browse_courses",
+    title: "Learn",
+    url: "",
     icon: BookOpen,
+    items: [
+      {
+        title: "Recommendations",
+        url: "/demo/recommendations",
+        icon: Target,
+      },
+      {
+        title: "Browse Courses",
+        url: "/demo/browse_courses",
+        icon: BookOpen,
+      },
+      {
+        title: "Take a quick quiz",
+        url: "/demo/quick-quiz",
+        icon: HelpCircle,
+      },
+    ],
   },
   {
-    title: "Recommendations",
-    url: "/demo/recommendations",
-    icon: Target,
-  },
-  {
-    title: "Career Map",
-    url: "/demo/career_map",
-    icon: MapPin,
-  },
-  {
-    title: "Achievements",
-    url: "/demo/achievements",
+    title: "Growth",
+    url: "",
     icon: Trophy,
+    items: [
+      {
+        title: "Career Map",
+        url: "/demo/career_map",
+        icon: MapPin,
+      },
+      {
+        title: "Achievements",
+        url: "/demo/achievements",
+        icon: Trophy,
+      },
+      {
+        title: "Leaderboard",
+        url: "/demo/leaderboard",
+        icon: BarChart3,
+      },
+    ],
   },
   {
-    title: "AI Companion",
-    url: "/demo/ai-companion",
+    title: "Assistant",
+    url: "",
     icon: MessageSquare,
+    items: [
+      {
+        title: "AI Companion",
+        url: "/demo/ai-companion",
+        icon: MessageSquare,
+      },
+    ],
   },
   {
-    title: "Leaderboard",
-    url: "/demo/leaderboard",
-    icon: BarChart3,
-  },
-  {
-    title: "Market Insights",
-    url: "/demo/insights",
+    title: "Insights",
+    url: "",
     icon: Sparkles,
-  },
-  {
-    title: "Take a quick quiz",
-    url: "/demo/quick-quiz",
-    icon: HelpCircle,
+    items: [
+      {
+        title: "Market Insights",
+        url: "/demo/insights",
+        icon: Sparkles,
+      },
+    ],
   },
 ];
 
@@ -132,6 +160,26 @@ function DemoSidebar({ children }: { children: React.ReactNode }) {
             <SidebarGroupLabel>Navigation</SidebarGroupLabel>
             <SidebarMenu>
               {demoNavItems.map((item) => {
+                if (item.items) {
+                  return (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarGroupLabel className="text-violet-500 font-semibold">{item.title}</SidebarGroupLabel>
+                      {item.items.map((subItem) => {
+                        const isActive = pathname === subItem.url;
+                        return (
+                          <SidebarMenuItem key={subItem.title}>
+                            <SidebarMenuButton asChild isActive={isActive}>
+                              <Link href={subItem.url} className="flex items-center gap-3 pl-4">
+                                <subItem.icon className={isActive ? "text-violet-500" : ""} />
+                                <span>{subItem.title}</span>
+                              </Link>
+                            </SidebarMenuButton>
+                          </SidebarMenuItem>
+                        );
+                      })}
+                    </SidebarMenuItem>
+                  );
+                }
                 const isActive = pathname === item.url;
                 return (
                   <SidebarMenuItem key={item.title}>
@@ -195,7 +243,10 @@ function DemoSidebar({ children }: { children: React.ReactNode }) {
           <SidebarTrigger />
           <div className="flex-1">
             <h1 className="text-lg font-semibold">
-              {demoNavItems.find(item => item.url === pathname)?.title || "Demo"}
+              {demoNavItems.find(item => item.url === pathname)?.title || 
+                demoNavItems.find(item => item.items?.some(subItem => subItem.url === pathname))?.title ||
+                demoNavItems.flatMap(item => item.items || []).find(subItem => subItem.url === pathname)?.title || 
+                "Demo"}
             </h1>
           </div>
           <div className="flex items-center gap-2">
