@@ -1,21 +1,18 @@
 
-import tensorflow_hub as hub
 import numpy as np
+from sentence_transformers import SentenceTransformer
 from .config import settings
 
-# Load USE model
 _model = None
 
 def get_model():
     global _model
     if _model is None:
-        # Multilingual version if you want multi-language support
-        _model = hub.load("https://tfhub.dev/google/universal-sentence-encoder/4")
+        _model = SentenceTransformer(settings.EMBEDDING_MODEL)
     return _model
 
 def embed_texts(texts):
     model = get_model()
-    embs = model(texts)
-    # Normalize to unit vectors
+    embs = model.encode(texts, convert_to_numpy=True, show_progress_bar=False)
     embs = embs / np.linalg.norm(embs, axis=1, keepdims=True)
     return np.array(embs, dtype=np.float32)
