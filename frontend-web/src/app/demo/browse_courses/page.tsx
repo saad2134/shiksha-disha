@@ -105,8 +105,7 @@ const courses = [
         isBookmarked: true
     },
     {
-        id: 2,
-        title: "Python for Data Science & Machine Learning",
+        id: 8,
         provider: "DataMaster",
         instructor: "Dr. Michael Chen",
         rating: 4.9,
@@ -121,8 +120,7 @@ const courses = [
         isBookmarked: false
     },
     {
-        id: 3,
-        title: "AWS Cloud Practitioner Certification",
+        id: 7,
         provider: "CloudPro",
         instructor: "James Wilson",
         rating: 4.7,
@@ -169,7 +167,7 @@ const courses = [
         isBookmarked: false
     },
     {
-        id: 7,
+        id: 9,
         title: "DevOps Engineering with Kubernetes",
         provider: "DevOps Academy",
         instructor: "Robert Martinez",
@@ -204,8 +202,8 @@ export default function BrowseCourses() {
     }, []);
 
     const filteredCourses = courses.filter(course => {
-        const matchesSearch = course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            course.provider.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesSearch = (course.title || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+            (course.provider || "").toLowerCase().includes(searchQuery.toLowerCase());
         const matchesCategory = selectedCategory === "All" || course.tags.includes(selectedCategory);
         const matchesLevel = selectedLevel === "All Levels" || course.level === selectedLevel;
         
