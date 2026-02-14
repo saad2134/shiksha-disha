@@ -246,7 +246,7 @@ export default function AICompanion() {
                       onClick={() => handleSuggestionClick(action.label)}
                       className="text-xs"
                     >
-                      <action.icon size={12} />
+                      <action.icon size={12} className="mr-2" />
                       {action.label}
                     </Button>
                   ))}
@@ -263,7 +263,7 @@ export default function AICompanion() {
                       onClick={() => handleSuggestionClick(suggestion)}
                       className="text-xs"
                     >
-                      <Sparkles size={10} className="text-violet-500" />
+                      <Sparkles size={10} className="mr-2 text-violet-500" />
                       {suggestion}
                     </Button>
                   ))}
