@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from .. import schemas, models
 from ..db import get_db
 
-router = APIRouter(prefix="/streak", tags=["streak"])
+router = APIRouter()
 
 
 @router.get("/{user_id}", response_model=schemas.StreakOut)

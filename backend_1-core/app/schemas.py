@@ -12,8 +12,13 @@ class UserOut(BaseModel):
     email: EmailStr
     name: Optional[str]
     language: str
+    created_at: datetime
     class Config:
         orm_mode = True
+
+class UserUpdate(BaseModel):
+    name: Optional[str] = None
+    language: Optional[str] = None
 
 class ActionCreate(BaseModel):
     user_id: int
