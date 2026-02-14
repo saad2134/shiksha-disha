@@ -384,11 +384,11 @@ const CourseCard: React.FC<{
       <div className="p-6">
         <div className="flex gap-6 mb-6">
           <div className="flex-shrink-0">
-            <img 
+            {/* <img 
               src={course.thumbnail} 
               alt={course.title}
               className="w-48 h-28 object-cover rounded-lg shadow-md"
-            />
+            /> */}
           </div>
           <div className="flex-1">
             <div className="flex items-start justify-between mb-2">
