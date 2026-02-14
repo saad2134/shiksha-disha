@@ -203,7 +203,6 @@ graph TB
     Chat --> Forecast
     Chat --> Alerts
     Chat --> Rec
-end
 ```
 
 ### Service Overview
