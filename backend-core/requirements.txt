@@ -1,0 +1,14 @@
+fastapi==0.115.0
+uvicorn[standard]==0.32.0
+sqlalchemy==2.0.35
+psycopg2-binary==2.9.9
+alembic==1.13.3
+pydantic==2.9.0
+python-dotenv==1.0.1
+celery==5.4.0
+redis==5.0.8
+email-validator==2.1.0
+passlib[bcrypt]==1.7.4
+python-jose[cryptography]==3.3.0
+pyjwt==2.9.0
+bcrypt==4.2.0

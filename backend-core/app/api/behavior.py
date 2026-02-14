@@ -4,7 +4,7 @@ from datetime import datetime
 from .. import schemas, models
 from ..db import get_db
 
-router = APIRouter(prefix="/behavior", tags=["behavior"])
+router = APIRouter()
 
 
 @router.post("/session/start", response_model=schemas.SessionOut)

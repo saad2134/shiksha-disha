@@ -115,40 +115,120 @@
 | Web (any browser with JS functionality) + Fully Responsive       | ✅          |
 | [Android](frontend-android/) (non-natively through WebView)                | ✅          |
 
-## 🛠️ Tech Stack
-
-- **Frontend:** React, Next.js, Typescript, TailwindCSS, shadcn/ui
-- **Backend:** Node.js/Python with AI microservices
-- **Database:** MongoDB/PostgreSQL
-- **AI/ML:** TensorFlow, PyTorch for predictive analytics
-- **APIs Integration:** NSQF database, Labour market intelligence APIs
-- **Hosting:** Vercel/Firebase/AWS/GCP cloud infrastructure
+## 🔧 Development
 
 
 ## 🚀 Getting Started
 
-### Web Frontend
+### Prerequisites
 
-1. Clone & Download the Repo
+- Node.js 18+
+- Python 3.11+
+- Docker & Docker Compose
+- PostgreSQL 15 (for local development)
 
-2. Install NodeJS on your system.
+### Frontend
 
-3. Open the project in your preferred IDE.
+```bash
+cd frontend-web
+npm install
+cp .env.template .env.local
+npm run dev
+```
 
-4. Run in Terminal to Install all dependancies:
-   ```bash
-   npm i
-   ```
+### Backend Services
 
-4. Get all api keys in env.template as set them in your env:
+See [DEPLOYMENT_FULL.md](DEPLOYMENT_FULL.md) for complete deployment instructions.
 
-5. Run in Terminal to Start Development Server:
-   ```bash
-   npm run dev
-   ```
+```bash
+# Core API
+cd backend-core
+docker-compose up -d
 
-## 📁 Project Architecture *
-* Soon.
+# AI Engine
+cd ../backend-2-ai_engine_service
+docker-compose up -d
+
+# AI Companion
+cd ../backend-3-ai_companion
+docker-compose up -d
+```
+
+## 🏗️ Architecture
+
+```mermaid
+graph TB
+    subgraph Clients
+        Web[Web App<br/>Next.js]
+    end
+
+    subgraph "ShikshaDisha Backend Services"
+        
+        subgraph "backend-core :8000"
+            API[Core API<br/>FastAPI]
+            DB[(PostgreSQL)]
+            Redis[(Redis)]
+            Celery[Celery Workers]
+            WS[WebSocket<br/>Real-time]
+        end
+
+        subgraph "backend-2-ai_engine_service :9000"
+            Matcher[AI Matching<br/>Engine]
+            FAISS[FAISS Index]
+            Embed[Sentence<br/>Transformers]
+            Behavior[Behavior<br/>Analyzer]
+        end
+
+        subgraph "backend-3-ai_companion :9001"
+            Chat[AI Companion<br/>Chat]
+            Forecast[Skill<br/>Forecaster]
+            Alerts[Industry<br/>Alerts]
+            Rec[Content<br/>Recommender]
+        end
+    end
+
+    Web --> API
+    Web --> Matcher
+    Web --> Chat
+    
+    API --> DB
+    API --> Redis
+    API --> Celery
+    API --> WS
+    
+    Matcher --> FAISS
+    Matcher --> Embed
+    Matcher --> Behavior
+    
+    Chat --> Forecast
+    Chat --> Alerts
+    Chat --> Rec
+end
+```
+
+### Service Overview
+
+| Service | Port | Technology | Purpose |
+|---------|------|------------|---------|
+| **backend-core** | 8000 | FastAPI + PostgreSQL | User management, actions, notifications, sessions, streaks |
+| **backend-2-ai_engine_service** | 9000 | FastAPI + FAISS | Course matching, behavior analysis, recommendations |
+| **backend-3-ai_companion** | 9001 | FastAPI + Redis | AI chat, skill forecasting, alerts |
+
+### Data Flow
+
+1. **User Actions** → Core API → PostgreSQL + Celery Workers
+2. **Course Matching** → AI Engine → FAISS Vector Search → Semantic Similarity
+3. **AI Companion** → Skill Forecasts + Content Recommendations
+
+### Tech Stack
+
+- **Frontend:** React, Next.js 14, TypeScript, TailwindCSS, shadcn/ui
+- **Backend:** Python FastAPI (3 microservices)
+- **Database:** PostgreSQL 15
+- **Cache/Queue:** Redis 7
+- **AI/ML:** Sentence Transformers, FAISS, scikit-learn
+- **Task Queue:** Celery
+- **Container:** Docker, GitHub Container Registry
 
 ## 📱 Screenshots *
 <table> <tr> <td><strong>Landing Page</strong><br><br> <img width="1920" height="1031" alt="image" src="https://github.com/user-attachments/assets/0c859575-1ad2-4d52-964f-4c4da41104f3" /> </td> </tr> </table>
