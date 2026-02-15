@@ -11,6 +11,38 @@ class User(Base):
     language = Column(String, default="en")
     hashed_password = Column(String, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
+    
+    education = Column(String, nullable=True)
+    field_of_study = Column(String, nullable=True)
+    skills = Column(JSON, default=list)
+    interests = Column(JSON, default=list)
+    learning_goals = Column(JSON, default=list)
+    target_roles = Column(Text, nullable=True)
+    
+    learning_types = Column(JSON, default=list)
+    video_format = Column(String, nullable=True)
+    learning_style = Column(String, nullable=True)
+    instructor_style = Column(String, nullable=True)
+    course_structure = Column(String, nullable=True)
+    theory_practice_ratio = Column(String, nullable=True)
+    math_intensity = Column(String, nullable=True)
+    learning_environment = Column(JSON, default=list)
+    internet_situation = Column(JSON, default=list)
+    collaborative_learning = Column(String, nullable=True)
+    
+    comfortable_subjects = Column(JSON, default=list)
+    familiar_with = Column(JSON, default=list)
+    certifications = Column(Text, nullable=True)
+    resume_url = Column(String, nullable=True)
+    
+    preferred_nsqf_level = Column(Integer, default=4)
+    region = Column(String, nullable=True)
+    
+    career_goal = Column(String, nullable=True)
+    progress = Column(Integer, default=0)
+    courses_completed = Column(Integer, default=0)
+    skills_gained = Column(Integer, default=0)
+    weeks_remaining = Column(Integer, default=12)
 
     actions = relationship("Action", back_populates="user")
     notifications = relationship("Notification", back_populates="user")

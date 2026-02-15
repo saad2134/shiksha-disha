@@ -41,6 +41,9 @@ export const authService = {
         if (result.token) {
           localStorage.setItem('auth_token', result.token);
           localStorage.setItem('user_data', JSON.stringify(result.user));
+          if (result.user && result.user.id) {
+            localStorage.setItem('user_id', result.user.id.toString());
+          }
         }
         if (data.rememberMe) {
           localStorage.setItem('remember_email', data.email);
@@ -77,6 +80,9 @@ export const authService = {
         if (result.token) {
           localStorage.setItem('auth_token', result.token);
           localStorage.setItem('user_data', JSON.stringify(result.user));
+          if (result.user && result.user.id) {
+            localStorage.setItem('user_id', result.user.id.toString());
+          }
         }
       }
       
@@ -93,7 +99,9 @@ export const authService = {
   logout() {
     localStorage.removeItem('auth_token');
     localStorage.removeItem('user_data');
+    localStorage.removeItem('user_id');
     localStorage.removeItem('remember_email');
+    localStorage.removeItem('onboarding_completed');
   },
 
   getStoredEmail(): string {

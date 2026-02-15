@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -11,6 +11,7 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { authService } from "@/lib/auth";
+import { apiService, UserProfile, UserStats } from "@/lib/api";
 import { 
   LogOut,
   ChevronLeft, 
@@ -23,13 +24,14 @@ import {
   Clock,
   Users,
   Star,
-  ArrowRight
+  ArrowRight,
+  Loader2
 } from "lucide-react";
 import { siteConfig } from "@/config/site";
 
 function useIsMobile() {
-  const [isMobile, setIsMobile] = React.useState(false);
-  React.useEffect(() => {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
     const mq = window.matchMedia("(max-width: 1023px)");
     setIsMobile(mq.matches);
     const handler = () => setIsMobile(mq.matches);
@@ -42,7 +44,37 @@ function useIsMobile() {
 export default function CareerMap() {
   const router = useRouter();
   const isMobile = useIsMobile();
-  const [selectedMilestone, setSelectedMilestone] = React.useState<any>(null);
+  const [selectedMilestone, setSelectedMilestone] = useState<any>(null);
+  const [userData, setUserData] = useState<UserProfile | null>(null);
+  const [userStats, setUserStats] = useState<UserStats | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userId = localStorage.getItem('user_id');
+        if (!userId) {
+          router.push('/auth');
+          return;
+        }
+        
+        const userIdNum = parseInt(userId);
+        const [profile, stats] = await Promise.all([
+          apiService.getUserProfile(userIdNum),
+          apiService.getUserStats(userIdNum)
+        ]);
+        
+        setUserData(profile);
+        setUserStats(stats);
+      } catch (err) {
+        console.error('Failed to load career map data:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchData();
+  }, [router]);
 
   const handleLogout = async () => {
     authService.logout();
@@ -54,126 +86,114 @@ export default function CareerMap() {
   };
 
   const careerPath = {
-    goal: "Software Developer",
-    duration: "9-12 months",
-    level: "Beginner to Job-Ready",
+    goal: userData?.career_goal || userData?.target_roles || userData?.interests?.[0] || "Your Career Path",
+    duration: userStats?.weeks_remaining ? `${userStats.weeks_remaining} weeks` : "12 weeks",
+    level: userData?.preferred_nsqf_level ? `NSQF Level ${userData.preferred_nsqf_level}` : "Beginner",
     match: 92
   };
 
+  const userProgress = userStats?.progress || 0;
+  const userInterests = userData?.interests || [];
+  const userSkills = userData?.skills || [];
+  
   const milestones = [
     {
       id: 1,
       title: "Profile Setup",
-      status: "completed",
+      status: userProgress >= 10 ? "completed" : "completed",
       type: "onboarding",
       description: "Career assessment and goal setting completed",
       duration: "Completed",
-      progress: 100,
+      progress: userProgress >= 10 ? 100 : 0,
       icon: CheckCircle2,
       color: "text-green-600",
       bgColor: "bg-green-50",
       details: {
-        skills: ["Self-assessment", "Goal setting"],
-        resources: ["Career assessment test", "Profile completion"],
-        nextSteps: "Begin foundational courses"
+        skills: userSkills.slice(0, 3),
+        interests: userInterests.slice(0, 2),
+        nextSteps: userProgress >= 10 ? "Begin foundational courses" : "Complete your profile"
       }
     },
     {
       id: 2,
-      title: "Web Development Fundamentals",
-      status: "current",
+      title: userInterests[0] ? `${userInterests[0]} Fundamentals` : "Foundation Course",
+      status: userProgress >= 30 ? "completed" : userProgress >= 10 ? "current" : "upcoming",
       type: "course",
-      description: "Learn HTML, CSS, and JavaScript basics",
+      description: `Build foundational skills in ${userInterests[0] || 'your chosen field'}`,
       duration: "6 weeks",
-      progress: 40,
+      progress: userProgress >= 30 ? 100 : Math.max(0, userProgress - 10) * 5,
       icon: BookOpen,
       color: "text-blue-600",
       bgColor: "bg-blue-50",
       details: {
-        skills: ["HTML5", "CSS3", "JavaScript", "Responsive Design"],
-        resources: ["NSQF Level 4 Course", "Interactive tutorials", "Practice projects"],
-        nextSteps: "Complete module 3 of 6",
-        provider: "Digital Skills Institute",
+        skills: userSkills.slice(0, 4),
+        nextSteps: userProgress >= 30 ? "Move to advanced topics" : "Complete module 1",
         level: "Beginner"
       }
     },
     {
       id: 3,
-      title: "Python Programming",
-      status: "upcoming",
-      type: "course",
-      description: "Master Python programming and algorithms",
-      duration: "8 weeks",
-      progress: 0,
-      icon: BookOpen,
-      color: "text-blue-600",
-      bgColor: "bg-blue-50",
-      details: {
-        skills: ["Python Syntax", "Data Structures", "Algorithms", "Problem Solving"],
-        resources: ["Python Basics Course", "Coding exercises", "Mini-projects"],
-        nextSteps: "Start after completing Web Dev fundamentals",
-        provider: "Code Academy",
-        level: "Beginner to Intermediate"
-      }
-    },
-    {
-      id: 4,
-      title: "Frontend Internship",
-      status: "upcoming",
-      type: "internship",
-      description: "Real-world experience with a tech company",
-      duration: "3 months",
-      progress: 0,
-      icon: Briefcase,
-      color: "text-purple-600",
-      bgColor: "bg-purple-50",
-      details: {
-        skills: ["React.js", "Team Collaboration", "Project Management", "Code Review"],
-        resources: ["Mentor guidance", "Real projects", "Industry exposure"],
-        nextSteps: "Apply after completing core courses",
-        provider: "Tech Solutions Ltd.",
-        level: "Intermediate"
-      }
-    },
-    {
-      id: 5,
-      title: "Full-Stack Certification",
-      status: "upcoming",
+      title: "Skill Certification",
+      status: userProgress >= 50 ? "completed" : userProgress >= 30 ? "current" : "upcoming",
       type: "certification",
-      description: "Advanced full-stack development skills",
-      duration: "10 weeks",
-      progress: 0,
+      description: "Earn industry-recognized certification",
+      duration: "8 weeks",
+      progress: userProgress >= 50 ? 100 : Math.max(0, userProgress - 30) * 5,
       icon: Award,
       color: "text-orange-600",
       bgColor: "bg-orange-50",
       details: {
-        skills: ["Node.js", "Database Design", "API Development", "Deployment"],
-        resources: ["Advanced curriculum", "Capstone project", "Industry certification"],
-        nextSteps: "Prepare for final certification exam",
-        provider: "Full-Stack Institute",
-        level: "Advanced"
+        skills: userSkills,
+        nextSteps: userProgress >= 50 ? "Apply for internship" : "Prepare for certification exam",
+        level: "Intermediate"
       }
     },
     {
-      id: 6,
-      title: "Job Ready: Software Developer",
-      status: "upcoming",
+      id: 4,
+      title: "Practical Application",
+      status: userProgress >= 70 ? "completed" : userProgress >= 50 ? "current" : "upcoming",
+      type: "internship",
+      description: "Apply your skills in real-world projects",
+      duration: "3 months",
+      progress: userProgress >= 70 ? 100 : Math.max(0, userProgress - 50) * 5,
+      icon: Briefcase,
+      color: "text-purple-600",
+      bgColor: "bg-purple-50",
+      details: {
+        skills: userSkills,
+        nextSteps: userProgress >= 70 ? "Prepare for job placement" : "Complete certification first",
+        level: "Intermediate to Advanced"
+      }
+    },
+    {
+      id: 5,
+      title: userData?.career_goal ? `Career: ${userData.career_goal}` : "Career Ready",
+      status: userProgress >= 90 ? "completed" : userProgress >= 70 ? "current" : "upcoming",
       type: "job",
-      description: "Start your career as a professional developer",
-      duration: "Permanent",
-      progress: 0,
+      description: "Start your professional career journey",
+      duration: "Ongoing",
+      progress: userProgress >= 90 ? 100 : Math.max(0, userProgress - 70) * 5,
       icon: Target,
       color: "text-green-600",
       bgColor: "bg-green-50",
       details: {
-        skills: ["Full-Stack Development", "Problem Solving", "Teamwork", "Continuous Learning"],
-        resources: ["Job placement support", "Interview preparation", "Career counseling"],
-        nextSteps: "Begin job applications and interviews",
-        salary: "₹6-12 LPA starting",
-        companies: ["Tech Startups", "IT Services", "Product Companies"]
+        goal: userData?.career_goal || userData?.target_roles || "Your target role",
+        nextSteps: userProgress >= 90 ? "You are job ready!" : "Complete practical application",
+        salary: "Based on market rates"
       }
     }
   ];
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background pt-24 sm:pt-28 px-4 sm:px-6 pb-12 flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="h-12 w-12 animate-spin text-primary mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading your career path...</p>
+        </div>
+      </div>
+    );
+  }
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -328,14 +348,14 @@ export default function CareerMap() {
 
                               {/* Skills Preview */}
                               <div className="flex flex-wrap gap-2">
-                                {milestone.details.skills.slice(0, 3).map((skill, skillIndex) => (
+                                {(milestone.details.skills || []).slice(0, 3).map((skill, skillIndex) => (
                                   <Badge key={skillIndex} variant="outline" className="text-xs">
                                     {skill}
                                   </Badge>
                                 ))}
-                                {milestone.details.skills.length > 3 && (
+                                {(milestone.details.skills || []).length > 3 && (
                                   <Badge variant="outline" className="text-xs">
-                                    +{milestone.details.skills.length - 3} more
+                                    +{(milestone.details.skills || []).length - 3} more
                                   </Badge>
                                 )}
                               </div>
