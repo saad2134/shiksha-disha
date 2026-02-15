@@ -123,6 +123,8 @@ def match_learner(req: LearnerMatchRequest):
     - Engagement probability: Likelihood of staying engaged
     
     - **skills**: List of learner skills
+    - **interests**: List of learner interests
+    - **career_goal**: Career goal or target role
     - **experience_years**: Years of experience
     - **preferred_nsqf_level**: Desired NSQF level
     - **region**: Preferred region
@@ -131,6 +133,8 @@ def match_learner(req: LearnerMatchRequest):
     """
     profile = {
         "skills": req.skills or [],
+        "interests": req.interests or [],
+        "career_goal": req.career_goal or "",
         "experience_years": req.experience_years or 0.0,
         "preferred_nsqf_level": req.preferred_nsqf_level,
         "region": req.region or "",

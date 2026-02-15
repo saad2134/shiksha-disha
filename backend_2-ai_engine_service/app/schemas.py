@@ -5,6 +5,8 @@ class Profile(BaseModel):
     user_id: Optional[int] = None
     headline: Optional[str] = ""
     skills: Optional[List[str]] = []
+    interests: Optional[List[str]] = []
+    career_goal: Optional[str] = ""
     education: Optional[str] = ""
     experience_years: Optional[float] = 0.0
     location: Optional[str] = ""
@@ -19,6 +21,8 @@ class MatchRequest(BaseModel):
 
 class LearnerMatchRequest(BaseModel):
     skills: Optional[List[str]] = []
+    interests: Optional[List[str]] = []
+    career_goal: Optional[str] = ""
     experience_years: Optional[float] = 0.0
     preferred_nsqf_level: Optional[int] = None
     region: Optional[str] = ""

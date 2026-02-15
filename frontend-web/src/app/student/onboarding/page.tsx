@@ -113,11 +113,56 @@ export default function OnboardingForm() {
         }));
     };
 
-    const handleSubmit = () => {
+    const [saving, setSaving] = React.useState(false);
+
+    const handleSubmit = async () => {
         setHasAttemptedNext(true);
         if (!validateStep(step)) return;
-        console.log("Collected Data:", formData);
-        router.push("/student/dashboard");
+        
+        setSaving(true);
+        try {
+            const userId = localStorage.getItem('user_id');
+            
+            if (userId) {
+                const onboardingData = {
+                    fullName: formData.fullName,
+                    contact: formData.contact,
+                    education: formData.education,
+                    fieldOfStudy: formData.fieldOfStudy,
+                    comfortableSubjects: formData.comfortableSubjects,
+                    skills: formData.skills,
+                    interests: formData.interests,
+                    learningGoals: formData.learningGoals,
+                    learningTypes: formData.learningTypes,
+                    videoFormat: formData.videoFormat,
+                    learningStyle: formData.learningStyle,
+                    instructorStyle: formData.instructorStyle,
+                    courseStructure: formData.courseStructure,
+                    theoryPracticeRatio: formData.theoryPracticeRatio,
+                    mathIntensity: formData.mathIntensity,
+                    learningEnvironment: formData.learningEnvironment,
+                    internetSituation: formData.internetSituation,
+                    collaborativeLearning: formData.collaborativeLearning,
+                    familiarWith: formData.familiarWith,
+                    certifications: formData.certifications,
+                    resumeUrl: formData.resume,
+                    targetRoles: formData.targetRoles,
+                    preferredLanguage: 'en',
+                    careerGoal: formData.interests?.[0] || formData.otherInterest || null
+                };
+                
+                const { apiService } = await import('@/lib/api');
+                await apiService.saveOnboarding(parseInt(userId), onboardingData);
+            }
+            
+            localStorage.setItem('onboarding_completed', 'true');
+            router.push("/student/dashboard");
+        } catch (error) {
+            console.error('Error saving onboarding data:', error);
+            router.push("/student/dashboard");
+        } finally {
+            setSaving(false);
+        }
     };
 
     const handleLogout = async () => {

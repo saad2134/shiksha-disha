@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { authService } from "@/lib/auth";
-import { apiService, Course } from "@/lib/api";
+import { apiService, Course, UserProfile, UserStats } from "@/lib/api";
 import {
     LogOut,
     BookOpen,
@@ -24,75 +24,135 @@ import {
     Award,
     Briefcase,
     Calendar,
-    Loader2
+    Loader2,
+    Flame
 } from "lucide-react";
 import { siteConfig } from "@/config/site";
 
 export default function Dashboard() {
     const router = useRouter();
-    const [userData, setUserData] = React.useState({
-        name: "Saad Mohammed",
-        education: "Bachelor's Degree",
-        careerGoal: "Software Development",
-        skillLevel: "Beginner",
-        progress: 25,
-        learningPace: "1-2 hours/day",
-        skills: ["python", "javascript", "react"], // This will trigger matching for these skills
-        preferred_nsqf_level: 4,
-        preferred_language: "en"
-    });
-
-    // State for real data
+    const [userData, setUserData] = useState<UserProfile | null>(null);
+    const [userStats, setUserStats] = useState<UserStats | null>(null);
     const [recommendations, setRecommendations] = useState<Course[]>([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     const handleLogout = async () => {
         authService.logout();
         await signOut({ callbackUrl: "/" });
     };
 
-    // Static milestones for now
-    const milestones = [
-        { id: 1, title: "Profile Setup", status: "completed", description: "Basic information collected" },
-        { id: 2, title: "Web Dev Fundamentals", status: "current", description: "Next recommended step" },
-        { id: 3, title: "Python Certification", status: "upcoming", description: "Build programming skills" },
-        { id: 4, title: "Internship", status: "upcoming", description: "Gain practical experience" },
-        { id: 5, title: "Job Ready", status: "upcoming", description: "Start applying for roles" }
-    ];
+    const educationToNSQF: Record<string, number> = {
+        'highSchool': 4,
+        'diploma': 5,
+        'bachelor': 5,
+        'master': 6,
+        'phd': 7,
+        'other': 4
+    };
 
-    const skillAreas = [
-        { name: "Programming", level: 30, target: 80 },
-        { name: "Web Development", level: 20, target: 85 },
-        { name: "Problem Solving", level: 60, target: 90 },
-        { name: "Communication", level: 70, target: 85 }
-    ];
+    const getPreferredNSQFLevel = (profile: UserProfile | null): number => {
+        if (profile?.preferred_nsqf_level) return profile.preferred_nsqf_level;
+        if (profile?.education && educationToNSQF[profile.education]) {
+            return educationToNSQF[profile.education];
+        }
+        return 4;
+    };
 
     useEffect(() => {
         document.title = `Dashboard ✦ ${siteConfig.name}`;
-
-        // Fetch recommendations from our new AI Engine
-        const fetchRecommendations = async () => {
+        
+        const fetchData = async () => {
             setLoading(true);
             try {
-                const courses = await apiService.getRecommendedCourses({
-                    skills: userData.skills,
-                    preferred_nsqf_level: userData.preferred_nsqf_level,
-                    preferred_language: userData.preferred_language
-                });
-                setRecommendations(courses);
-            } catch (error) {
-                console.error("Failed to load recommendations", error);
+                const userId = localStorage.getItem('user_id');
+                if (!userId) {
+                    setError('User not logged in');
+                    setLoading(false);
+                    return;
+                }
+
+                const userIdNum = parseInt(userId);
+                
+                const [profile, stats] = await Promise.all([
+                    apiService.getUserProfile(userIdNum),
+                    apiService.getUserStats(userIdNum)
+                ]);
+
+                setUserData(profile);
+                setUserStats(stats);
+
+                if (profile) {
+                    const courses = await apiService.getRecommendedCourses({
+                        skills: profile.skills || [],
+                        interests: profile.interests || [],
+                        career_goal: profile.career_goal || profile.interests?.[0] || '',
+                        experience_years: 0,
+                        preferred_nsqf_level: getPreferredNSQFLevel(profile),
+                        preferred_language: profile.language || 'en',
+                        region: profile.region || ''
+                    });
+                    setRecommendations(courses);
+                }
+            } catch (err) {
+                console.error('Failed to load dashboard data:', err);
+                setError('Failed to load data');
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchRecommendations();
-    }, [userData]);
+        fetchData();
+    }, []);
+
+    const milestones = userData ? [
+        { id: 1, title: "Profile Setup", status: userData.progress && userData.progress >= 10 ? "completed" : "upcoming", description: "Basic information collected" },
+        { id: 2, title: userData.interests?.[0] || "Foundation Course", status: userData.progress && userData.progress >= 30 ? "completed" : userData.progress && userData.progress >= 10 ? "current" : "upcoming", description: "Build foundational skills" },
+        { id: 3, title: "Skill Certification", status: userData.progress && userData.progress >= 50 ? "completed" : userData.progress && userData.progress >= 30 ? "current" : "upcoming", description: "Earn industry-recognized certification" },
+        { id: 4, title: "Practical Application", status: userData.progress && userData.progress >= 70 ? "completed" : userData.progress && userData.progress >= 50 ? "current" : "upcoming", description: "Apply skills in real projects" },
+        { id: 5, title: "Career Ready", status: userData.progress && userData.progress >= 90 ? "completed" : userData.progress && userData.progress >= 70 ? "current" : "upcoming", description: "Start your career journey" }
+    ] : [];
+
+    const skillAreas = userData && userData.interests ? userData.interests.slice(0, 4).map((interest, idx) => ({
+        name: interest,
+        level: Math.min(20 + (userStats?.progress || 0) + (idx * 15), 100),
+        target: 80 + Math.random() * 20
+    })) : [];
+
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-background pt-24 sm:pt-28 px-4 sm:px-6 lg:px-8 pb-12 flex items-center justify-center">
+                <div className="text-center">
+                    <Loader2 className="h-12 w-12 animate-spin text-primary mx-auto mb-4" />
+                    <p className="text-muted-foreground">Loading your personalized dashboard...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="min-h-screen bg-background pt-24 sm:pt-28 px-4 sm:px-6 lg:px-8 pb-12 flex items-center justify-center">
+                <Card className="max-w-md">
+                    <CardHeader>
+                        <CardTitle>Unable to Load Dashboard</CardTitle>
+                        <CardDescription>{error}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <Button onClick={() => router.push('/student/onboarding')}>
+                            Complete Onboarding
+                        </Button>
+                    </CardContent>
+                </Card>
+            </div>
+        );
+    }
+
+    const displayName = userData?.name || userData?.email?.split('@')[0] || 'Learner';
+    const displayCareerGoal = userData?.career_goal || userData?.interests?.[0] || 'Your Career Path';
 
     return (
         <div className="min-h-screen bg-background pt-24 sm:pt-28 px-4 sm:px-6 lg:px-8 pb-12">
-            {/* Header */}
             <div className="max-w-7xl mx-auto">
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6 sm:mb-8">
                     <div>
@@ -101,8 +161,8 @@ export default function Dashboard() {
                     </div>
                     <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
                         <div className="text-left sm:text-right">
-                            <p className="font-medium text-foreground truncate">Welcome back, {userData.name}!</p>
-                            <p className="text-sm text-muted-foreground">{userData.careerGoal} Path</p>
+                            <p className="font-medium text-foreground truncate">Welcome back, {displayName}!</p>
+                            <p className="text-sm text-muted-foreground">{displayCareerGoal} Path</p>
                         </div>
                         <Button variant="outline" onClick={handleLogout} className="flex items-center justify-center gap-2 shrink-0">
                             <LogOut size={16} />
@@ -112,9 +172,7 @@ export default function Dashboard() {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-                    {/* Main Content - 2/3 width */}
                     <div className="lg:col-span-2 space-y-6">
-                        {/* Welcome Card */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -127,32 +185,35 @@ export default function Dashboard() {
                                         Journey Progress
                                     </CardTitle>
                                     <CardDescription>
-                                        Your overall progress towards becoming job-ready in {userData.careerGoal}
+                                        Your overall progress towards becoming job-ready in {displayCareerGoal}
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent>
                                     <div className="space-y-4">
                                         <div className="flex justify-between items-center">
                                             <span className="text-sm font-medium">Overall Completion</span>
-                                            <span className="text-sm font-medium">{userData.progress}%</span>
+                                            <span className="text-sm font-medium">{userStats?.progress || 0}%</span>
                                         </div>
-                                        <Progress value={userData.progress} className="h-3" />
+                                        <Progress value={userStats?.progress || 0} className="h-3" />
                                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mt-6">
                                             <div className="text-center p-3 sm:p-4 border rounded-lg">
-                                                <div className="text-xl sm:text-2xl font-bold text-primary">2</div>
+                                                <div className="text-xl sm:text-2xl font-bold text-primary">{userStats?.courses_completed || 0}</div>
                                                 <div className="text-xs sm:text-sm text-muted-foreground">Courses Completed</div>
                                             </div>
                                             <div className="text-center p-3 sm:p-4 border rounded-lg">
-                                                <div className="text-xl sm:text-2xl font-bold text-primary">5</div>
+                                                <div className="text-xl sm:text-2xl font-bold text-primary">{userStats?.skills_gained || userData?.skills?.length || 0}</div>
                                                 <div className="text-xs sm:text-sm text-muted-foreground">Skills Gained</div>
                                             </div>
                                             <div className="text-center p-3 sm:p-4 border rounded-lg">
-                                                <div className="text-xl sm:text-2xl font-bold text-primary">12</div>
+                                                <div className="text-xl sm:text-2xl font-bold text-primary">{userStats?.weeks_remaining || 12}</div>
                                                 <div className="text-xs sm:text-sm text-muted-foreground">Weeks Remaining</div>
                                             </div>
                                             <div className="text-center p-3 sm:p-4 border rounded-lg">
-                                                <div className="text-xl sm:text-2xl font-bold text-primary">85%</div>
-                                                <div className="text-xs sm:text-sm text-muted-foreground">Path Match</div>
+                                                <div className="text-xl sm:text-2xl font-bold text-primary flex items-center justify-center gap-1">
+                                                    <Flame size={16} className="text-orange-500" />
+                                                    {userStats?.current_streak || 0}
+                                                </div>
+                                                <div className="text-xs sm:text-sm text-muted-foreground">Day Streak</div>
                                             </div>
                                         </div>
 
@@ -170,7 +231,6 @@ export default function Dashboard() {
                             </Card>
                         </motion.div>
 
-                        {/* Recommendation Card with API Integration */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -188,12 +248,7 @@ export default function Dashboard() {
                                 </CardHeader>
                                 <CardContent>
                                     <div className="space-y-4">
-                                        {loading ? (
-                                            <div className="flex flex-col items-center justify-center p-8 text-muted-foreground">
-                                                <Loader2 className="h-8 w-8 animate-spin text-primary mb-2" />
-                                                <p>Finding best matches for you...</p>
-                                            </div>
-                                        ) : recommendations.length > 0 ? (
+                                        {recommendations.length > 0 ? (
                                             recommendations.map((course, index) => (
                                                 <motion.div
                                                     key={course.course_id}
@@ -222,9 +277,8 @@ export default function Dashboard() {
                                                                             <span className="text-green-600 font-medium">{course.match_probability}% Match</span>
                                                                         </div>
                                                                     </div>
-                                                                    {/* Display aligned skills */}
                                                                     <div className="mt-2 text-xs text-muted-foreground">
-                                                                        {course.skills.split(',').slice(0, 3).join(', ')}...
+                                                                        {course.skills?.split(',').slice(0, 3).join(', ')}...
                                                                     </div>
                                                                 </div>
                                                                 <Button size="sm" className="flex items-center gap-1">
@@ -237,9 +291,11 @@ export default function Dashboard() {
                                                 </motion.div>
                                             ))
                                         ) : (
-                                            <p className="text-center text-muted-foreground p-4">
-                                                No specific recommendations found. Try updating your skill profile.
-                                            </p>
+                                            <div className="text-center p-8 text-muted-foreground">
+                                                <BookOpen className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                                                <p>No recommendations yet.</p>
+                                                <p className="text-sm">Complete your profile to get personalized course suggestions.</p>
+                                            </div>
                                         )}
                                     </div>
                                 </CardContent>
@@ -247,9 +303,7 @@ export default function Dashboard() {
                         </motion.div>
                     </div>
 
-                    {/* Sidebar - 1/3 width */}
                     <div className="space-y-4 sm:space-y-6 min-w-0 lg:sticky lg:top-24 lg:self-start">
-                        {/* Career Journey Map */}
                         <motion.div
                             initial={{ opacity: 0, x: 20 }}
                             animate={{ opacity: 1, x: 0 }}
@@ -297,42 +351,42 @@ export default function Dashboard() {
                             </Card>
                         </motion.div>
 
-                        {/* Skill Progress */}
-                        <motion.div
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.5, delay: 0.4 }}
-                        >
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle className="flex items-center gap-2">
-                                        <Award className="text-primary" size={20} />
-                                        Skill Development
-                                    </CardTitle>
-                                    <CardDescription>
-                                        Track your progress in key areas
-                                    </CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="space-y-4">
-                                        {skillAreas.map((skill, index) => (
-                                            <div key={skill.name} className="space-y-2">
-                                                <div className="flex justify-between text-sm">
-                                                    <span className="font-medium">{skill.name}</span>
-                                                    <span className="text-muted-foreground">{skill.level}% / {skill.target}%</span>
+                        {skillAreas.length > 0 && (
+                            <motion.div
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.5, delay: 0.4 }}
+                            >
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle className="flex items-center gap-2">
+                                            <Award className="text-primary" size={20} />
+                                            Skill Development
+                                        </CardTitle>
+                                        <CardDescription>
+                                            Track your progress in key areas
+                                        </CardDescription>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="space-y-4">
+                                            {skillAreas.map((skill, index) => (
+                                                <div key={skill.name} className="space-y-2">
+                                                    <div className="flex justify-between text-sm">
+                                                        <span className="font-medium">{skill.name}</span>
+                                                        <span className="text-muted-foreground">{Math.round(skill.level)}% / {Math.round(skill.target)}%</span>
+                                                    </div>
+                                                    <div className="space-y-1">
+                                                        <Progress value={skill.level} className="h-2" />
+                                                        <Progress value={skill.target} className="h-1 bg-muted" />
+                                                    </div>
                                                 </div>
-                                                <div className="space-y-1">
-                                                    <Progress value={skill.level} className="h-2" />
-                                                    <Progress value={skill.target} className="h-1 bg-muted" />
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        </motion.div>
+                                            ))}
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            </motion.div>
+                        )}
 
-                        {/* Quick Stats */}
                         <motion.div
                             initial={{ opacity: 0, x: 20 }}
                             animate={{ opacity: 1, x: 0 }}
@@ -346,21 +400,21 @@ export default function Dashboard() {
                                     <div className="flex items-center justify-between gap-3 p-3 bg-green-50 dark:bg-green-950/30 rounded-lg min-w-0">
                                         <div className="min-w-0">
                                             <p className="font-medium text-green-800 dark:text-green-300">High Demand</p>
-                                            <p className="text-sm text-green-600 dark:text-green-400 truncate">Web Developers</p>
+                                            <p className="text-sm text-green-600 dark:text-green-400 truncate">{userData?.target_roles || userData?.career_goal || userData?.interests?.[0] || 'Tech'} Roles</p>
                                         </div>
                                         <TrendingUp className="text-green-600 dark:text-green-400 shrink-0" size={20} />
                                     </div>
                                     <div className="flex items-center justify-between gap-3 p-3 bg-blue-50 dark:bg-blue-950/30 rounded-lg min-w-0">
                                         <div className="min-w-0">
-                                            <p className="font-medium text-blue-800 dark:text-blue-300">Growing Field</p>
-                                            <p className="text-sm text-blue-600 dark:text-blue-400 truncate">AI & ML Jobs</p>
+                                            <p className="font-medium text-blue-800 dark:text-blue-300">In-Demand Skills</p>
+                                            <p className="text-sm text-blue-600 dark:text-blue-400 truncate">{userData?.skills?.slice(0, 3).join(', ') || userData?.interests?.[0] || 'Technical Skills'}</p>
                                         </div>
                                         <Users className="text-blue-600 dark:text-blue-400 shrink-0" size={20} />
                                     </div>
                                     <div className="flex items-center justify-between gap-3 p-3 bg-orange-50 dark:bg-orange-950/30 rounded-lg min-w-0">
                                         <div className="min-w-0">
-                                            <p className="font-medium text-orange-800 dark:text-orange-300">New Opportunity</p>
-                                            <p className="text-sm text-orange-600 dark:text-orange-400 truncate">Cloud Computing</p>
+                                            <p className="font-medium text-orange-800 dark:text-orange-300">Your Goal</p>
+                                            <p className="text-sm text-orange-600 dark:text-orange-400 truncate">{userData?.career_goal || userData?.learning_goals?.[0] || 'Career Growth'}</p>
                                         </div>
                                         <Briefcase className="text-orange-600 dark:text-orange-400 shrink-0" size={20} />
                                     </div>

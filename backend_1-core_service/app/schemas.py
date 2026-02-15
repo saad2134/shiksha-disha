@@ -29,12 +29,104 @@ class UserOut(BaseModel):
     name: Optional[str]
     language: str
     created_at: datetime
+    education: Optional[str] = None
+    field_of_study: Optional[str] = None
+    skills: List[Any] = []
+    interests: List[Any] = []
+    learning_goals: List[Any] = []
+    target_roles: Optional[str] = None
+    learning_types: List[Any] = []
+    video_format: Optional[str] = None
+    learning_style: Optional[str] = None
+    instructor_style: Optional[str] = None
+    course_structure: Optional[str] = None
+    theory_practice_ratio: Optional[str] = None
+    math_intensity: Optional[str] = None
+    learning_environment: List[Any] = []
+    internet_situation: List[Any] = []
+    collaborative_learning: Optional[str] = None
+    comfortable_subjects: List[Any] = []
+    familiar_with: List[Any] = []
+    certifications: Optional[str] = None
+    resume_url: Optional[str] = None
+    preferred_nsqf_level: int = 4
+    region: Optional[str] = None
+    career_goal: Optional[str] = None
+    progress: int = 0
+    courses_completed: int = 0
+    skills_gained: int = 0
+    weeks_remaining: int = 12
     class Config:
         from_attributes = True
 
 class UserUpdate(BaseModel):
     name: Optional[str] = None
     language: Optional[str] = None
+    education: Optional[str] = None
+    field_of_study: Optional[str] = None
+    skills: Optional[List[Any]] = None
+    interests: Optional[List[Any]] = None
+    learning_goals: Optional[List[Any]] = None
+    target_roles: Optional[str] = None
+    learning_types: Optional[List[Any]] = None
+    video_format: Optional[str] = None
+    learning_style: Optional[str] = None
+    instructor_style: Optional[str] = None
+    course_structure: Optional[str] = None
+    theory_practice_ratio: Optional[str] = None
+    math_intensity: Optional[str] = None
+    learning_environment: Optional[List[Any]] = None
+    internet_situation: Optional[List[Any]] = None
+    collaborative_learning: Optional[str] = None
+    comfortable_subjects: Optional[List[Any]] = None
+    familiar_with: Optional[List[Any]] = None
+    certifications: Optional[str] = None
+    resume_url: Optional[str] = None
+    preferred_nsqf_level: Optional[int] = None
+    region: Optional[str] = None
+    career_goal: Optional[str] = None
+    progress: Optional[int] = None
+    courses_completed: Optional[int] = None
+    skills_gained: Optional[int] = None
+    weeks_remaining: Optional[int] = None
+
+
+class OnboardingData(BaseModel):
+    fullName: Optional[str] = None
+    contact: Optional[str] = None
+    education: Optional[str] = None
+    fieldOfStudy: Optional[str] = None
+    comfortableSubjects: Optional[List[str]] = None
+    skills: Optional[List[str]] = None
+    interests: Optional[List[str]] = None
+    learningGoals: Optional[List[str]] = None
+    learningTypes: Optional[List[str]] = None
+    videoFormat: Optional[str] = None
+    learningStyle: Optional[str] = None
+    instructorStyle: Optional[str] = None
+    courseStructure: Optional[str] = None
+    theoryPracticeRatio: Optional[str] = None
+    mathIntensity: Optional[str] = None
+    learningEnvironment: Optional[List[str]] = None
+    internetSituation: Optional[List[str]] = None
+    collaborativeLearning: Optional[str] = None
+    familiarWith: Optional[List[str]] = None
+    certifications: Optional[str] = None
+    resumeUrl: Optional[str] = None
+    targetRoles: Optional[str] = None
+    preferredLanguage: Optional[str] = "en"
+    region: Optional[str] = None
+    careerGoal: Optional[str] = None
+
+
+class UserStats(BaseModel):
+    progress: int = 0
+    courses_completed: int = 0
+    skills_gained: int = 0
+    weeks_remaining: int = 12
+    current_streak: int = 0
+    engagement_score: float = 0.0
+    dropout_risk: float = 0.0
 
 class ActionCreate(BaseModel):
     user_id: int
