@@ -13,7 +13,7 @@
 ### 1. Pull the Latest Image
 
 ```bash
-docker pull ghcr.io/<your-username>/shiksha-disha/ai-engine-service:latest
+docker pull ghcr.io/saad2134/shiksha-disha/b2-ai-engine:latest
 ```
 
 ### 2. Run the Container
@@ -25,7 +25,7 @@ docker run -d \
   -e NSQF_COURSES_PATH=./data/nsqf_courses.csv \
   -v $(pwd)/data:/app/data \
   -v $(pwd)/models:/app/models \
-  ghcr.io/<your-username>/shiksha-disha/ai-engine-service:latest
+  ghcr.io/saad2134/shiksha-disha/b2-ai-engine:latest
 ```
 
 ### 3. Verify
@@ -65,7 +65,7 @@ version: "3.8"
 
 services:
   ai_engine:
-    image: ghcr.io/${GITHUB_USERNAME}/shiksha-disha/ai-engine-service:latest
+    image: ghcr.io/saad2134/shiksha-disha/b2-ai-engine:latest
     container_name: shiksha-ai-engine
     ports:
       - "9000:9000"
@@ -125,7 +125,7 @@ After=docker.service
 Type=oneshot
 RemainAfterExit=yes
 WorkingDirectory=/opt/shiksha-ai-engine
-ExecStartPre=/usr/bin/docker pull ghcr.io/<username>/shiksha-disha/ai-engine-service:latest
+ExecStartPre=/usr/bin/docker pull ghcr.io/saad2134/shiksha-disha/b2-ai-engine:latest
 ExecStart=/usr/bin/docker compose -f deploy-compose.yml up -d
 ExecStop=/usr/bin/docker compose -f deploy-compose.yml down
 TimeoutStartSec=0
@@ -162,7 +162,7 @@ sudo systemctl enable --now shiksha-ai-engine
 
 ```bash
 # 1. Pull latest image
-docker pull ghcr.io/<username>/shiksha-disha/ai-engine-service:latest
+docker pull ghcr.io/saad2134/shiksha-disha/b2-ai-engine:latest
 
 # 2. Stop current container
 docker stop shiksha-ai-engine
@@ -174,7 +174,7 @@ docker rm shiksha-ai-engine
 docker run -d \
   --name shiksha-ai-engine \
   -p 9000:9000 \
-  ghcr.io/<username>/shiksha-disha/ai-engine-service:latest
+  ghcr.io/saad2134/shiksha-disha/b2-ai-engine:latest
 ```
 
 ---
@@ -242,5 +242,5 @@ The GitHub Actions workflow (`.github/workflows/deploy-ai-engine.yml`) automatic
 
 The image will be available at:
 ```
-ghcr.io/<github-username>/shiksha-disha/ai-engine-service:latest
+ghcr.io/saad2134/shiksha-disha/b2-ai-engine:latest
 ```

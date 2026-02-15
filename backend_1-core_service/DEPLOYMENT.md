@@ -230,13 +230,13 @@ docker-compose up -d --build
 Image is automatically built and pushed on changes:
 
 ```
-ghcr.io/<github-username>/shiksha-disha/core-api:latest
+ghcr.io/saad2134/shiksha-disha/b1-core:latest
 ```
 
 To pull:
 ```bash
 echo $GITHUB_TOKEN | docker login ghcr.io -u $GITHUB_USERNAME --password-stdin
-docker pull ghcr.io/<username>/shiksha-disha/core-api:latest
+docker pull ghcr.io/<username>/shiksha-disha/b1-core:latest
 ```
 
 ---

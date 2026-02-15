@@ -12,7 +12,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}/b2-ai-engine-service
+  IMAGE_NAME: ${{ github.repository }}/b2-ai-engine
 
 jobs:
   build-and-deploy:
@@ -64,6 +64,7 @@ jobs:
   deploy:
     needs: build-and-deploy
     runs-on: ubuntu-latest
+    permissions: {}
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - name: Deploy notification
