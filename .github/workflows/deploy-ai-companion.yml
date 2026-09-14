@@ -5,14 +5,16 @@ on:
     branches:
       - main
     paths:
-      - 'backend_3-ai_companion_service/**'
+      - 'backend/services/ai-companion-service/**'
+      - '.github/workflows/deploy-ai-companion.yml'
   pull_request:
     paths:
-      - 'backend_3-ai_companion_service/**'
+      - 'backend/services/ai-companion-service/**'
+      - '.github/workflows/deploy-ai-companion.yml'
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}/b3-ai-companion
+  IMAGE_NAME: ${{ github.repository }}/ai-companion-service
 
 jobs:
   build-and-deploy:
@@ -50,7 +52,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: ./backend_3-ai_companion_service
+          context: ./backend/services/ai-companion-service
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

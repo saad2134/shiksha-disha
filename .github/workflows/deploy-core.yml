@@ -5,14 +5,16 @@ on:
     branches:
       - main
     paths:
-      - 'backend_1-core_service/**'
+      - 'backend/services/core-service/**'
+      - '.github/workflows/deploy-core.yml'
   pull_request:
     paths:
-      - 'backend_1-core_service/**'
+      - 'backend/services/core-service/**'
+      - '.github/workflows/deploy-core.yml'
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}/b1-core
+  IMAGE_NAME: ${{ github.repository }}/core-service
 
 jobs:
   build-and-deploy:
@@ -50,7 +52,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: ./backend_1-core_service
+          context: ./backend/services/core-service
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
