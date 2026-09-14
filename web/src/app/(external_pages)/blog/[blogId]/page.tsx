@@ -3,6 +3,7 @@ import Navbar from "@/components/sections/navbar/default";
 import Glow from "@/components/ui/glow";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
+import { JsonLd } from "@/components/seo/json-ld";
 import {
   Calendar, Clock, User, ArrowLeft, ArrowRight, Tag, Mail,
   BrainCircuit, TrendingUp, GraduationCap, Compass, ShieldCheck, Rocket,
@@ -162,9 +163,39 @@ export async function generateMetadata({ params }: { params: Promise<{ blogId: s
   const { blogId } = await params;
   const post = blogPosts.find((p) => p.id === blogId);
   if (!post) return { title: "Post Not Found" };
+
+  const url = `${siteConfig.url}/blog/${post.id}`;
+
   return {
     title: `${post.title} ✦ ${siteConfig.name}`,
     description: post.excerpt,
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      type: "article",
+      url,
+      title: post.title,
+      description: post.excerpt,
+      siteName: siteConfig.name,
+      authors: [post.author],
+      publishedTime: new Date(post.date).toISOString(),
+      tags: post.tags,
+      images: [
+        {
+          url: "/dashboard-dark.png",
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt,
+      images: ["/dashboard-dark.png"],
+    },
   };
 }
 
@@ -175,8 +206,33 @@ export default async function BlogPost({ params }: { params: Promise<{ blogId: s
 
   const MediaIcon = mediaIcons[post.id];
 
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt,
+    author: {
+      "@type": "Organization",
+      name: post.author,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: siteConfig.name,
+      logo: {
+        "@type": "ImageObject",
+        url: `${siteConfig.url}/favicon.svg`,
+      },
+    },
+    datePublished: new Date(post.date).toISOString(),
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${siteConfig.url}/blog/${post.id}`,
+    },
+  };
+
   return (
     <>
+      <JsonLd data={articleSchema} />
       <main className="min-h-screen w-full relative overflow-hidden bg-background text-foreground">
         <Navbar />
 

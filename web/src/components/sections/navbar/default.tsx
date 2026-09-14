@@ -3,6 +3,7 @@
 import { Menu, Sun, Moon } from "lucide-react";
 import { ReactNode, useEffect, useState } from "react";
 import { useTheme } from "next-themes";
+import Link from "next/link";
 
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
@@ -94,13 +95,13 @@ export default function Navbar({
         <NavbarComponent className="bg-violet-500/10 backdrop-blur-sm w-full flex items-center justify-between px-4 sm:px-6 md:px-8 rounded-xl">
 
           <NavbarLeft>
-            <a
+            <Link
               href={homeUrl}
               className="flex items-center gap-2 text-lg sm:text-xl font-bold"
             >
               {logo}
               {name}
-            </a>
+            </Link>
           </NavbarLeft>
 
           {/* NavbarRight with DropdownMenu theme switcher, desktop buttons, and mobile menu */}
@@ -134,20 +135,20 @@ export default function Navbar({
                     variant={action.variant || "default"}
                     asChild
                   >
-                    <a href={action.href} className={action.text === "Get Started" ? "animate-shine" : ""}>
+                    <Link href={action.href} className={action.text === "Get Started" ? "animate-shine" : ""}>
                       {action.icon}
                       {action.text}
                       {action.iconRight}
-                    </a>
+                    </Link>
                   </Button>
                 ) : (
-                  <a
+                  <Link
                     key={index}
                     href={action.href}
                     className="text-sm transition-colors hover:text-primary"
                   >
                     {action.text}
-                  </a>
+                  </Link>
                 ),
               )}
             </div>
@@ -167,20 +168,20 @@ export default function Navbar({
               <SheetContent side="right" className="w-full max-w-[320px] sm:max-w-[360px]">
                 <SheetTitle className="sr-only">Navigation menu</SheetTitle>
                 <nav className="grid gap-4 sm:gap-6 text-base sm:text-lg font-medium">
-                  <a
+                  <Link
                     href={homeUrl}
                     className="flex items-center gap-2 text-xl font-bold pb-4"
                   >
                     <span>{name}</span>
-                  </a>
+                  </Link>
                   {mobileLinks.map((link, index) => (
-                    <a
+                    <Link
                       key={index}
                       href={link.href}
                       className="text-muted-foreground hover:text-foreground transition-colors"
                     >
                       {link.text}
-                    </a>
+                    </Link>
                   ))}
                   <div className="flex flex-col gap-3">
                     {dynamicActions.map((action, index) =>
@@ -191,20 +192,20 @@ export default function Navbar({
                           className="w-full justify-center"
                           asChild
                         >
-                          <a href={action.href} className={action.text === "Get Started" ? "animate-shine" : ""}>
+                          <Link href={action.href} className={action.text === "Get Started" ? "animate-shine" : ""}>
                             {action.icon}
                             {action.text}
                             {action.iconRight}
-                          </a>
+                          </Link>
                         </Button>
                       ) : (
-                        <a
+                        <Link
                           key={index}
                           href={action.href}
                           className="lg:text-muted-foreground hover:text-foreground transition-colors text-white py-2"
                         >
                           {action.text}
-                        </a>
+                        </Link>
                       )
                     )}
 

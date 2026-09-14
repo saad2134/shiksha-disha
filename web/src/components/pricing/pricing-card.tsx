@@ -212,9 +212,9 @@ export const PricingSection: React.FC<PricingSectionProps> = ({
               <span className="text-sm font-medium">Transparent Pricing</span>
             </div>
             
-            <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl bg-gradient-to-r from-primary via-brand-foreground to-brand bg-clip-text text-transparent pb-1 mb-4 lg:mb-6">
+            <h2 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl bg-gradient-to-r from-primary via-brand-foreground to-brand bg-clip-text text-transparent pb-1 mb-4 lg:mb-6">
               Pricing
-            </h1>
+            </h2>
             
             <p className="text-base lg:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
               Choose the plan that fits your learning journey. Start free, upgrade when you&apos;re ready to accelerate your career.

@@ -88,9 +88,9 @@ export default function FAQ({
       <div className="relative z-10 max-w-7xl mx-auto px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           <div className="space-y-6">
-            <h1 className="scroll-m-20 text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary via-foreground to-primary transition-all duration-300 hover:scale-105 hover:bg-gradient-to-l animate-gradient leading-[1.2] sm:text-4xl md:text-6xl lg:text-7xl">
+            <h2 className="scroll-m-20 text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary via-foreground to-primary transition-all duration-300 hover:scale-105 hover:bg-gradient-to-l animate-gradient leading-[1.2] sm:text-4xl md:text-6xl lg:text-7xl">
                 {title}
-            </h1>
+            </h2>
             <p className="text-lg text-muted-foreground leading-relaxed">
                 {FAQ_CONFIG.description}
             </p>
