@@ -10,3 +10,5 @@ from app.routers.payments import router as payments_router
 from app.routers.companion import router as companion_router
 from app.routers.feedback import router as feedback_router, contact_router
 from app.routers.resume import router as resume_router
+from app.routers.adaptive import router as adaptive_router
+from app.routers.player import router as player_router

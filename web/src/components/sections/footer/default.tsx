@@ -4,6 +4,7 @@ import { ReactNode, useState, useEffect } from "react";
 
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 import { Twitter, Github, Mail, Phone } from "lucide-react";
 
@@ -102,14 +103,14 @@ export default function FooterSection({
             <div className="flex flex-wrap items-center gap-2">
               {logo}
               <span className="text-xl font-bold">{name}</span>
-              <a href="/status" className="inline-flex items-center rounded-md border border-foreground/30 px-2 py-0.5 text-xs font-semibold gap-2 bg-muted/50 text-foreground hover:bg-muted transition-colors cursor-pointer">
+              <Link href="/status" className="inline-flex items-center rounded-md border border-foreground/30 px-2 py-0.5 text-xs font-semibold gap-2 bg-muted/50 text-foreground hover:bg-muted transition-colors cursor-pointer">
                 <span className={cn("w-2 h-2 rounded-full",
                   loading ? "bg-muted-foreground" :
                     status === "operational" ? "bg-green-500" :
                       status === "issues" ? "bg-yellow-500" : "bg-red-500"
                 )} />
                 <span>{loading ? "Checking..." : status ? status.charAt(0).toUpperCase() + status.slice(1) : ""}</span>
-              </a>
+              </Link>
             </div>
             <p className="text-sm text-muted-foreground">{siteConfig.description}</p>
             {socialLinks.length > 0 && (
@@ -135,13 +136,13 @@ export default function FooterSection({
               <h3 className="font-semibold mb-3">{column.title}</h3>
               <div className="flex flex-col gap-2">
                 {column.links.map((link, linkIndex) => (
-                  <a
+                  <Link
                     key={linkIndex}
                     href={link.href}
                     className="text-sm text-muted-foreground hover:text-foreground"
                   >
                     {link.text}
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>

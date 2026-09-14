@@ -1,15 +1,15 @@
-name: Deploy Main Backend
+name: Deploy Main Backend (Monolith)
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'backend/**'
+      - 'backend/monolith/**'
       - '.github/workflows/deploy-backend.yml'
   pull_request:
     paths:
-      - 'backend/**'
+      - 'backend/monolith/**'
       - '.github/workflows/deploy-backend.yml'
 
 env:
@@ -52,7 +52,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: ./backend
+          context: ./backend/monolith
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

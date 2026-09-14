@@ -10,7 +10,7 @@ from app.services.embed_player import embed_player_service, progress_tracker
 from app.services.anomaly_detection import anomaly_monitor
 
 
-router = APIRouter(prefix="/api/player", tags=["player"])
+router = APIRouter(prefix="/player", tags=["Video Player"])
 
 
 class VideoEvent(BaseModel):

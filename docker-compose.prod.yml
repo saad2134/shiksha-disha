@@ -4,7 +4,7 @@ services:
   db:
     image: pgvector/pgvector:pg15
     environment:
-      POSTGRES_USER: postgres
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       POSTGRES_DB: shikshadisha
     volumes:
@@ -31,18 +31,23 @@ services:
       retries: 5
     restart: unless-stopped
 
-  backend:
-    build: ./backend/monolith
+  gateway:
+    build: ./backend/gateway
     ports:
       - "${BACKEND_PORT:-8000}:8000"
-    env_file:
-      - ${BACKEND_ENV_FILE:-./backend/monolith/.env}
+    depends_on:
+      - core-service
+      - ai-engine-service
+      - ai-companion-service
+    restart: unless-stopped
+
+  core-service:
+    build: ./backend/services/core-service
     environment:
       DATABASE_URL: postgresql+asyncpg://postgres:${POSTGRES_PASSWORD:-postgres}@db:5432/shikshadisha
       REDIS_URL: redis://redis:6379/0
-      SECRET_KEY: ${SECRET_KEY:?Secret key is required}
-      ENVIRONMENT: ${ENVIRONMENT:-production}
-      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:3000}
+      SECRET_KEY: ${SECRET_KEY:-defaultsecretkeyforshikshadisha2026}
+      ENVIRONMENT: production
     depends_on:
       db:
         condition: service_healthy
@@ -50,21 +55,38 @@ services:
         condition: service_healthy
     restart: unless-stopped
 
+  ai-engine-service:
+    build: ./backend/services/ai-engine-service
+    environment:
+      DATABASE_URL: postgresql+asyncpg://postgres:${POSTGRES_PASSWORD:-postgres}@db:5432/shikshadisha
+      NSQF_COURSES_PATH: ./data/nsqf_courses.csv
+    volumes:
+      - ./backend/services/ai-engine-service/data:/app/data
+      - ./backend/services/ai-engine-service/models:/app/models
+    restart: unless-stopped
+
+  ai-companion-service:
+    build: ./backend/services/ai-companion-service
+    environment:
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      REDIS_URL: redis://redis:6379/0
+    restart: unless-stopped
+
   web:
     build:
       context: ./web
       args:
-        BACKEND_BASE_URL: ${BACKEND_INTERNAL_URL:-http://backend:8000}
+        BACKEND_BASE_URL: ${BACKEND_INTERNAL_URL:-http://gateway:8000}
     ports:
       - "${WEB_PORT:-3000}:3000"
     env_file:
       - ${WEB_ENV_FILE:-./web/.env}
     environment:
       NEXTAUTH_URL: ${NEXTAUTH_URL:-http://localhost:3000}
-      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET:?NextAuth secret is required}
-      BACKEND_BASE_URL: ${BACKEND_INTERNAL_URL:-http://backend:8000}
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET:-defaultnextauthsecret}
+      BACKEND_BASE_URL: ${BACKEND_INTERNAL_URL:-http://gateway:8000}
     depends_on:
-      - backend
+      - gateway
     restart: unless-stopped
 
 volumes:

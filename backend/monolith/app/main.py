@@ -24,6 +24,8 @@ from app.routers import (
     feedback_router,
     contact_router,
     resume_router,
+    adaptive_router,
+    player_router,
 )
 
 
@@ -70,6 +72,8 @@ app.include_router(companion_router, prefix="/api/v1")
 app.include_router(feedback_router, prefix="/api/v1")
 app.include_router(contact_router, prefix="/api/v1")
 app.include_router(resume_router, prefix="/api/v1")
+app.include_router(adaptive_router, prefix="/api/v1")
+app.include_router(player_router, prefix="/api/v1")
 
 
 @app.get("/api/v1/health")

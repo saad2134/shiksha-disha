@@ -9,16 +9,39 @@ import Navbar from "../components/sections/navbar/default";
 import ProgrammingComputerSection from "../components/sections/programming-computer/default";
 import MagicBento from '@/components/MagicBento'
 import PricingSection from "@/components/pricing/pricing-card";
+import { JsonLd } from "@/components/seo/json-ld";
 
 export const metadata = {
   title: `${siteConfig.name} ✦ Personalized Roadmaps for Future-ready Skills`,
   description:
     "Discover your future-ready career journey with personalized training recommendations.",
+  alternates: {
+    canonical: "/",
+  },
 };
 
 export default function Home() {
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: siteConfig.name,
+    url: siteConfig.url,
+    description: siteConfig.description,
+  };
+
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: siteConfig.name,
+    url: siteConfig.url,
+    logo: `${siteConfig.url}/favicon.svg`,
+    sameAs: [siteConfig.links.github],
+  };
+
   return (
     <>
+      <JsonLd data={websiteSchema} />
+      <JsonLd data={organizationSchema} />
       <main className="min-h-screen w-full bg-background text-foreground overflow-x-hidden">
         <Navbar />
         <Hero />

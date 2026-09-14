@@ -18,7 +18,7 @@ from app.services.forgetting_curve import quiz_session_manager, forgetting_curve
 from app.services.adaptive_rl import adaptive_engine
 
 
-router = APIRouter(prefix="/api/adaptive", tags=["adaptive"])
+router = APIRouter(prefix="/adaptive", tags=["Adaptive Learning"])
 
 
 class ActivityRecord(BaseModel):
