@@ -27,7 +27,7 @@ const teamMembers = [
     initials: "FO",
   },
   {
-    name: "Mohammed Saad Uddin",
+    name: "Saad M.",
     role: "🚀 Lead Full-stack & AI/ML Developer",
     github: "https://github.com/saad2134",
     avatarBg: "bg-violet-500/10 text-violet-500 border-violet-500/20",
